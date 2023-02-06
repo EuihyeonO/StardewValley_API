@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="ContentsCore.h" />
+    <ClInclude Include="Level_Title.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Farm.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="Farm.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Actor\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Crops.h">
+      <Filter>Actor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalFunction.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ContentsCore.cpp" />
+    <ClCompile Include="Level_Title.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Farm.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAct.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Farm.cpp">
+      <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Actor\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Actor\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Actor\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Crops.cpp">
+      <Filter>Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimation.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{028aed64-9aa8-4ffb-a80c-22b8d8712897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{6ae4987d-b606-4bf3-951b-423f5d7bb853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Player">
+      <UniqueIdentifier>{66ff0db3-9a43-42d5-b26c-795c014e84a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Map">
+      <UniqueIdentifier>{d219b1c7-ca7f-44aa-9b66-bb2994b393f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interface">
+      <UniqueIdentifier>{a87f92de-72e1-450a-917b-7a88ac47b746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Object">
+      <UniqueIdentifier>{2e6241c9-e7c8-41f2-b169-0dc5e994e776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Title">
+      <UniqueIdentifier>{26c0b2b1-379e-4679-ad82-f6d476ef660d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
