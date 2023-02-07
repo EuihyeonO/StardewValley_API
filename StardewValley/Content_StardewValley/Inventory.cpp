@@ -1,5 +1,6 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 #include "Inventory.h"
 #include "Player.h"
@@ -19,7 +20,10 @@ Inventory::~Inventory()
     //아이템 메모리 해제
     for (int i = 0; i < ItemList.size(); i++)
     {
-        delete ItemList[i];
+        if (ItemList[i] != nullptr)
+        {
+           delete ItemList[i];
+        }
     }
 }
 
@@ -30,6 +34,16 @@ void Inventory::Start()
 
 void Inventory::Update(float _DeltaTime)
 {
+    //조건을 나중에 바꿔야 함 (life가 0이 되어 다른 이미지로 render되고 있는 crops와 충돌 등)
+    if (GameEngineInput::IsDown("MakeItem"))
+    {
+        std::string_view String = "PickIcon.BMP";
+        //createrender로 만들어진게 아니라서, update가 진행되지 않는다.
+        Item* NewItem = new Item(String);
+        NewItem->SetItemRender(CreateRender(String, 2));
+        //item을 actor로 만들 필요는 없을 듯 inventory가 update되면 같이 update되도록 설계
+        ItemList.push_back(NewItem);       
+    }
 }
 
 void Inventory::Render(float _Time)
@@ -59,7 +73,7 @@ void Inventory::AllItemOn()
 {
     for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
     {
-        GlobalInventory->ItemList[i]->GetItemRender()->On();
+        //GlobalInventory->ItemList[i]->On();
     }
 }
 
@@ -68,7 +82,7 @@ void Inventory::AllItemOff()
 {
     for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
     {
-        GlobalInventory->ItemList[i]->GetItemRender()->Off();
+        //GlobalInventory->ItemList[i]->Off();
     }
 }
 
@@ -80,6 +94,12 @@ void Inventory::InitInventory()
     InventoryRender->Off();
 
     ItemList.reserve(30);
+
+    if (GameEngineInput::IsKey("MakeItem") == false)
+    {
+        GameEngineInput::CreateKey("MakeItem", 'I');
+    }
+
 }
 
 Item* Inventory::GetLastItem()

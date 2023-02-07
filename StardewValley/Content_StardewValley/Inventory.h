@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string_view>
 
 #include <GameEngineCore/GameEngineActor.h>
 
@@ -30,7 +31,7 @@ public:
         return GlobalInventory->InventoryRender;
     }
 
-    static void InsertItem(Item* _item)
+     static void InsertItem(Item* _item)
     {
         GlobalInventory->ItemList.push_back(_item);
     }

@@ -3,22 +3,21 @@
 #include <string_view>
 
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineRender.h>
 
-class Item : public GameEngineActor
+class Item //: public GameEngineActor
 {
 
 public:
 
 	Item();
+    Item(std::string_view& _ItemName);
 	~Item();
 
-    void SetItemInfo(std::string_view _ItemName);
+    void ItemInit(std::string_view& _ItemName);
+    void SetItemRender(GameEngineRender* _Render);
     void SetItemPos();
 
-    GameEngineRender* GetItemRender()
-    {
-        return RenderImage;
-    }
 
     GameEngineRender* GetRenderImage()
     {
@@ -31,14 +30,13 @@ public:
 	Item& operator=(Item&& _Other) noexcept = delete;
 
 protected:
-    void Start() override;
-    void Update(float _DeltaTime) override;
-    void Render(float _Time) override;
+
 private:
     GameEngineRender* RenderImage =  nullptr;
-    std::string ItemName;
     
-    int ItemType = 0;
-    int ItemOrder = 0;
+    std::string ItemName;    
+    size_t ItemOrder = 0;
+    
+int ItemType = 0;
 };
 

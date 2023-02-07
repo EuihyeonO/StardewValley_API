@@ -114,21 +114,13 @@ void Level_Farm::Loading()
 void Level_Farm::Update(float _DeltaTime)
 {
 
-    if(GameEngineInput::IsKey("MakeItem") == false)
-    {
-        GameEngineInput::CreateKey("MakeItem", 'I');
-    }
+   
 
+
+    //농사 테스트용 코드
     if (GameEngineInput::IsKey("MakeCrop") == false)
     {
         GameEngineInput::CreateKey("MakeCrop", 'O');
-    }
-
-    //조건을 나중에 바꿔야 함 (life가 0이 되어 다른 이미지로 render되고 있는 crops와 충돌 등)
-    if (GameEngineInput::IsDown("MakeItem"))
-    {
-        Inventory::GetInventory()->InsertItem(CreateActor<Item>());
-        Inventory::GetInventory()->GetLastItem()->SetItemInfo("PickIcon.BMP");
     }
 
     if (GameEngineInput::IsDown("MakeCrop"))

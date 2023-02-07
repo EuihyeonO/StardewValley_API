@@ -27,10 +27,10 @@
     <ClInclude Include="Crops.h">
       <Filter>Actor\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Actor\Object</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalFunction.h" />
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -61,11 +61,11 @@
     <ClCompile Include="Crops.cpp">
       <Filter>Actor\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Actor\Object</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerAnimation.cpp">
       <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
