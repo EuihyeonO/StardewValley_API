@@ -113,10 +113,6 @@ void Level_Farm::Loading()
 
 void Level_Farm::Update(float _DeltaTime)
 {
-
-   
-
-
     //농사 테스트용 코드
     if (GameEngineInput::IsKey("MakeCrop") == false)
     {
@@ -128,14 +124,4 @@ void Level_Farm::Update(float _DeltaTime)
         CropList.push_back(CreateActor<Crops>(ActorType::Crops));
         CropList[0]->InitCrop("Parsnip.bmp", Player::GetPlayer()->GetPos());        
     }
-
-
-    
-    //상호작용키 E를 눌렀을 떄, 만약 인벤토리에서 현재 선택된 아이템이
-    //씨앗 종류임을 여기서 먼저 검사
-    //결과 true라면 CrateActor<Crops>(Crop); 함수 호출
-    //이후 actor범위에서 tool과 crop의 충돌을 검사 후 , true일 때마다 life를 1씩 감소
-    //crop의 life가 0이 되면 여기서 createActor<Item>(Item);을 한뒤 inventory에 push.back
-
-
 }
