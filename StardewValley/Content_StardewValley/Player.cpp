@@ -44,13 +44,14 @@ void Player::Update(float _DeltaTime)
 { 
     ActingUpdate(_DeltaTime);
     InteractToCrops();  
-
+    ToolChange();
     dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
 }
 
 void Player::Render(float _Time)
 {
-    //HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+    //HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->Get
+// DC();
     //float4 ActorPos = GetPos();
 
     //Rectangle(DoubleDC,

@@ -42,7 +42,6 @@ public:
     /// </summary>
     /// <typeparam name="ActorType"> GameEngineActor를 상속받은 클래스 타입 </typeparam>
     /// <param name="_Order"> Actor의 업데이트 순서 숫자가 작을수록 먼저 업데이트 됩니다. </param>
-    
     template<typename ActorType, typename EnumType>
     ActorType* CreateActor(EnumType _Order)
     {
@@ -161,12 +160,14 @@ private:
 
     void ActorsUpdate(float _DeltaTime);
     void ActorsRender(float _DeltaTime);
+    void ActorLevelChangeEnd(GameEngineLevel* _NextLevel);
+    void ActorLevelChangeStart(GameEngineLevel* _PrevLevel);
 
 
     void ActorStart(GameEngineActor* _Actor, int _Order);
 
     std::map<int, std::list<GameEngineRender*>> Renders;
-    void PushRender(GameEngineRender* _Render);
+    void PushRender(GameEngineRender* _Render, int _ChangeOrder);
 
     std::map<int, std::list<GameEngineCollision*>> Collisions;
     void PushCollision(GameEngineCollision* _Collision);

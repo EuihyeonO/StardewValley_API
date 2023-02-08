@@ -31,6 +31,9 @@
     <ClInclude Include="Item.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="LevelMap.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -72,6 +75,9 @@
     </ClCompile>
     <ClCompile Include="Tool.cpp">
       <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelMap.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,12 @@
     <ClInclude Include="GameEngineComponent.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Object\BasicContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberRenderObject.h">
+      <Filter>Object\BasicContents\SubClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -47,6 +53,12 @@
     <ClCompile Include="GameEngineComponent.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Object\BasicContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberRenderObject.cpp">
+      <Filter>Object\BasicContents\SubClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -60,6 +72,15 @@
     </Filter>
     <Filter Include="Object\Collision">
       <UniqueIdentifier>{11d62991-0e3e-4ecf-bdf0-47fdc12bbcbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\BasicContents">
+      <UniqueIdentifier>{85de63ef-9de1-4d4f-80b9-64dbe3125e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\BasicContents\Actor">
+      <UniqueIdentifier>{c92f49c6-c2b0-4ea8-ac46-5afd2122cfbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\BasicContents\SubClass">
+      <UniqueIdentifier>{d15f3917-a73f-4971-8d3c-acaaf50433c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

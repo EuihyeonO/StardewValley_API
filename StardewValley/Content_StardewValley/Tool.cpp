@@ -21,7 +21,7 @@ void Player::ToolChange()
         MsgAssert("CurTool이 설정되지 않았는데 변경하려 했습니다.");
     }
 
-    if (CurTool == Tool["Axe"])
+  /*  if (CurTool == Tool["Axe"])
     {
         CurTool = Tool["Pick"];
     }
@@ -31,7 +31,29 @@ void Player::ToolChange()
     }
     else if (CurTool == Tool["Hoe"])
     {
+        CurTool = Tool["Watering"];
+    }
+    else if (CurTool == Tool["Watering"])
+    {
         CurTool = Tool["Axe"];
+    }*/
+    std::string Name = Inventory::GetSelectedItemName();
+
+    if (Inventory::GetSelectedItemName() == "AxeIcon.bmp")
+    {
+        CurTool = Tool["Axe"];
+    }
+    else if (Inventory::GetSelectedItemName() == "HoeIcon.bmp")
+    {
+        CurTool = Tool["Hoe"];
+    }
+    else if (Inventory::GetSelectedItemName() == "PickIcon.bmp")
+    {
+        CurTool = Tool["Pick"];
+    }
+    else if (Inventory::GetSelectedItemName() == "WateringIcon.bmp")
+    {
+        CurTool = Tool["Watering"];
     }
 }
 
@@ -41,10 +63,12 @@ void Player::InitTool()
     Pick = CreateRender(2);
     Axe = CreateRender(2);
     Hoe = CreateRender(2);
+    Watering = CreateRender(2);
 
     Tool.insert({ "Pick", Pick });
     Tool.insert({ "Axe", Axe });
     Tool.insert({ "Hoe", Hoe });
+    Tool.insert({ "Watering", Watering });
 
     //Dir이 R인지 L인지에 따라 다르게 만들어야함
     ColPick = CreateCollision(ActorType::Tool);
@@ -56,28 +80,33 @@ void Player::InitTool()
     ColHoe = CreateCollision(ActorType::Tool);
     ColHoe->SetScale({ 64,64 });
 
+    ColWatering = CreateCollision(ActorType::Tool);
+    ColWatering->SetScale({ 64,64 });
+
     CurTool = Tool["Pick"];
 
 }
 
 float4 Player::SetToolPos()
 {
-    if (Dir.c_str() == "R")
+    if (Dir == "R")
     {
         return { 100,0 };
     }
-    else if (Dir.c_str() == "L")
+    else if (Dir == "L")
     {
         return { -100,0 };
     }
-    else if (Dir.c_str() == "U")
+    else if (Dir == "U")
     {
         return { 0,-100 };
     }
-    else if (Dir.c_str() == "D")
+    else if (Dir == "D")
     {
         return { 0,100 };
     }
+
+    else return { 0,0 };
 
 }
 

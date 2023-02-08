@@ -96,6 +96,9 @@ protected:
         return LiveTime;
     }
 
+    virtual void LevelChangeEnd(GameEngineLevel* _PrevLevel);
+    virtual void LevelChangeStart(GameEngineLevel* _PrevLevel);
+
 private:
     float LiveTime = 0.0;
     float4 Pos = { 0.0f, 0.0f };

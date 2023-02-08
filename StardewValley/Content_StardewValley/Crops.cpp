@@ -33,6 +33,8 @@ bool Crops::IsCollisionUpdate()
     {
         return CollisionImage->IsUpdate();
     }
+
+    return false;
 }
 
 void Crops::Update(float _DeltaTime)

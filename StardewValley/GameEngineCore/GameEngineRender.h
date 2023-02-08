@@ -70,6 +70,8 @@ public:
 
     void SetOrder(int _Order) override;
 
+    void SetText(const std::string_view& _Text);
+
 protected:
 
 private:
@@ -81,6 +83,9 @@ private:
     int Frame = 0;
 
     void Render(float _DeltaTime);
+
+    void TextRender(float _DeltaTime);
+    void ImageRender(float _DeltaTime);
 
     class FrameAnimation
     {
@@ -108,5 +113,12 @@ private:
 
     std::map<std::string, FrameAnimation> Animation;
     FrameAnimation* CurrentAnimation = nullptr;
+
+    /// <summary>
+    /// TextRender
+    /// </summary>
+    std::string RenderText;
+    // 그런걸 하면 HBRUSH 만드는데 사용하고 나면 Release
+    // GameEngineImage를 참조해라.
 };
 

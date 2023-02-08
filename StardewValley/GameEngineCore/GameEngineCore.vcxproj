@@ -151,6 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>
@@ -180,8 +184,16 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineResources.h" />
+    <ClInclude Include="NumberRenderObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
       <SubType>
       </SubType>
@@ -211,6 +223,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineResources.cpp" />
+    <ClCompile Include="NumberRenderObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

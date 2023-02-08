@@ -35,11 +35,6 @@ void Player::CreatePlayerKey()
         GameEngineInput::CreateKey("Menu", VK_ESCAPE);
     }
 
-    if (false == GameEngineInput::IsKey("ToolChange"))
-    {
-        GameEngineInput::CreateKey("ToolChange", 'F');
-    }
-
     //농사 테스트키
     if (GameEngineInput::IsKey("MakeCrop") == false)
     {
@@ -67,10 +62,10 @@ int Player::GetKeyInput()
         {
             return Act::Interact;
         }
-
-        else if (true == GameEngineInput::IsDown("ToolChange"))
+        
+        else if (GameEngineInput::IsDown("ChangeItem"))
         {
-            return Act::ToolChange;
+            return Act::ChangeItem;
         }
 
         else if (true == GameEngineInput::IsDown("Menu"))

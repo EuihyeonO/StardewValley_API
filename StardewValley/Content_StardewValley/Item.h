@@ -5,7 +5,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineRender.h>
 
-class Item //: public GameEngineActor
+class Item : public GameEngineActor
 {
 
 public:
@@ -18,6 +18,17 @@ public:
     void SetItemRender(GameEngineRender* _Render);
     void SetItemPos();
 
+    float4 GetItemRenderPos()
+    {
+        return RenderImage->GetPosition();
+    }
+
+    std::string GetItemName()
+    {
+        return ItemName;
+    }
+
+    void SelectedLineRender();
 
     GameEngineRender* GetRenderImage()
     {
@@ -33,6 +44,8 @@ protected:
 
 private:
     GameEngineRender* RenderImage =  nullptr;
+    GameEngineRender* SelectedLine =  nullptr;
+    
     
     std::string ItemName;    
     size_t ItemOrder = 0;

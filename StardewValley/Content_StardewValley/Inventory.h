@@ -44,10 +44,16 @@ public:
     static void CreateItem(std::string_view _Name);
     static Item* GetLastItem();
 
+    static std::string GetSelectedItemName();
+    static Item* GetSelectedItem();
+    static void ChangeSelectedItem();
+
+
     void AllItemOn();
     void AllItemOff();
 
     void SetItemPos();
+
 
 	Inventory(const Inventory& _Other) = delete;
 	Inventory(Inventory&& _Other) noexcept = delete;
@@ -61,7 +67,12 @@ protected:
 
 private:
     static Inventory* GlobalInventory;
-    GameEngineRender* InventoryRender = nullptr;
     std::vector<Item*> ItemList;
+
+    Item* SelectedItem = nullptr;
+    int SelecetedItemIndex = 0;
+
+    GameEngineRender* InventoryRender = nullptr;
+    GameEngineRender* SelectedLine = nullptr;
 };
 

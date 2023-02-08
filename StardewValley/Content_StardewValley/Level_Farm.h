@@ -4,11 +4,10 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
-#include "Crops.h"
+#include "LevelMap.h"
 
-
-
-class Level_Farm : public GameEngineLevel
+class Crops;
+class Level_Farm : public GameEngineLevel, public LevelMap
 {
 
 public:

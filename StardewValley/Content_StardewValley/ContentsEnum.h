@@ -8,7 +8,7 @@ enum Act
     Move,
     Interact,
     Menu,
-    ToolChange,
+    ChangeItem,
 };
 
 enum class ActorType

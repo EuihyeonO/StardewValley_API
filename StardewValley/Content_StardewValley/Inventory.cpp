@@ -30,16 +30,14 @@ Inventory::~Inventory()
 void Inventory::Start()
 {
     InitInventory();
+    CreateItem("PickIcon.bmp");
+    CreateItem("WateringIcon.bmp");
+    CreateItem("AxeIcon.bmp");
+    CreateItem("HoeIcon.bmp");
 }
 
 void Inventory::Update(float _DeltaTime)
 {
-    //조건을 나중에 바꿔야 함 (life가 0이 되어 다른 이미지로 render되고 있는 crops와 충돌 등)
-    if (GameEngineInput::IsDown("MakeItem"))
-    {
-        CreateItem("PickIcon.BMP");
-    }
-
     SetItemPos();
 }
 
@@ -49,10 +47,16 @@ void Inventory::Render(float _Time)
 
 void Inventory::OpenInventory()
 {
-    if(GetInventoryRender()->IsUpdate() == false)
+    if(InventoryRender->IsUpdate() == false)
     {
         InventoryRender->SetPosition(GetLevel()->GetCameraPos() + (GameEngineWindow::GetScreenSize().half()));
-        GetInventoryRender()->On();
+        InventoryRender->On();
+
+        if (SelectedItem != nullptr) 
+        {
+            SelectedLine->On();
+        }
+
         AllItemOn();
 
         UI::GetUI()->UI_ONOFF();
@@ -60,7 +64,9 @@ void Inventory::OpenInventory()
 
     else
     {
-        GetInventoryRender()->Off();
+        InventoryRender->Off();
+        SelectedLine->Off();
+
         AllItemOff();
 
         UI::GetUI()->UI_ONOFF();
@@ -87,15 +93,20 @@ void Inventory::AllItemOff()
 void Inventory::InitInventory()
 {
     InventoryRender = CreateRender("Inventory.bmp", 2);
+
     InventoryRender->SetPosition(GetLevel()->GetCameraPos()+(GameEngineWindow::GetScreenSize().half()));
     InventoryRender->SetScaleToImage();
     InventoryRender->Off();
 
+    SelectedLine = CreateRender("SelectedLine.BMP", 2);
+    SelectedLine->SetScaleToImage();
+    SelectedLine->Off();
+
     ItemList.reserve(30);
 
-    if (GameEngineInput::IsKey("MakeItem") == false)
+    if (GameEngineInput::IsKey("ChangeItem") == false)
     {
-        GameEngineInput::CreateKey("MakeItem", 'I');
+        GameEngineInput::CreateKey("ChangeItem", VK_TAB);
     }
 
 }
@@ -111,6 +122,11 @@ void Inventory::CreateItem(std::string_view _Name)
     Item* NewItem = new Item(_Name);
     NewItem->SetItemRender(GlobalInventory->CreateRender(_Name, 2));
     GlobalInventory->ItemList.push_back(NewItem);
+
+    if (GlobalInventory->SelectedItem == nullptr)
+    {
+        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
+    }
 }
 
 void Inventory::SetItemPos()
@@ -129,5 +145,45 @@ void Inventory::SetItemPos()
         {
             GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder - 20) * 64, 148.0f + 128 });
         }
+    }
+}
+
+std::string Inventory::GetSelectedItemName()
+{
+    if (GlobalInventory->SelectedItem != nullptr)
+    {
+        return GlobalInventory->SelectedItem->GetItemName();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+Item* Inventory::GetSelectedItem()
+{
+    if (GlobalInventory->SelectedItem != nullptr)
+    {
+        return GlobalInventory->SelectedItem;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+void Inventory::ChangeSelectedItem()
+{
+    if (GlobalInventory->SelecetedItemIndex + 1 == GlobalInventory->ItemList.size())
+    {
+        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
+        GlobalInventory->SelecetedItemIndex = 0;
+        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+    }
+    else if (GlobalInventory->SelecetedItemIndex + 1 < GlobalInventory->ItemList.size())
+    {
+        GlobalInventory->SelectedItem = GlobalInventory->ItemList[GlobalInventory->SelecetedItemIndex + 1 ];
+        ++(GlobalInventory->SelecetedItemIndex);
+        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
 }

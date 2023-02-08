@@ -70,14 +70,12 @@ void Player::ActingUpdate(float _DeltaTime)
         break;
     case Act::Interact:
         Interact(_DeltaTime);
-        break; 
-    case Act::Menu:
-        Inventory::GetInventory()->OpenInventory();      
         break;
-
-        //임시용도
-    case Act::ToolChange:
-        ToolChange();
+    case Act::Menu:
+        Inventory::GetInventory()->OpenInventory();
+        break;
+    case Act::ChangeItem:
+        Inventory::ChangeSelectedItem();
         break;
     }
 }
@@ -201,13 +199,18 @@ void Player::Interact(float _DeltaTime)
     }
 
     CurTool->On();
-
-    ChangePlayerAnimation(Dir + "HeavyTool");
     
-    if (CurTool->IsUpdate() == true)
+    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"])
     {
-        CurTool->ChangeAnimation("RIdle");
+        CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "HeavyTool");
+        ChangePlayerAnimation(Dir + "HeavyTool");
+    }
+    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
+    {
+        CurTool->ChangeAnimation("DIdle");
+        CurTool->ChangeAnimation(Dir + "Watering");
+        ChangePlayerAnimation(Dir + "Watering");
     }
 }
 
@@ -219,7 +222,7 @@ bool Player::isInteract()
         return false;
     }
     
-    if (PlayerRender->GetFrame() == 99)
+    if (PlayerRender->IsAnimationEnd() == true)
     {
         CurTool->Off();
         return false;
@@ -234,7 +237,7 @@ void Player::InteractToCrops()
 {
     GameEngineCollision* Collision = nullptr;
 
-    if (CurTool == Tool["Pick"])
+   /* if (CurTool == Tool["Pick"])
     {
         Collision = ColPick;
     }
@@ -246,6 +249,15 @@ void Player::InteractToCrops()
     {
         Collision = ColHoe;
     }
+    else if (CurTool == Tool["Watering"])
+    {
+        Collision = ColWatering;
+    }*/
+    if (CurTool != Tool["Watering"])
+    {
+        return;
+    }
+    Collision = ColWatering;
 
     Collision->SetPosition(SetToolPos());
 
