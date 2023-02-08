@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Inventory.h"
+#include "Crops.h"
+#include "Level_Farm.h"
 
 
 Player* Player::MyPlayer = nullptr;
@@ -33,11 +35,17 @@ void Player::Start()
     InitTool();
     CreatePlayerKey();
     CreateAllAnimation();
+
+    ColBody = CreateCollision(ActorType::Player);
+    ColBody->SetScale({ 50,50 });
 }
 
 void Player::Update(float _DeltaTime)
 { 
     ActingUpdate(_DeltaTime);
+    InteractToCrops();  
+
+    dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
 }
 
 void Player::Render(float _Time)

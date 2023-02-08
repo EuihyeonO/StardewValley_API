@@ -67,6 +67,12 @@
     <ClCompile Include="Item.cpp">
       <Filter>Actor\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerKey.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">

@@ -22,7 +22,7 @@ void Item::ItemInit(std::string_view& _ItemName)
 {
     ItemOrder = Inventory::GetInventory()->GetNumOfItem();
 
-    ItemName = _ItemName;   
+    ItemName = _ItemName;
 }
 
 

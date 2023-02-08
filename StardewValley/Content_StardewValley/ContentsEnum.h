@@ -25,7 +25,7 @@ enum class Itemtype
     //씨앗
     Seed,
     //농사 및 채집물 수확한 것
-    Crops,
+    Crops1,
     //기타재료 나뭇가지, 돌 등
     Etc
 };

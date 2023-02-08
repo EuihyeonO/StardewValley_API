@@ -12,6 +12,7 @@
 #include "Farm.h"
 #include "GlobalFunction.h"
 #include "Inventory.h"
+#include "Level_Farm.h"
 
 
 
@@ -27,19 +28,6 @@ void Player::InitPlayer()
 
 }
 
-void Player::InitTool()
-{  
-    Pick = CreateRender(2);
-    Axe = CreateRender(2);
-    Hoe = CreateRender(2); 
-
-    Tool.insert({"Pick", Pick });
-    Tool.insert({"Axe", Axe});
-    Tool.insert({"Hoe", Hoe });
-
-    CurTool = Tool["Pick"];   
-
-}
 
 void Player::SetDir()
 {
@@ -61,50 +49,6 @@ void Player::SetDir()
     }
 }
 
-int Player::GetKeyInput()
-{
-    if (Inventory::GetInventoryRender()->IsUpdate() == true)
-    {
-
-        if (true == GameEngineInput::IsDown("Menu"))
-        {
-            return Act::Menu;
-        }
-        
-        return Act::Idle;
-    }
-
-    else
-    {
-        if (true == GameEngineInput::IsDown("Interact"))
-        {
-            return Act::Interact;
-        }
-
-        else if (true == GameEngineInput::IsDown("ToolChange"))
-        {
-            return Act::ToolChange;
-        }
-        
-        else if (true == GameEngineInput::IsDown("Menu"))
-        {
-            return Act::Menu;
-        }
-
-        else if (true == GameEngineInput::IsPress("LMove") ||
-                 true == GameEngineInput::IsPress("RMove") ||
-                 true == GameEngineInput::IsPress("UMove") ||
-                 true == GameEngineInput::IsPress("DMove")  )
-        {
-            return Act::Move;
-        }
-      
-        else
-        {
-            return Act::Idle;
-        }
-    }
-}
 
 void Player::ActingUpdate(float _DeltaTime)
 {
@@ -143,26 +87,6 @@ void Player::Idle()
     ChangePlayerAnimation(Dir + "Idle");
 }
 
-void Player::ToolChange()
-{
-    if (CurTool == nullptr)
-    {
-        MsgAssert("CurTool이 설정되지 않았는데 변경하려 했습니다.");
-    }
-
-    if (CurTool == Tool["Axe"])
-    {
-        CurTool = Tool["Pick"];
-    }
-    else if (CurTool == Tool["Pick"])
-    {
-        CurTool = Tool["Hoe"];
-    }
-    else if(CurTool == Tool["Hoe"])
-    {
-        CurTool = Tool["Axe"];
-    }
-}
 
 void Player::Move(float _DeltaTime)
 {  
@@ -242,17 +166,17 @@ void Player::Move(float _DeltaTime)
         SetPos(NextPos);  
 
         // 카메라가 멈추는 좌표를 맵의 크기에 따라 가변적이게 설정해야함
-        if (NextPos.x >= 1960)
+        if (NextPos.x >= 1920)
         {
-            NextCameraPos.x = 1320;
+            NextCameraPos.x = 1280;
         }
         if (NextPos.x <= 640)
         {
             NextCameraPos.x = 0;
         }
-        if (NextPos.y >= 666)
+        if (NextPos.y >= 664)
         {
-            NextCameraPos.y = 306;
+            NextCameraPos.y = 304;
         }
         if (NextPos.y <= 360)
         {
@@ -288,32 +212,6 @@ void Player::Interact(float _DeltaTime)
 }
 
 
-void Player::CreatePlayerKey()
-{
-    if (false == GameEngineInput::IsKey("DMove"))
-    {
-        GameEngineInput::CreateKey("DMove", 'S');
-        GameEngineInput::CreateKey("UMove", 'W');
-        GameEngineInput::CreateKey("LMove", 'A');
-        GameEngineInput::CreateKey("RMove", 'D');
-    }
-
-    if (false == GameEngineInput::IsKey("Interact"))
-    {
-        GameEngineInput::CreateKey("Interact", 'E');
-    } 
-    
-    if (false == GameEngineInput::IsKey("Menu"))
-    {
-        GameEngineInput::CreateKey("Menu", VK_ESCAPE);
-    }
-
-    if (false == GameEngineInput::IsKey("ToolChange"))
-    {
-        GameEngineInput::CreateKey("ToolChange", 'F');
-    }
-}
-
 bool Player::isInteract()
 {
     if (CurTool->IsUpdate() == false)
@@ -330,14 +228,46 @@ bool Player::isInteract()
     return true;
 
 }
-bool Player::IsSameCurTool(std::string _ToolName)
+
+
+void Player::InteractToCrops()
 {
-    if (MyPlayer->CurTool == MyPlayer->Tool[_ToolName])
+    GameEngineCollision* Collision = nullptr;
+
+    if (CurTool == Tool["Pick"])
     {
-        return true;
+        Collision = ColPick;
+    }
+    else if (CurTool == Tool["Axe"])
+    {
+        Collision = ColAxe;
+    }
+    else if (CurTool == Tool["Hoe"])
+    {
+        Collision = ColHoe;
+    }
+
+    Collision->SetPosition(SetToolPos());
+
+    if (CurTool->IsUpdate() == true)
+    {
+        std::vector<GameEngineCollision*> Collisions;
+        if (true == Collision->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+            for (size_t i = 0; i < Collisions.size(); i++)
+            {
+                GameEngineActor* ColActor = Collisions[i]->GetActor();
+                dynamic_cast<Crops*>(ColActor)->GrowUp();
+                dynamic_cast<Crops*>(ColActor)->CollisionOff();
+            }
     }
     else
     {
-        return false;
+        for (int i = 0; i < Level_Farm::GetCropList().size(); i++)
+        {
+            if (Level_Farm::GetCropList()[i]->IsCollisionUpdate() == false && Level_Farm::GetCropList()[i]->isSet() == true)
+            {
+                Level_Farm::GetCropList()[i]->CollisionOn();
+            }
+        }
     }
 }

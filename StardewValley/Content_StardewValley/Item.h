@@ -36,7 +36,7 @@ private:
     
     std::string ItemName;    
     size_t ItemOrder = 0;
-    
-int ItemType = 0;
+   
+    int ItemType = 0;
 };
 

@@ -22,6 +22,12 @@ public:
 	Level_Farm& operator=(const Level_Farm& _Other) = delete;
 	Level_Farm& operator=(Level_Farm&& _Other) noexcept = delete;
 
+    static std::vector<Crops*> GetCropList()
+    {
+        return CropList;
+    }
+    void CreateCrops(std::string _CropName);
+
 protected:
     void Loading() override;
     void Update(float _DeltaTime) override;
@@ -29,6 +35,6 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
-    std::vector<Crops*> CropList;
+    static std::vector<Crops*> CropList;
 };
 

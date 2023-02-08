@@ -31,7 +31,7 @@ public:
         return GlobalInventory->InventoryRender;
     }
 
-     static void InsertItem(Item* _item)
+    static void InsertItem(Item* _item)
     {
         GlobalInventory->ItemList.push_back(_item);
     }
@@ -41,10 +41,13 @@ public:
         return GlobalInventory->ItemList.size();
     }
 
+    static void CreateItem(std::string_view _Name);
     static Item* GetLastItem();
 
     void AllItemOn();
     void AllItemOff();
+
+    void SetItemPos();
 
 	Inventory(const Inventory& _Other) = delete;
 	Inventory(Inventory&& _Other) noexcept = delete;

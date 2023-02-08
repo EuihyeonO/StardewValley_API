@@ -7,6 +7,7 @@
 
 Crops::Crops()
 {
+    SetPos(Player::GetPlayer()->GetPos());  
 }
 
 Crops::~Crops()
@@ -14,20 +15,65 @@ Crops::~Crops()
 }
 
 void Crops::Start()
-{   
+{          
+}
+
+void Crops::CollisionOn()
+{
+    CollisionImage->On();
+}
+void Crops::CollisionOff()
+{
+    CollisionImage->Off();
+}
+
+bool Crops::IsCollisionUpdate()
+{
+    if(CollisionImage != nullptr)
+    {
+        return CollisionImage->IsUpdate();
+    }
 }
 
 void Crops::Update(float _DeltaTime)
 {
+    if (CropName != "0" && isSetting != true)
+    {
+        Image = CreateRender(CropName + ".bmp", 1);
+        Image->SetScale({ 64,64 });
+        CollisionImage = CreateCollision(ActorType::Crops);
+        CollisionImage->SetScale({ 64,64 });
+
+        isSetting = true;
+    }
+
+
 }
 
 void Crops::Render(float _Time)
 {
 }
 
-void Crops::InitCrop(std::string _Name, float4 _Pos)
+void Crops::GrowUp()
 {
-    Image = CreateRender(_Name, 1);
-    Image->SetPosition(_Pos);
-    Image->SetScale({64,64});
+    if (life <= 0)
+    {
+        return;
+    }
+
+    --life;
+    Image->SetFrame(5 - life);
+}
+
+void Crops::SetCrops()
+{
+    Image = CreateRender(CropName + ".bmp", 1);
+    Image->SetScale({ 64,64 });
+    CollisionImage = CreateCollision(ActorType::Crops);
+    CollisionImage->SetScale({ 64,64 });
+}
+
+void Crops::SetName(std::string _Name)
+{
+    CropName = _Name;
 }

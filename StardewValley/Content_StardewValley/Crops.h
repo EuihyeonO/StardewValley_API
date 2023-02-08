@@ -7,6 +7,7 @@
 
 
 class Item;
+class GameEngineCollision;
 class Crops : public GameEngineActor
 {
 
@@ -15,11 +16,25 @@ public:
 	Crops();
 	~Crops();
 
-    void InitCrop(std::string _Name, float4 _Pos);
+    void SetCrops();
+    void SetName(std::string _Name);
+
     GameEngineCollision* GetCollisionImage()
     {
         return CollisionImage;
     }
+
+    bool isSet()
+    {
+        return isSetting;
+    }
+
+    void SetCrops(std::string _Name);
+    void GrowUp();
+
+    void CollisionOn();
+    void CollisionOff();
+    bool IsCollisionUpdate();
 
 	Crops(const Crops& _Other) = delete;
 	Crops(Crops&& _Other) noexcept = delete;
@@ -32,9 +47,11 @@ protected:
     void Render(float _Time) override;
 
 private:
-    int life = 0;
+    int life = 5;
+    bool isSetting = false;
 
-    std::string CropName;
+    std::string CropName = "0";
+
     GameEngineRender* Image = nullptr;
     GameEngineCollision* CollisionImage = nullptr;
 };

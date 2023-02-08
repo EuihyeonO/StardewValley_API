@@ -37,13 +37,10 @@ void Inventory::Update(float _DeltaTime)
     //조건을 나중에 바꿔야 함 (life가 0이 되어 다른 이미지로 render되고 있는 crops와 충돌 등)
     if (GameEngineInput::IsDown("MakeItem"))
     {
-        std::string_view String = "PickIcon.BMP";
-        //createrender로 만들어진게 아니라서, update가 진행되지 않는다.
-        Item* NewItem = new Item(String);
-        NewItem->SetItemRender(CreateRender(String, 2));
-        //item을 actor로 만들 필요는 없을 듯 inventory가 update되면 같이 update되도록 설계
-        ItemList.push_back(NewItem);       
+        CreateItem("PickIcon.BMP");
     }
+
+    SetItemPos();
 }
 
 void Inventory::Render(float _Time)
@@ -63,8 +60,9 @@ void Inventory::OpenInventory()
 
     else
     {
-        AllItemOff();
         GetInventoryRender()->Off();
+        AllItemOff();
+
         UI::GetUI()->UI_ONOFF();
     }
 }
@@ -73,7 +71,7 @@ void Inventory::AllItemOn()
 {
     for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
     {
-        //GlobalInventory->ItemList[i]->On();
+        GlobalInventory->ItemList[i]->GetRenderImage()->On();
     }
 }
 
@@ -82,7 +80,7 @@ void Inventory::AllItemOff()
 {
     for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
     {
-        //GlobalInventory->ItemList[i]->Off();
+        GlobalInventory->ItemList[i]->GetRenderImage()->Off();
     }
 }
 
@@ -106,4 +104,30 @@ Item* Inventory::GetLastItem()
 {
     size_t Num =GlobalInventory->ItemList.size();
     return GlobalInventory->ItemList[Num - 1];
+}
+
+void Inventory::CreateItem(std::string_view _Name)
+{
+    Item* NewItem = new Item(_Name);
+    NewItem->SetItemRender(GlobalInventory->CreateRender(_Name, 2));
+    GlobalInventory->ItemList.push_back(NewItem);
+}
+
+void Inventory::SetItemPos()
+{
+    for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
+    {
+        if(ItemOrder < 10)
+        {
+            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder) * 64, 148.0f });
+        }
+        else if(ItemOrder < 20)
+        {
+            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder - 10) * 64, 148.0f + 64 });
+        }
+        else if(ItemOrder < 30)
+        {
+            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder - 20) * 64, 148.0f + 128 });
+        }
+    }
 }

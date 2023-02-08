@@ -43,7 +43,10 @@ public:
     void Idle();
     void Interact(float _DeltaTime);
 
+    void InteractToCrops();
+
     void ToolChange();
+    float4 SetToolPos();
     static bool IsSameCurTool(std::string _ToolName);
 
     void ActingUpdate(float _DeltaTime);
@@ -62,6 +65,8 @@ private:
     GameEngineRender* Pick = nullptr;
     GameEngineRender* Axe = nullptr;
     GameEngineRender* Hoe = nullptr;
+
+    GameEngineCollision* ColBody = nullptr;
 
     GameEngineCollision* ColPick = nullptr;
     GameEngineCollision* ColAxe = nullptr;

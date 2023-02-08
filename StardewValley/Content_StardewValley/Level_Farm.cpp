@@ -14,6 +14,8 @@
 #include "ContentsEnum.h"
 #include "Crops.h"
 
+std::vector<Crops*> Level_Farm::CropList;
+
 Level_Farm::Level_Farm()
 {
 }
@@ -112,16 +114,14 @@ void Level_Farm::Loading()
 }
 
 void Level_Farm::Update(float _DeltaTime)
-{
-    //농사 테스트용 코드
-    if (GameEngineInput::IsKey("MakeCrop") == false)
-    {
-        GameEngineInput::CreateKey("MakeCrop", 'O');
-    }
+{  
+}
 
+void Level_Farm::CreateCrops(std::string _CropName)
+{
     if (GameEngineInput::IsDown("MakeCrop"))
     {
-        CropList.push_back(CreateActor<Crops>(ActorType::Crops));
-        CropList[0]->InitCrop("Parsnip.bmp", Player::GetPlayer()->GetPos());        
+        CropList.push_back(CreateActor<Crops>());
+        CropList[CropList.size() - 1]->SetName(_CropName);
     }
 }

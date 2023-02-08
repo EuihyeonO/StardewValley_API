@@ -101,10 +101,12 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerAct.cpp" />
+    <ClCompile Include="Tool.cpp" />
     <ClCompile Include="UI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerKey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">
