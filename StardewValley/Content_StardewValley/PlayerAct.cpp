@@ -237,22 +237,6 @@ void Player::InteractToCrops()
 {
     GameEngineCollision* Collision = nullptr;
 
-   /* if (CurTool == Tool["Pick"])
-    {
-        Collision = ColPick;
-    }
-    else if (CurTool == Tool["Axe"])
-    {
-        Collision = ColAxe;
-    }
-    else if (CurTool == Tool["Hoe"])
-    {
-        Collision = ColHoe;
-    }
-    else if (CurTool == Tool["Watering"])
-    {
-        Collision = ColWatering;
-    }*/
     if (CurTool != Tool["Watering"])
     {
         return;

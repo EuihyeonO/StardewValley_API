@@ -34,7 +34,6 @@ private:
 
     float4 CameraPos = { 0,0 };
 
-    GameEngineRender* Quickslot = nullptr;
     GameEngineRender* TimeBar = nullptr;
     GameEngineRender* StatusBar = nullptr;
 

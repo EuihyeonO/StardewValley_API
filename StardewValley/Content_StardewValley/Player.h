@@ -57,7 +57,7 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
-    float MoveSpeed = 200.0f;
+    float MoveSpeed = 300.0f;
 
     GameEngineRender* PlayerRender = nullptr;
     GameEngineRender* CurTool = nullptr;

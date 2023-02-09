@@ -13,6 +13,7 @@ class Inventory : public GameEngineActor
 {
 
 public:
+   
 
 	Inventory();
 	~Inventory();
@@ -53,7 +54,8 @@ public:
     void AllItemOff();
 
     void SetItemPos();
-
+    void CameraPosUpdate();
+    void QuickSlotUpdate();
 
 	Inventory(const Inventory& _Other) = delete;
 	Inventory(Inventory&& _Other) noexcept = delete;
@@ -73,6 +75,10 @@ private:
     int SelecetedItemIndex = 0;
 
     GameEngineRender* InventoryRender = nullptr;
+    GameEngineRender* QuickSlotRender = nullptr;
     GameEngineRender* SelectedLine = nullptr;
+
+    float4 CameraPos = { 0,0 };
 };
+
 

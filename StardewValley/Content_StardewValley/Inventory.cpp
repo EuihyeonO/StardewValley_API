@@ -38,6 +38,7 @@ void Inventory::Start()
 
 void Inventory::Update(float _DeltaTime)
 {
+    QuickSlotUpdate();
     SetItemPos();
 }
 
@@ -52,10 +53,7 @@ void Inventory::OpenInventory()
         InventoryRender->SetPosition(GetLevel()->GetCameraPos() + (GameEngineWindow::GetScreenSize().half()));
         InventoryRender->On();
 
-        if (SelectedItem != nullptr) 
-        {
-            SelectedLine->On();
-        }
+        QuickSlotRender->Off();
 
         AllItemOn();
 
@@ -65,9 +63,10 @@ void Inventory::OpenInventory()
     else
     {
         InventoryRender->Off();
-        SelectedLine->Off();
 
-        AllItemOff();
+        QuickSlotRender->On();
+
+        //AllItemOff();
 
         UI::GetUI()->UI_ONOFF();
     }
@@ -90,17 +89,24 @@ void Inventory::AllItemOff()
     }
 }
 
+
 void Inventory::InitInventory()
 {
+    CameraPos = GetLevel()->GetCameraPos();
+    float4 Screensize = GameEngineWindow::GetScreenSize();
+
     InventoryRender = CreateRender("Inventory.bmp", 2);
 
-    InventoryRender->SetPosition(GetLevel()->GetCameraPos()+(GameEngineWindow::GetScreenSize().half()));
+    InventoryRender->SetPosition(CameraPos+(GameEngineWindow::GetScreenSize().half()));
     InventoryRender->SetScaleToImage();
     InventoryRender->Off();
 
+    QuickSlotRender = CreateRender("QuickSlot.bmp", 2);
+    QuickSlotRender->SetScaleToImage();
+    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
+
     SelectedLine = CreateRender("SelectedLine.BMP", 2);
     SelectedLine->SetScaleToImage();
-    SelectedLine->Off();
 
     ItemList.reserve(30);
 
@@ -125,25 +131,56 @@ void Inventory::CreateItem(std::string_view _Name)
 
     if (GlobalInventory->SelectedItem == nullptr)
     {
-        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
+        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0]; 
+        GlobalInventory->SetItemPos();
+        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
+}
+
+void Inventory::CameraPosUpdate()
+{
+    CameraPos = GetLevel()->GetCameraPos();
+}
+
+void Inventory::QuickSlotUpdate()
+{
+    CameraPosUpdate();
+    float4 Screensize = GameEngineWindow::GetScreenSize();
+
+    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
+    GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
 }
 
 void Inventory::SetItemPos()
 {
-    for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
+    if(QuickSlotRender->IsUpdate() == false)
     {
-        if(ItemOrder < 10)
+        for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
-            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder) * 64, 148.0f });
+            if (ItemOrder < 10)
+            {
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 148.0f });
+            }
+            else if (ItemOrder < 20)
+            {
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 148.0f + 64 });
+            }
+            else if (ItemOrder < 30)
+            {
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 148.0f + 128 });
+            }
         }
-        else if(ItemOrder < 20)
+    }   
+
+    else if (QuickSlotRender->IsUpdate() == true)
+    {
+        for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
-            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder - 10) * 64, 148.0f + 64 });
-        }
-        else if(ItemOrder < 30)
-        {
-            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(GetLevel()->GetCameraPos() + float4{ 353.0f + (ItemOrder - 20) * 64, 148.0f + 128 });
+            if (ItemOrder >= 10)
+            {
+                return;
+            }
+            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 675.0f });
         }
     }
 }
@@ -178,12 +215,12 @@ void Inventory::ChangeSelectedItem()
     {
         GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
         GlobalInventory->SelecetedItemIndex = 0;
-        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+       // GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
     else if (GlobalInventory->SelecetedItemIndex + 1 < GlobalInventory->ItemList.size())
     {
         GlobalInventory->SelectedItem = GlobalInventory->ItemList[GlobalInventory->SelecetedItemIndex + 1 ];
         ++(GlobalInventory->SelecetedItemIndex);
-        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+       // GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
 }

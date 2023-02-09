@@ -53,6 +53,11 @@ int Player::GetKeyInput()
             return Act::Menu;
         }
 
+        else if (true == GameEngineInput::IsDown("ChangeItem"))
+        {
+            return Act::ChangeItem;
+        }
+
         return Act::Idle;
     }
 
@@ -63,7 +68,7 @@ int Player::GetKeyInput()
             return Act::Interact;
         }
         
-        else if (GameEngineInput::IsDown("ChangeItem"))
+        else if (true == GameEngineInput::IsDown("ChangeItem"))
         {
             return Act::ChangeItem;
         }

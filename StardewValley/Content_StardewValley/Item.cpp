@@ -25,8 +25,6 @@ void Item::ItemInit(std::string_view& _ItemName)
     ItemName = _ItemName;
 }
 
-
-
 void Item::SetItemPos()
 {   
 }

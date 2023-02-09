@@ -25,7 +25,7 @@ void UI::Start()
 
     CameraPos = GetLevel()->GetCameraPos();
 
-    Quickslot = CreateRender("QuickSlot.BMP", 2);
+    //Quickslot = CreateRender("QuickSlot.BMP", 2);
     TimeBar = CreateRender("TimeBar.BMP", 2);
     StatusBar = CreateRender("StatusBar.BMP", 2);
 }
@@ -36,11 +36,6 @@ void UI::Update(float _DeltaTime)
     //UI위치의 기준이 될 값들(카메라위치, 스크린의 크기 등) 기초설정
     float4 Screensize = GameEngineWindow::GetScreenSize();
     CameraPos = GetLevel()->GetCameraPos();
-
-    //화면 하단중앙 퀵슬롯
-
-    Quickslot->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
-    Quickslot->SetScaleToImage();
 
     //화면 우측상단 시간표시창
     TimeBar->SetPosition({ CameraPos.x + Screensize.x - 108.0f , CameraPos.y + 85.0f });
@@ -76,15 +71,13 @@ void UI::Render(float _Time)
 
 void UI::UI_ONOFF()
 {
-    if (Quickslot->IsUpdate() == true)
+    if (TimeBar->IsUpdate() == true)
     {
-        Quickslot->Off();
         TimeBar->Off();
         StatusBar->Off();
     }
     else
     {
-        Quickslot->On();
         TimeBar->On();
         StatusBar->On();
     }
