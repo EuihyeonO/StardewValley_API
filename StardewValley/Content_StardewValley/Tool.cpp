@@ -10,7 +10,6 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Farm.h"
-#include "GlobalFunction.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
 

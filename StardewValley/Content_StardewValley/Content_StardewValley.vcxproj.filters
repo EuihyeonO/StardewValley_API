@@ -27,13 +27,10 @@
     <ClInclude Include="Crops.h">
       <Filter>Actor\Object</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="Item.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMap.h">
-      <Filter>Level</Filter>
-    </ClInclude>
+    <ClInclude Include="globalValue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -76,9 +73,7 @@
     <ClCompile Include="Tool.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="LevelMap.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
+    <ClCompile Include="globalValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">

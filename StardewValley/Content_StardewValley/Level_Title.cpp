@@ -1,6 +1,7 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+#include "globalValue.h"
 #include "Level_Title.h"
 #include "Title.h"
 #include "Player.h"
@@ -16,9 +17,9 @@ Level_Title::~Level_Title()
 void Level_Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 }
+
 void Level_Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-
 }
 
 void Level_Title::Loading()

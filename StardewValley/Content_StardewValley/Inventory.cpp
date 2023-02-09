@@ -30,6 +30,7 @@ Inventory::~Inventory()
 void Inventory::Start()
 {
     InitInventory();
+
     CreateItem("PickIcon.bmp");
     CreateItem("WateringIcon.bmp");
     CreateItem("AxeIcon.bmp");
@@ -55,8 +56,6 @@ void Inventory::OpenInventory()
 
         QuickSlotRender->Off();
 
-        AllItemOn();
-
         UI::GetUI()->UI_ONOFF();
     }
 
@@ -66,7 +65,6 @@ void Inventory::OpenInventory()
 
         QuickSlotRender->On();
 
-        //AllItemOff();
 
         UI::GetUI()->UI_ONOFF();
     }
@@ -147,8 +145,7 @@ void Inventory::QuickSlotUpdate()
     CameraPosUpdate();
     float4 Screensize = GameEngineWindow::GetScreenSize();
 
-    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
-    GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });   
 }
 
 void Inventory::SetItemPos()
@@ -183,6 +180,8 @@ void Inventory::SetItemPos()
             GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 675.0f });
         }
     }
+
+    GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
 }
 
 std::string Inventory::GetSelectedItemName()
@@ -215,12 +214,10 @@ void Inventory::ChangeSelectedItem()
     {
         GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
         GlobalInventory->SelecetedItemIndex = 0;
-       // GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
     else if (GlobalInventory->SelecetedItemIndex + 1 < GlobalInventory->ItemList.size())
     {
         GlobalInventory->SelectedItem = GlobalInventory->ItemList[GlobalInventory->SelecetedItemIndex + 1 ];
         ++(GlobalInventory->SelecetedItemIndex);
-       // GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
     }
 }

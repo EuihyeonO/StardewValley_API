@@ -27,16 +27,12 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GlobalFunction.h" />
+    <ClInclude Include="globalValue.h" />
     <ClInclude Include="Inventory.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="LevelMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -83,10 +79,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="LevelMap.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -115,6 +107,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerKey.cpp" />
+    <ClCompile Include="globalValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">

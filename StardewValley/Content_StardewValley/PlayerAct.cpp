@@ -10,10 +10,10 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Farm.h"
-#include "GlobalFunction.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
-
+#include "globalValue.h"
+#include "Crops.h"
 
 
 void Player::InitPlayer()
@@ -164,19 +164,19 @@ void Player::Move(float _DeltaTime)
         SetPos(NextPos);  
 
         // 카메라가 멈추는 좌표를 맵의 크기에 따라 가변적이게 설정해야함
-        if (NextPos.x >= 1920)
+        if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
         {
-            NextCameraPos.x = 1280;
+            NextCameraPos.x = globalValue::GetcameraLimitPos().x;
         }
-        if (NextPos.x <= 640)
+        if (NextPos.x <= GameEngineWindow::GetScreenSize().half().x)
         {
             NextCameraPos.x = 0;
         }
-        if (NextPos.y >= 664)
+        if (NextPos.y >= globalValue::GetcameraLimitPos().y + GameEngineWindow::GetScreenSize().half().y)
         {
-            NextCameraPos.y = 304;
+            NextCameraPos.y = globalValue::GetcameraLimitPos().y;
         }
-        if (NextPos.y <= 360)
+        if (NextPos.y <= GameEngineWindow::GetScreenSize().half().y)
         {
             NextCameraPos.y = 0;
         }

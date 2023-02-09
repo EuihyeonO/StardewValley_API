@@ -34,6 +34,4 @@ void Item::SetItemRender(GameEngineRender* _Render)
     RenderImage = _Render;
 
     RenderImage->SetScale({ 45, 45 });
-    RenderImage->Off();
-
 }

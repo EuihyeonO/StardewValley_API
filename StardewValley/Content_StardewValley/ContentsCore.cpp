@@ -3,6 +3,7 @@
 #include "ContentsCore.h"
 #include "Level_Title.h"
 #include "Level_Farm.h"
+#include "globalValue.h"
 
 
 

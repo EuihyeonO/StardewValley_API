@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 #include "Level_Farm.h"
 #include "Farm.h"
@@ -13,6 +14,7 @@
 #include "Item.h"
 #include "ContentsEnum.h"
 #include "Crops.h"
+#include "globalValue.h"
 
 std::vector<Crops*> Level_Farm::CropList;
 
@@ -30,6 +32,7 @@ void Level_Farm::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    globalValue::SetcameraLimitPos(float4{ 2560 , 1024 } - GameEngineWindow::GetScreenSize());
 }
 
 void Level_Farm::Loading()
