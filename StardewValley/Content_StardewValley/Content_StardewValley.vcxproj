@@ -28,11 +28,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="globalValue.h" />
+    <ClInclude Include="House.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Inventory.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Level_House.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -75,11 +83,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="House.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Level_House.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -31,20 +31,20 @@ void Player::CreateToolAnimation()
     std::vector<float> _LHeavyToolFrame(5);
     _LHeavyToolFrame = { 0.15f, 0.04f, 0.04f, 0.17f, 0.075f, 0.075f };
 
-    std::vector<int>  _LWatering(4);
-    _LWatering = { 2, 1, 0, 0 };
-    std::vector<float> _LWateringFrame(4);
-    _LWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
+    std::vector<int>  _LWatering(6);
+    _LWatering = { 4, 3, 2, 1, 0, 0 };
+    std::vector<float> _LWateringFrame(6);
+    _LWateringFrame = { 0.075f, 0.1f, 0.15f, 0.15f, 0.2f, 0.1f };
 
     std::vector<int> _DHeavyTool(6);
     _DHeavyTool = { 0, 1, 2, 3, 4, 4 };
     std::vector<float> _DHeavyToolFrame(6);
     _DHeavyToolFrame = { 0.15f, 0.04f, 0.04f, 0.17f, 0.075f, 100.0f };
 
-    std::vector<int> _DWatering(4);
-    _DWatering = { 0, 1, 2, 2 };
-    std::vector<float> _DWateringFrame(4);
-    _DWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
+    std::vector<int> _DWatering(6);
+    _DWatering = { 0, 1, 2, 3, 4, 4 };
+    std::vector<float> _DWateringFrame(6);
+    _DWateringFrame = { 0.075f, 0.1f, 0.15f, 0.15f, 0.2f, 0.1f };
 
 
     std::vector<int> _UHeavyTool(6);

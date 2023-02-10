@@ -156,15 +156,15 @@ void Inventory::SetItemPos()
         {
             if (ItemOrder < 10)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 148.0f });
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });
             }
             else if (ItemOrder < 20)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 148.0f + 64 });
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
             }
             else if (ItemOrder < 30)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 148.0f + 128 });
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
             }
         }
     }   
@@ -177,7 +177,7 @@ void Inventory::SetItemPos()
             {
                 return;
             }
-            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 675.0f });
+            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 723.0f });
         }
     }
 

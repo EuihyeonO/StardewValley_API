@@ -13,8 +13,8 @@ class Player : public GameEngineActor
 
 public:
 
-	Player();
-	~Player();
+    Player();
+    ~Player();
 
 	Player(const Player& _Other) = delete;
 	Player(Player&& _Other) noexcept = delete;
@@ -39,7 +39,22 @@ public:
     void ChangePlayerAnimation(std::string_view _Act);
 
     bool isInteract();
-    void isCollisionToPortal();
+
+    static void SetIsCollision(bool _isCollision)
+    {
+        MyPlayer->isCollision = _isCollision;
+    }
+    static bool GetIsCollision()
+    {
+        return MyPlayer->isCollision;
+    }
+
+    static void SetMyPlayer(Player* _player)
+    {
+        MyPlayer = _player;
+    }
+    static void ChangePlayerIdle();
+
     static bool IsSameCurTool(std::string _ToolName);
 
     int GetKeyInput();
@@ -79,14 +94,13 @@ private:
     GameEngineCollision* ColHoe = nullptr;
     GameEngineCollision* ColWatering = nullptr;
 
-    std::map<std::string, GameEngineRender*> Tool;
+    std::map<std::string, GameEngineRender*> Tool; 
 
     bool isDebug = false;
+    bool isCollision = false;
 
     static Player* MyPlayer;
 
     std::string Dir = "D";
-
-
 };
 

@@ -27,16 +27,13 @@ void Player::Start()
     InitPlayer();
     InitTool();
     CreatePlayerKey();
-    CreateAllAnimation(); 
-      
+    CreateAllAnimation();      
 }
 
 void Player::Update(float _DeltaTime)
 { 
     ActingUpdate(_DeltaTime);
     
-    isCollisionToPortal();
-
     InteractToCrops();  
 
     ToolChange();
@@ -47,11 +44,6 @@ void Player::Update(float _DeltaTime)
 
 void Player::Render(float _Time)
 {   
-    if (GameEngineInput::IsKey("Debug") == false)
-    {
-        GameEngineInput::CreateKey("Debug", 'L');
-    }
-
     if (GameEngineInput::IsDown("Debug"))
     {
         if (isDebug == false)

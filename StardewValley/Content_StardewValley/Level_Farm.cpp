@@ -33,6 +33,9 @@ void Level_Farm::LevelChangeEnd(GameEngineLevel* _NextLevel)
 void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
     globalValue::SetcameraLimitPos(float4{ 2560 , 1024 } - GameEngineWindow::GetScreenSize());
+    Player::SetMyPlayer(FarmPlayer);
+    Inventory::SetGlobalInventory(FarmInventory);
+    Player::ChangePlayerIdle();
 }
 
 void Level_Farm::Loading()
@@ -52,7 +55,6 @@ void Level_Farm::Loading()
     //인터페이스
     {
         GameEngineImage* Quickslot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Quickslot.BMP"));
-        GameEngineImage* House = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("House.BMP"));
         GameEngineImage* TimeBar = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TimeBar.BMP"));
         GameEngineImage* StatusBar = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("StatusBar.BMP"));
 
@@ -115,23 +117,25 @@ void Level_Farm::Loading()
         GameEngineImage* HoeIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoeIcon.BMP"));
 
         GameEngineImage* DWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DWatering.BMP"));
-        DWatering->Cut(3, 1); 
+        DWatering->Cut(5, 1); 
         GameEngineImage* RWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Watering.BMP"));
         RWatering->Cut(5, 1); 
         GameEngineImage* LWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LWatering.BMP"));
-        LWatering->Cut(3, 1);
+        LWatering->Cut(5, 1);
         GameEngineImage* UWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UWatering.BMP"));
         UWatering->Cut(3, 1);
 
         GameEngineImage* WateringIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WateringIcon.BMP"));
     }
 
-    //액터생성
-    CreateActor<Player>(ActorType::Player);
+    //액터생성  
+    FarmPlayer = CreateActor<Player>(ActorType::Player);
     CreateActor<Farm>();
     CreateActor<UI>();
-    CreateActor<Inventory>();
+    FarmInventory = CreateActor<Inventory>();
 
+    Player::GetPlayer()->SetPos({ 1350, 600 });
+    SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
 }
 
 void Level_Farm::Update(float _DeltaTime)

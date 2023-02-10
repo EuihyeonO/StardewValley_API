@@ -49,6 +49,10 @@ public:
     static Item* GetSelectedItem();
     static void ChangeSelectedItem();
 
+    static void SetGlobalInventory(Inventory* _Inventory)
+    {
+        GlobalInventory = _Inventory;
+    }
 
     void AllItemOn();
     void AllItemOff();

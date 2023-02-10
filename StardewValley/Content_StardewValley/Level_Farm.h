@@ -1,4 +1,7 @@
 #pragma once
+#include "Player.h"
+#include "Inventory.h"
+
 #include <vector>
 
 #include <GameEngineCore/GameEngineLevel.h>
@@ -25,6 +28,7 @@ public:
     }
     void CreateCrops(std::string _CropName);
 
+
 protected:
     void Loading() override;
     void Update(float _DeltaTime) override;
@@ -33,5 +37,7 @@ protected:
 
 private:
     static std::vector<Crops*> CropList;    
+    Player* FarmPlayer = nullptr;
+    Inventory* FarmInventory = nullptr;
 };
 

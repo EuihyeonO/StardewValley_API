@@ -6,12 +6,14 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineBase/GameEngineMath.h>
 
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Farm.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
+#include "Level_House.h"
 #include "globalValue.h"
 #include "Crops.h"
 
@@ -24,11 +26,6 @@ void Player::InitPlayer()
     ColBody = CreateCollision(ActorType::Player);
     ColBody->SetScale({ 64,128 });
     ColBody->SetPosition({ 0,0 });
-
-    SetPos({ 1665,600 });
-
-    GetLevel()->SetCameraPos({ GetPos().x - 640, GetPos().y -360});
-
 }
 
 
@@ -59,7 +56,7 @@ void Player::ActingUpdate(float _DeltaTime)
     if(isInteract() == true)
     {
         return;
-    }
+    }   
 
     int Act = GetKeyInput();
 
@@ -94,8 +91,17 @@ void Player::Move(float _DeltaTime)
     float4 NextPos = GetPos();
     float4 NextCameraPos = GetLevel()->GetCameraPos();
     float4 MoveDir = { 0,0 };
+    
+    GameEngineImage* ColMap = nullptr;
 
-    GameEngineImage* ColFarm = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
+    if (GetOwner()->GetName() == "Farm")
+    {
+        ColMap = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
+    }
+    else if (GetOwner()->GetName() == "House")
+    {
+        ColMap = GameEngineResources::GetInst().ImageFind("HouseC.bmp");
+    }
 
     //아래쪽 기반 이동
     if (true == GameEngineInput::IsPress("DMove"))
@@ -162,7 +168,7 @@ void Player::Move(float _DeltaTime)
     NextCameraPos += MoveDir * MoveSpeed * _DeltaTime;
 
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
-    if (RGB(0, 0, 0) != ColFarm->GetPixelColor({ NextPos.x, NextPos.y}, RGB(0, 0, 0)))
+    if (nullptr != ColMap && RGB(0, 0, 0) != ColMap->GetPixelColor({NextPos.x, NextPos.y}, RGB(0, 0, 0)))
     {
         SetPos(NextPos);  
 
@@ -192,6 +198,8 @@ void Player::Move(float _DeltaTime)
 
 void Player::Interact(float _DeltaTime)
 {
+
+
     if (Dir[0] == 'R' || Dir[0] == 'L')
     {
         CurTool->SetScale({ 250, 250 });
@@ -272,19 +280,7 @@ void Player::InteractToCrops()
     }
 }
 
-void Player::isCollisionToPortal()
+void Player::ChangePlayerIdle()
 {
-    if (ColBody != nullptr)
-    {
-        std::vector<GameEngineCollision*> Collisions;
-
-        if (true == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::Portal) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
-        {
-            for (size_t i = 0; i < Collisions.size(); i++)
-            {
-                //충돌된 포탈이 어디로 연결되었는지 반환
-                //ContentsCore에서 반환값을 확인 후, 현결된 Level로 ChangeLevel하도록 설계할 것
-            }
-        }
-    }
+    MyPlayer->ChangePlayerAnimation(MyPlayer->Dir + "Idle");
 }
