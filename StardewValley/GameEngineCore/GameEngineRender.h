@@ -40,6 +40,8 @@ public:
 
     void SetImage(const std::string_view& _ImageName);
 
+    void SetImageToScaleToImage(const std::string_view& _ImageName);
+
     void SetScaleToImage();
 
     void SetFrame(int _Frame);
@@ -59,9 +61,19 @@ public:
         TransColor = _Color;
     }
 
+    inline void SetEffectCamera(bool _Effect)
+    {
+        IsEffectCamera = _Effect;
+    }
+
     inline void EffectCameraOff()
     {
-        IsEffectCamera = false;
+        SetEffectCamera(false);
+    }
+
+    inline void EffectCameraOn()
+    {
+        SetEffectCamera(true);
     }
 
     bool IsAnimationEnd();

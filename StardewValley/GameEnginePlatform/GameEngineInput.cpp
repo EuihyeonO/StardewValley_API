@@ -145,3 +145,8 @@ void GameEngineInput::Update(float _DeltaTime)
         StartKeyIter->second.Update(_DeltaTime);
     }
 }
+
+void GameEngineInput::MouseCursorOff()
+{
+    ShowCursor(FALSE);
+}

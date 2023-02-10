@@ -3,6 +3,7 @@
 #include "ContentsCore.h"
 #include "Level_Title.h"
 #include "Level_Farm.h"
+#include "Level_Village.h"
 #include "globalValue.h"
 
 
@@ -24,6 +25,7 @@ void ContentsCore::Start()
 
     CreateLevel<Level_Title>("Title");
 	CreateLevel<Level_Farm>("Farm");
+	CreateLevel<Level_Village>("Village");
 	
 	ChangeLevel("Title");
 }

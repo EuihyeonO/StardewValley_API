@@ -19,8 +19,11 @@
 void Player::InitPlayer()
 {
     PlayerRender = CreateRender(2);
-
     PlayerRender->SetScale({ 64, 128 });
+
+    ColBody = CreateCollision(ActorType::Player);
+    ColBody->SetScale({ 64,128 });
+    ColBody->SetPosition({ 0,0 });
 
     SetPos({ 1665,600 });
 
@@ -199,7 +202,7 @@ void Player::Interact(float _DeltaTime)
     }
 
     CurTool->On();
-    
+
     if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"])
     {
         CurTool->ChangeAnimation("DIdle");
@@ -209,7 +212,8 @@ void Player::Interact(float _DeltaTime)
     else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
     {
         CurTool->ChangeAnimation("DIdle");
-        CurTool->ChangeAnimation(Dir + "Watering");
+        CurTool->ChangeAnimation(Dir + "Watering");  
+
         ChangePlayerAnimation(Dir + "Watering");
     }
 }
@@ -235,26 +239,26 @@ bool Player::isInteract()
 
 void Player::InteractToCrops()
 {
-    GameEngineCollision* Collision = nullptr;
 
     if (CurTool != Tool["Watering"])
     {
         return;
     }
-    Collision = ColWatering;
 
-    Collision->SetPosition(SetToolPos());
+    ColWatering->SetPosition(SetToolPos());
 
     if (CurTool->IsUpdate() == true)
     {
         std::vector<GameEngineCollision*> Collisions;
-        if (true == Collision->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+        if (true == ColWatering->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+        {
             for (size_t i = 0; i < Collisions.size(); i++)
             {
                 GameEngineActor* ColActor = Collisions[i]->GetActor();
                 dynamic_cast<Crops*>(ColActor)->GrowUp();
                 dynamic_cast<Crops*>(ColActor)->CollisionOff();
             }
+        }
     }
     else
     {
@@ -263,6 +267,23 @@ void Player::InteractToCrops()
             if (Level_Farm::GetCropList()[i]->IsCollisionUpdate() == false && Level_Farm::GetCropList()[i]->isSet() == true)
             {
                 Level_Farm::GetCropList()[i]->CollisionOn();
+            }
+        }
+    }
+}
+
+void Player::isCollisionToPortal()
+{
+    if (ColBody != nullptr)
+    {
+        std::vector<GameEngineCollision*> Collisions;
+
+        if (true == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::Portal) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+        {
+            for (size_t i = 0; i < Collisions.size(); i++)
+            {
+                //충돌된 포탈이 어디로 연결되었는지 반환
+                //ContentsCore에서 반환값을 확인 후, 현결된 Level로 ChangeLevel하도록 설계할 것
             }
         }
     }

@@ -117,7 +117,7 @@ void Level_Farm::Loading()
         GameEngineImage* DWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DWatering.BMP"));
         DWatering->Cut(3, 1); 
         GameEngineImage* RWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Watering.BMP"));
-        RWatering->Cut(3, 1); 
+        RWatering->Cut(5, 1); 
         GameEngineImage* LWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LWatering.BMP"));
         LWatering->Cut(3, 1);
         GameEngineImage* UWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UWatering.BMP"));
@@ -131,6 +131,7 @@ void Level_Farm::Loading()
     CreateActor<Farm>();
     CreateActor<UI>();
     CreateActor<Inventory>();
+
 }
 
 void Level_Farm::Update(float _DeltaTime)
@@ -139,6 +140,7 @@ void Level_Farm::Update(float _DeltaTime)
 
 void Level_Farm::CreateCrops(std::string _CropName)
 {
+    //Crop 클래스에 static 으로 CropList를 멤버변수로 선언 후, Actor 단계에서 관리하도록 하자
     if (GameEngineInput::IsDown("MakeCrop"))
     {
         CropList.push_back(CreateActor<Crops>());

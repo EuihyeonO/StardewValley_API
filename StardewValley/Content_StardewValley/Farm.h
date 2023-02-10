@@ -20,6 +20,8 @@ protected:
     void Update(float _DeltaTime) override;
     void Render(float _Time) override;
 private:
+    GameEngineCollision* PortalToVillage;
 
+    bool isDebug = false;
 };
 

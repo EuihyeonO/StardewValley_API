@@ -41,17 +41,27 @@ public:
         ButtonCollisionType = _ButtonCollisionType;
     }
 
-    std::string SetHoverImage(const std::string_view& _Name)
+    void SetHoverImage(const std::string_view& _Name)
     {
         HoverImageName = _Name;
     }
-    std::string SetReleaseImage(const std::string_view& _Name)
+    void SetReleaseImage(const std::string_view& _Name)
     {
         ReleaseImageName = _Name;
     }
-    std::string SetPressImage(const std::string_view& _Name)
+    void SetPressImage(const std::string_view& _Name)
     {
         PressImageName = _Name;
+    }
+
+    GameEngineRender* GetButtonRender()
+    {
+        return ButtonRender;
+    }
+
+    GameEngineCollision* GetButtonCollision()
+    {
+        return ButtonCollision;
     }
 
 protected:
@@ -59,12 +69,13 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
-    GameEngineRender* Render = nullptr;
+    GameEngineRender* ButtonRender = nullptr;
     GameEngineCollision* ButtonCollision = nullptr;
     int PointTargetGroup = 0;
     CollisionType ButtonCollisionType = CollisionType::CT_Rect;
     void(*ClickPtr)() = nullptr;
 
+    float4 Scale;
     ButtonState State;
     std::string CurImageName;
     std::string HoverImageName;

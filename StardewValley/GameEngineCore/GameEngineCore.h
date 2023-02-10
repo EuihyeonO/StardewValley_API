@@ -65,7 +65,7 @@ protected:
 
         // 업캐스팅이 벌어지죠?
         GameEngineLevel* Level = new LevelType();
-        LevelLoading(Level);
+        LevelLoading(Level, _Name);
         // Level->Loading();
         // insert할때마다 새로운 string이 생기면서 자신만의 메모리를 가지게 됩니다.
         Levels.insert(std::make_pair(_Name.data(), Level));
@@ -85,7 +85,7 @@ private:
 
     GameEngineLevel* MainLevel = nullptr;
 
-    void LevelLoading(GameEngineLevel* _Level);
+    void LevelLoading(GameEngineLevel* _Level, const std::string_view& _Name);
 
     bool IsDebugValue = false;
 

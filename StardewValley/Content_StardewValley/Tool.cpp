@@ -20,22 +20,6 @@ void Player::ToolChange()
         MsgAssert("CurTool이 설정되지 않았는데 변경하려 했습니다.");
     }
 
-  /*  if (CurTool == Tool["Axe"])
-    {
-        CurTool = Tool["Pick"];
-    }
-    else if (CurTool == Tool["Pick"])
-    {
-        CurTool = Tool["Hoe"];
-    }
-    else if (CurTool == Tool["Hoe"])
-    {
-        CurTool = Tool["Watering"];
-    }
-    else if (CurTool == Tool["Watering"])
-    {
-        CurTool = Tool["Axe"];
-    }*/
     std::string Name = Inventory::GetSelectedItemName();
 
     if (Inventory::GetSelectedItemName() == "AxeIcon.bmp")
@@ -71,7 +55,7 @@ void Player::InitTool()
 
     //Dir이 R인지 L인지에 따라 다르게 만들어야함
     ColPick = CreateCollision(ActorType::Tool);
-    ColPick->SetScale({ 64,64 });
+    ColPick->SetScale({ 64,64 });   
 
     ColAxe = CreateCollision(ActorType::Tool);
     ColAxe->SetScale({ 64,64 });
@@ -82,6 +66,7 @@ void Player::InitTool()
     ColWatering = CreateCollision(ActorType::Tool);
     ColWatering->SetScale({ 64,64 });
 
+
     CurTool = Tool["Pick"];
 
 }
@@ -90,25 +75,31 @@ float4 Player::SetToolPos()
 {
     if (Dir == "R")
     {
-        return { 100,0 };
+        return { 64, 32 };
     }
     else if (Dir == "L")
     {
-        return { -100,0 };
+        return { -64,32 };
     }
     else if (Dir == "U")
     {
-        return { 0,-100 };
+        return { 0,0 };
     }
     else if (Dir == "D")
     {
-        return { 0,100 };
+        return { 0,64 };
     }
 
     else return { 0,0 };
-
 }
 
+void Player::ToolPosUpdate()
+{
+    ColPick->SetPosition(SetToolPos());
+    ColAxe->SetPosition(SetToolPos());
+    ColHoe->SetPosition(SetToolPos());
+    ColWatering->SetPosition(SetToolPos());
+}
 bool Player::IsSameCurTool(std::string _ToolName)
 {
     if (MyPlayer->CurTool == MyPlayer->Tool[_ToolName])

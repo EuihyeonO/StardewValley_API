@@ -74,21 +74,25 @@
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);..\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -159,10 +163,22 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineSound.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ThirdParty\FMod\inc\fmod.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod.hpp" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_codec.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_common.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_dsp.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_errors.h" />
+    <ClInclude Include="ThirdParty\FMod\inc\fmod_output.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineImage.cpp">
@@ -173,10 +189,31 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineSound.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ThirdParty\FMod\lib\x64\fmodL_vc.lib" />
+    <Library Include="ThirdParty\FMod\lib\x64\fmod_vc.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="ThirdParty\FMod\lib\x64\fmod.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMod\lib\x64\fmodL.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ThirdParty\FMod\inc\fmod.cs" />
+    <None Include="ThirdParty\FMod\inc\fmod_dsp.cs" />
+    <None Include="ThirdParty\FMod\inc\fmod_errors.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

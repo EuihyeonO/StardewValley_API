@@ -16,4 +16,5 @@ enum class ActorType
     Player,
     Crops,
     Tool,
+    Portal,
 };

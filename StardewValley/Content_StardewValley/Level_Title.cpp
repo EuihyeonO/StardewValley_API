@@ -20,6 +20,7 @@ void Level_Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void Level_Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+
 }
 
 void Level_Title::Loading()

@@ -32,11 +32,16 @@ public:
     void SetDir();
 
     void CreateAllAnimation();
+    void CreateToolAnimation();
     void CreatePlayerKey();
     void CreatePlayerAnimation(std::string_view State, std::vector<int> _FrameIndex, std::vector<float> _Frametime, int Dir = 0);
+   
     void ChangePlayerAnimation(std::string_view _Act);
 
     bool isInteract();
+    void isCollisionToPortal();
+    static bool IsSameCurTool(std::string _ToolName);
+
     int GetKeyInput();
 
     void Move(float _DeltaTime);
@@ -46,8 +51,8 @@ public:
     void InteractToCrops();
 
     void ToolChange();
+    void ToolPosUpdate();
     float4 SetToolPos();
-    static bool IsSameCurTool(std::string _ToolName);
 
     void ActingUpdate(float _DeltaTime);
 
@@ -69,13 +74,14 @@ private:
     GameEngineRender* Hoe = nullptr;
     GameEngineRender* Watering = nullptr;
 
-
     GameEngineCollision* ColPick = nullptr;
     GameEngineCollision* ColAxe = nullptr;
     GameEngineCollision* ColHoe = nullptr;
     GameEngineCollision* ColWatering = nullptr;
 
     std::map<std::string, GameEngineRender*> Tool;
+
+    bool isDebug = false;
 
     static Player* MyPlayer;
 

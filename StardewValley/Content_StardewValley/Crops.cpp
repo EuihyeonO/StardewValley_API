@@ -69,7 +69,7 @@ void Crops::GrowUp()
 
 void Crops::SetCrops()
 {
-    Image = CreateRender(CropName + ".bmp", 1);
+    Image = CreateRender(CropName + ".bmp", 5);
     Image->SetScale({ 64,64 });
     CollisionImage = CreateCollision(ActorType::Crops);
     CollisionImage->SetScale({ 64,64 });

@@ -4,6 +4,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "GameEngineLevel.h"
 #include "GameEngineResources.h"
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineBase/GameEngineTime.h>
 
 GameEngineCore* Core;
@@ -45,6 +46,7 @@ void GameEngineCore::GlobalUpdate()
     }
 
     // 프레임 시작할때 한번 델타타임을 정하고
+    GameEngineSound::SoundUpdate();
     float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
     GameEngineInput::Update(TimeDeltaTime);
 
@@ -121,7 +123,7 @@ void GameEngineCore::ChangeLevel(const std::string_view& _Name)
     NextLevel = FindIter->second;
 }
 
-void GameEngineCore::LevelLoading(GameEngineLevel* _Level)
+void GameEngineCore::LevelLoading(GameEngineLevel* _Level, const std::string_view& _Name)
 {
     if (nullptr == _Level)
     {
@@ -129,5 +131,6 @@ void GameEngineCore::LevelLoading(GameEngineLevel* _Level)
         return;
     }
 
+    _Level->SetName(_Name);
     _Level->Loading();
 }

@@ -25,7 +25,6 @@ void UI::Start()
 
     CameraPos = GetLevel()->GetCameraPos();
 
-    //Quickslot = CreateRender("QuickSlot.BMP", 2);
     TimeBar = CreateRender("TimeBar.BMP", 2);
     StatusBar = CreateRender("StatusBar.BMP", 2);
 }

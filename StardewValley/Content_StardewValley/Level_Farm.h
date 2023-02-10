@@ -32,6 +32,6 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
-    static std::vector<Crops*> CropList;
+    static std::vector<Crops*> CropList;    
 };
 

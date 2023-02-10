@@ -44,7 +44,7 @@ void Inventory::Update(float _DeltaTime)
 }
 
 void Inventory::Render(float _Time)
-{
+{    
 }
 
 void Inventory::OpenInventory()

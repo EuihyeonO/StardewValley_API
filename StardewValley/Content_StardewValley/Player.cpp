@@ -15,18 +15,11 @@ Player* Player::MyPlayer = nullptr;
 
 Player::Player()
 {
-    MyPlayer = this;
+     MyPlayer = this;
 }
 
 Player::~Player()
 {
-    std::map<std::string, GameEngineRender*>::iterator StartIter = Tool.begin();
-    std::map<std::string, GameEngineRender*>::iterator EndIter = Tool.end();
-
-    for (; StartIter != EndIter; StartIter++)
-    {
-        //delete StartIter->second;
-    }
 }
 
 void Player::Start()
@@ -34,30 +27,61 @@ void Player::Start()
     InitPlayer();
     InitTool();
     CreatePlayerKey();
-    CreateAllAnimation();
-
-    ColBody = CreateCollision(ActorType::Player);
-    ColBody->SetScale({ 50,50 });
+    CreateAllAnimation(); 
+      
 }
 
 void Player::Update(float _DeltaTime)
 { 
     ActingUpdate(_DeltaTime);
+    
+    isCollisionToPortal();
+
     InteractToCrops();  
+
     ToolChange();
+    ToolPosUpdate();
+
     dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
 }
 
 void Player::Render(float _Time)
-{
-    //HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->Get
-// DC();
-    //float4 ActorPos = GetPos();
+{   
+    if (GameEngineInput::IsKey("Debug") == false)
+    {
+        GameEngineInput::CreateKey("Debug", 'L');
+    }
 
-    //Rectangle(DoubleDC,
-    //    640 - 5,
-    //    360 - 5,
-    //    640 + 5,
-    //    360 + 5
-    //);
+    if (GameEngineInput::IsDown("Debug"))
+    {
+        if (isDebug == false)
+        {
+            isDebug = true;
+        }
+        else
+        {
+            isDebug = false;
+        }       
+    }
+
+
+    if (isDebug == true) 
+    {
+        HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+
+        Rectangle(DoubleDC,
+            ColPick->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
+            ColPick->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
+            ColPick->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
+            ColPick->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
+
+        Rectangle(DoubleDC,
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 64,
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 32,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 64  );
+    }
+
+
+    
 }

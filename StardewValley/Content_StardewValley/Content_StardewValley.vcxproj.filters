@@ -11,15 +11,11 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\Player</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="Farm.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>Actor\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Actor\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Actor\Interface</Filter>
@@ -30,7 +26,18 @@
     <ClInclude Include="Item.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="globalValue.h" />
+    <ClInclude Include="UI.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Village.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="globalValue.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -73,7 +80,15 @@
     <ClCompile Include="Tool.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="globalValue.cpp" />
+    <ClCompile Include="ToolAnimation.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Village.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="globalValue.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -96,6 +111,9 @@
     </Filter>
     <Filter Include="Actor\Title">
       <UniqueIdentifier>{26c0b2b1-379e-4679-ad82-f6d476ef660d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{f5dbd0c5-4cda-4495-a1ba-491101ddfa7d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
