@@ -24,9 +24,18 @@ public:
         return CollisionImage;
     }
 
+
+    int GetLife()
+    {
+        return life;
+    }
     bool isSet()
     {
         return isSetting;
+    }
+    std::string GetName()
+    {
+        return CropName + "T.BMP";
     }
 
     void SetCrops(std::string _Name);

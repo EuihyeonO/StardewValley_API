@@ -5,13 +5,10 @@
 #include "Player.h"
 #include "Inventory.h"
 
+#include <string_view>
+
 Item::Item()
 {
-}
-
-Item::Item(std::string_view& _ItemName)
-{
-    ItemInit(_ItemName);
 }
 
 Item::~Item()
@@ -21,17 +18,26 @@ Item::~Item()
 void Item::ItemInit(std::string_view& _ItemName)
 {
     ItemOrder = Inventory::GetInventory()->GetNumOfItem();
-
     ItemName = _ItemName;
-}
 
-void Item::SetItemPos()
-{   
-}
-
-void Item::SetItemRender(GameEngineRender* _Render)
-{
-    RenderImage = _Render;
-
+    SetItemRender(_ItemName);
     RenderImage->SetScale({ 45, 45 });
+}
+
+void Item::SetItemRender(std::string_view& _ItemName)
+{
+    RenderImage = CreateRender(_ItemName, 2);
+    RenderImage->SetScale({ 45, 45 });
+}
+
+void Item::Start()
+{
+}
+
+void Item::Update(float _DeltaTime)
+{
+}
+
+void Item::Render(float _Time)
+{
 }

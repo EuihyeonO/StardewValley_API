@@ -17,9 +17,11 @@
 #include "globalValue.h"
 
 std::vector<Crops*> Level_Farm::CropList;
+Level_Farm* Level_Farm::FarmManager = nullptr;
 
 Level_Farm::Level_Farm()
-{
+{  
+    FarmManager = this;
 }
 
 Level_Farm::~Level_Farm()
@@ -34,7 +36,7 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
     globalValue::SetcameraLimitPos(float4{ 2560 , 1024 } - GameEngineWindow::GetScreenSize());
     Player::SetMyPlayer(FarmPlayer);
-    Inventory::SetGlobalInventory(FarmInventory);
+    Inventory::CopyItemList(FarmInventory);
     Player::ChangePlayerIdle();
 }
 
@@ -74,6 +76,7 @@ void Level_Farm::Loading()
         
         GameEngineImage* Parsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Parsnip.BMP"));
         Parsnip->Cut(6, 1);
+        GameEngineImage* ParsnipT = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ParsnipT.BMP"));
     }
     //도구
     {
@@ -129,10 +132,12 @@ void Level_Farm::Loading()
     }
 
     //액터생성  
-    FarmPlayer = CreateActor<Player>(ActorType::Player);
     CreateActor<Farm>();
     CreateActor<UI>();
+
+    FarmPlayer = CreateActor<Player>(ActorType::Player);
     FarmInventory = CreateActor<Inventory>();
+
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
@@ -149,5 +154,17 @@ void Level_Farm::CreateCrops(std::string _CropName)
     {
         CropList.push_back(CreateActor<Crops>());
         CropList[CropList.size() - 1]->SetName(_CropName);
+    }
+}
+
+void Level_Farm::DeathCrops(Crops* _Crop)
+{
+    for (int i = 0; i < CropList.size(); i++)
+    {
+        if (CropList[i] == _Crop)
+        {
+            CropList.erase(CropList.begin() + i);
+            return;
+        }
     }
 }

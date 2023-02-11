@@ -1,6 +1,8 @@
 #pragma once
+#include "Item.h"
+#include "Inventory.h"
 #include <GameEngineBase/GameEngineMath.h>
-
+#include <vector>
 
 class globalValue
 {
@@ -17,6 +19,18 @@ public:
         cameraLimitPos = _pos;
     }
 
+    static void AddItemListToList(Inventory* _inventory)
+    {
+        InventoryList.push_back(_inventory);
+    }
+
+    static std::vector<Inventory*> GetInventoryList()
+    {
+        return InventoryList;
+    }
+
+    static void CreateItemToAllInventory(std::string_view _Name);
+
     globalValue();
 	~globalValue();
 
@@ -28,5 +42,6 @@ public:
 protected:
 
 private:
-  static float4 cameraLimitPos;
+    static std::vector<Inventory*> InventoryList;
+    static float4 cameraLimitPos;
 };

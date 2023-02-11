@@ -11,12 +11,10 @@ class Item : public GameEngineActor
 public:
 
 	Item();
-    Item(std::string_view& _ItemName);
 	~Item();
 
     void ItemInit(std::string_view& _ItemName);
-    void SetItemRender(GameEngineRender* _Render);
-    void SetItemPos();
+    void SetItemRender(std::string_view& _ItemName);
 
     float4 GetItemRenderPos()
     {
@@ -26,6 +24,16 @@ public:
     std::string GetItemName()
     {
         return ItemName;
+    }
+
+    void PlusQuntity()
+    {
+        ++Quantity;
+    }
+
+    int GetQuantity()
+    {
+        return Quantity;
     }
 
     void SelectedLineRender();
@@ -41,7 +49,9 @@ public:
 	Item& operator=(Item&& _Other) noexcept = delete;
 
 protected:
-
+    void Start() override;
+    void Update(float _DeltaTime) override;
+    void Render(float _Time) override;
 private:
     GameEngineRender* RenderImage =  nullptr;
     GameEngineRender* SelectedLine =  nullptr;
@@ -51,5 +61,6 @@ private:
     size_t ItemOrder = 0;
    
     int ItemType = 0;
+    int Quantity = 1;
 };
 

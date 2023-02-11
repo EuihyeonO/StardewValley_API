@@ -26,8 +26,17 @@ public:
     {
         return CropList;
     }
-    void CreateCrops(std::string _CropName);
+   
+    static void DeathCrops(Crops* _Crop); 
 
+    static Level_Farm* GetFarmManager()
+    {
+        return FarmManager;
+    }
+
+    void CreateCrops(std::string _CropName);
+    
+    void CreateItemToFarmInventory();
 
 protected:
     void Loading() override;
@@ -36,8 +45,12 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
+
+    static Level_Farm* FarmManager;
     static std::vector<Crops*> CropList;    
-    Player* FarmPlayer = nullptr;
+
     Inventory* FarmInventory = nullptr;
+    Player* FarmPlayer = nullptr;
+    
 };
 

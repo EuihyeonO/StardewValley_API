@@ -92,16 +92,10 @@ void Player::Move(float _DeltaTime)
     float4 NextCameraPos = GetLevel()->GetCameraPos();
     float4 MoveDir = { 0,0 };
     
-    GameEngineImage* ColMap = nullptr;
+    std::string MapName = GetLevel()->GetName() + "C";
 
-    if (GetOwner()->GetName() == "Farm")
-    {
-        ColMap = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
-    }
-    else if (GetOwner()->GetName() == "House")
-    {
-        ColMap = GameEngineResources::GetInst().ImageFind("HouseC.bmp");
-    }
+    GameEngineImage* ColMap = nullptr;
+    ColMap = GameEngineResources::GetInst().ImageFind(MapName + ".bmp");
 
     //아래쪽 기반 이동
     if (true == GameEngineInput::IsPress("DMove"))
@@ -253,18 +247,31 @@ void Player::InteractToCrops()
         return;
     }
 
-    ColWatering->SetPosition(SetToolPos());
+    ColTool->SetPosition(SetToolPos());
 
     if (CurTool->IsUpdate() == true)
     {
         std::vector<GameEngineCollision*> Collisions;
-        if (true == ColWatering->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+        if (true == ColTool->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
         {
             for (size_t i = 0; i < Collisions.size(); i++)
             {
-                GameEngineActor* ColActor = Collisions[i]->GetActor();
-                dynamic_cast<Crops*>(ColActor)->GrowUp();
-                dynamic_cast<Crops*>(ColActor)->CollisionOff();
+                Crops* ColActor = dynamic_cast<Crops*>(Collisions[i]->GetActor());
+               
+                if (ColActor->GetLife() > 0)
+                {
+                    ColActor->GrowUp();
+                }
+                else if (ColActor->GetLife() <= 0)
+                {
+                    PlayerRender->ChangeAnimation(Dir + "Idle");
+                    ColActor->Death();
+                    Level_Farm::DeathCrops(ColActor);
+                    //Inventory::GetInventory()->CreateItem(ColActor->GetName());
+                    globalValue::CreateItemToAllInventory(ColActor->GetName());
+                }
+
+                ColActor->CollisionOff();
             }
         }
     }

@@ -37,12 +37,21 @@ public:
         GlobalInventory->ItemList.push_back(_item);
     }
 
+    void InsertToMyInventory(Item* _item)
+    {
+        ItemList.push_back(_item);
+    }
+   
+    static void InsertItem(std::string_view _Name);
+
     static size_t GetNumOfItem()
     {
         return GlobalInventory->ItemList.size();
     }
 
-    static void CreateItem(std::string_view _Name);
+    int IsExistInInventory(std::string_view& _Name);
+
+    void CreateItem(std::string_view _Name);
     static Item* GetLastItem();
 
     static std::string GetSelectedItemName();
@@ -53,6 +62,8 @@ public:
     {
         GlobalInventory = _Inventory;
     }
+
+    static void CopyItemList(Inventory* _Inventory);
 
     void AllItemOn();
     void AllItemOff();
@@ -73,6 +84,7 @@ protected:
 
 private:
     static Inventory* GlobalInventory;
+    
     std::vector<Item*> ItemList;
 
     Item* SelectedItem = nullptr;

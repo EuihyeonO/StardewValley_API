@@ -9,6 +9,8 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 
+Inventory* Level_House::HouseInventory = nullptr;
+
 Level_House::Level_House()
 {
 }
@@ -26,8 +28,9 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::SetcameraLimitPos(float4{ 1280, 768 } - GameEngineWindow::GetScreenSize());
 
     Player::SetMyPlayer(HousePlayer);
-    Inventory::SetGlobalInventory(HouseInventory);
     Player::GetPlayer()->SetPos({ 475, 600 });
+
+    Inventory::CopyItemList(HouseInventory);
 
     if (Player::GetIsCollision() == true)
     {
@@ -49,6 +52,7 @@ void Level_House::Loading()
     }
 
     CreateActor<House>();
+
     HousePlayer = CreateActor<Player>();
     HouseInventory = CreateActor<Inventory>();
 

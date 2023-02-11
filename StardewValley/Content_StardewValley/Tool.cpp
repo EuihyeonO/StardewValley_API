@@ -54,18 +54,8 @@ void Player::InitTool()
     Tool.insert({ "Watering", Watering });
 
     //Dir이 R인지 L인지에 따라 다르게 만들어야함
-    ColPick = CreateCollision(ActorType::Tool);
-    ColPick->SetScale({ 64,64 });   
-
-    ColAxe = CreateCollision(ActorType::Tool);
-    ColAxe->SetScale({ 64,64 });
-
-    ColHoe = CreateCollision(ActorType::Tool);
-    ColHoe->SetScale({ 64,64 });
-
-    ColWatering = CreateCollision(ActorType::Tool);
-    ColWatering->SetScale({ 64,64 });
-
+    ColTool = CreateCollision(ActorType::Tool);
+    ColTool->SetScale({ 64,64 });
 
     CurTool = Tool["Pick"];
 
@@ -95,11 +85,9 @@ float4 Player::SetToolPos()
 
 void Player::ToolPosUpdate()
 {
-    ColPick->SetPosition(SetToolPos());
-    ColAxe->SetPosition(SetToolPos());
-    ColHoe->SetPosition(SetToolPos());
-    ColWatering->SetPosition(SetToolPos());
+    ColTool->SetPosition(SetToolPos());
 }
+
 bool Player::IsSameCurTool(std::string _ToolName)
 {
     if (MyPlayer->CurTool == MyPlayer->Tool[_ToolName])

@@ -43,5 +43,6 @@ private:
 	static ContentsCore Core;
     static std::string NextMap;
     
+    int isSet = 0;
 };
 

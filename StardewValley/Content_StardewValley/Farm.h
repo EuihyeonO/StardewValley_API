@@ -22,8 +22,8 @@ protected:
     void Render(float _Time) override;
 private:
 
-    GameEngineCollision* PortalToVillage;
-    GameEngineCollision* PortalToHouse;  
+    GameEngineCollision* PortalToVillage = nullptr;
+    GameEngineCollision* PortalToHouse = nullptr;  
 
     bool isDebug = false;
       

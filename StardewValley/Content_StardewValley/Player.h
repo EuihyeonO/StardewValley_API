@@ -89,10 +89,8 @@ private:
     GameEngineRender* Hoe = nullptr;
     GameEngineRender* Watering = nullptr;
 
-    GameEngineCollision* ColPick = nullptr;
-    GameEngineCollision* ColAxe = nullptr;
-    GameEngineCollision* ColHoe = nullptr;
-    GameEngineCollision* ColWatering = nullptr;
+    GameEngineCollision* ColTool = nullptr;
+
 
     std::map<std::string, GameEngineRender*> Tool; 
 

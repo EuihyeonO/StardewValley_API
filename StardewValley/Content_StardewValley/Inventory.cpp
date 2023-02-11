@@ -5,6 +5,10 @@
 #include "Inventory.h"
 #include "Player.h"
 #include "UI.h"
+#include "Level_Farm.h"
+#include "Level_House.h"
+#include "Level_Village.h"
+#include "globalValue.h"
 
 Inventory* Inventory::GlobalInventory = nullptr;
 
@@ -13,28 +17,16 @@ Inventory* Inventory::GlobalInventory = nullptr;
 Inventory::Inventory()
 {
     GlobalInventory = this;
+    globalValue::AddItemListToList(this);
 }
 
 Inventory::~Inventory()
 {
-    //아이템 메모리 해제
-    for (int i = 0; i < ItemList.size(); i++)
-    {
-        if (ItemList[i] != nullptr)
-        {
-           delete ItemList[i];
-        }
-    }
 }
 
 void Inventory::Start()
 {
     InitInventory();
-
-    CreateItem("PickIcon.bmp");
-    CreateItem("WateringIcon.bmp");
-    CreateItem("AxeIcon.bmp");
-    CreateItem("HoeIcon.bmp");
 }
 
 void Inventory::Update(float _DeltaTime)
@@ -123,17 +115,27 @@ Item* Inventory::GetLastItem()
 
 void Inventory::CreateItem(std::string_view _Name)
 {
-    Item* NewItem = new Item(_Name);
-    NewItem->SetItemRender(GlobalInventory->CreateRender(_Name, 2));
-    GlobalInventory->ItemList.push_back(NewItem);
+    int ItemIndex = IsExistInInventory(_Name);
 
-    if (GlobalInventory->SelectedItem == nullptr)
+    if (-1 != ItemIndex)
     {
-        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0]; 
-        GlobalInventory->SetItemPos();
-        GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+        ItemList[ItemIndex]->PlusQuntity();
+        return;
+    }
+    //getlevel->createactor로 하자.
+    //static으로 level의 inventory를 선언 후에 다시 설정해보자 
+
+    ItemList.push_back(GetLevel()->CreateActor<Item>());
+    ItemList[ItemList.size() - 1]->ItemInit(_Name);
+
+    if (SelectedItem == nullptr)
+    {
+        SelectedItem = ItemList[0];
+        SetItemPos();
+        SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
     }
 }
+
 
 void Inventory::CameraPosUpdate()
 {
@@ -150,13 +152,19 @@ void Inventory::QuickSlotUpdate()
 
 void Inventory::SetItemPos()
 {
+
+    HDC hdc = GameEngineWindow::GetWindowBackBufferHdc();
+
+    // 핸들  X좌표 Y좌표 문자열 문자열길이
+    std::string Quantity;
+
     if(QuickSlotRender->IsUpdate() == false)
     {
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
             if (ItemOrder < 10)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });
+                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });            
             }
             else if (ItemOrder < 20)
             {
@@ -165,23 +173,48 @@ void Inventory::SetItemPos()
             else if (ItemOrder < 30)
             {
                 GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+            }  
+
+            //아이템 개수출력
+            if (GlobalInventory->ItemList[ItemOrder]->GetQuantity() > 1)
+            {
+                Quantity = std::to_string(GlobalInventory->ItemList[ItemOrder]->GetQuantity());
+                float4 ItemPos = GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+
+                TextOut(hdc, ItemPos.ix() + 13, ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
             }
         }
     }   
 
     else if (QuickSlotRender->IsUpdate() == true)
     {
+        size_t ant = GetNumOfItem();
+
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
             if (ItemOrder >= 10)
             {
                 return;
             }
+
             GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 723.0f });
+
+            //아이템 개수출력
+            if (GlobalInventory->ItemList[ItemOrder]->GetQuantity() > 1)
+            {
+                Quantity = std::to_string(GlobalInventory->ItemList[ItemOrder]->GetQuantity());
+                float4 ItemPos = GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+
+                TextOut(hdc, ItemPos.ix() + 13 , ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
+            }
         }
     }
 
-    GlobalInventory->SelectedLine->SetPosition(GetSelectedItem()->GetItemRenderPos());
+    if(ItemList.size()>=1)
+    {
+        SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
+    }
+
 }
 
 std::string Inventory::GetSelectedItemName()
@@ -190,6 +223,7 @@ std::string Inventory::GetSelectedItemName()
     {
         return GlobalInventory->SelectedItem->GetItemName();
     }
+
     else
     {
         return "";
@@ -220,4 +254,25 @@ void Inventory::ChangeSelectedItem()
         GlobalInventory->SelectedItem = GlobalInventory->ItemList[GlobalInventory->SelecetedItemIndex + 1 ];
         ++(GlobalInventory->SelecetedItemIndex);
     }
+}
+
+/*이미 있는 아이템이라면 인덱스를 반환, 없다면 -1을 반환*/
+int Inventory::IsExistInInventory(std::string_view& _Name)
+{
+    size_t size = ItemList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        if (_Name == ItemList[i]->GetItemName())
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void Inventory::CopyItemList(Inventory* _Inventory)
+{      
+    GlobalInventory = _Inventory;
 }

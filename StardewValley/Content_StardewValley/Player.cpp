@@ -9,6 +9,7 @@
 #include "Inventory.h"
 #include "Crops.h"
 #include "Level_Farm.h"
+#include "globalValue.h"
 
 
 Player* Player::MyPlayer = nullptr;
@@ -27,7 +28,8 @@ void Player::Start()
     InitPlayer();
     InitTool();
     CreatePlayerKey();
-    CreateAllAnimation();      
+    CreateAllAnimation();  
+   
 }
 
 void Player::Update(float _DeltaTime)
@@ -62,10 +64,10 @@ void Player::Render(float _Time)
         HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
         Rectangle(DoubleDC,
-            ColPick->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
-            ColPick->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
-            ColPick->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
-            ColPick->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
+            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
+            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
+            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
+            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
 
         Rectangle(DoubleDC,
             ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
