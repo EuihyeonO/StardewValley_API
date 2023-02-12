@@ -29,17 +29,17 @@ void Player::Start()
     InitTool();
     CreatePlayerKey();
     CreateAllAnimation();  
-   
 }
 
 void Player::Update(float _DeltaTime)
-{ 
-    ActingUpdate(_DeltaTime);
-    
-    InteractToCrops();  
-
+{
+    CurToolTypeUpdate();
     ToolChange();
     ToolPosUpdate();
+
+    ActingUpdate(_DeltaTime);   
+    InteractToCrops();  
+    Harvesting();
 
     dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
 }
@@ -71,11 +71,9 @@ void Player::Render(float _Time)
 
         Rectangle(DoubleDC,
             ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 64,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 32,
             ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 32,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 64  );
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 32  );
     }
 
-
-    
 }

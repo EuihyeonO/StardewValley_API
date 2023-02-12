@@ -17,11 +17,6 @@ public:
 	Level_House& operator=(const Level_House& _Other) = delete;
 	Level_House& operator=(Level_House&& _Other) noexcept = delete;
 
-    static void InsertItemToHouse(Item* _item)
-    {
-        HouseInventory->InsertToMyInventory(_item);
-    }
-
     static Inventory* HouseInventory; 
 protected:
     void Loading() override;

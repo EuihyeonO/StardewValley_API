@@ -37,6 +37,7 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::SetcameraLimitPos(float4{ 2560 , 1024 } - GameEngineWindow::GetScreenSize());
     Player::SetMyPlayer(FarmPlayer);
     Inventory::CopyItemList(FarmInventory);
+    globalValue::AllInventoryItemOn();
     Player::ChangePlayerIdle();
 }
 
@@ -77,6 +78,7 @@ void Level_Farm::Loading()
         GameEngineImage* Parsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Parsnip.BMP"));
         Parsnip->Cut(6, 1);
         GameEngineImage* ParsnipT = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ParsnipT.BMP"));
+        GameEngineImage* ParsnipSeed = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ParsnipSeed.BMP"));
     }
     //도구
     {
@@ -129,13 +131,15 @@ void Level_Farm::Loading()
         UWatering->Cut(3, 1);
 
         GameEngineImage* WateringIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WateringIcon.BMP"));
+
+        GameEngineImage* Default = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Default.BMP"));
     }
 
     //액터생성  
+    FarmPlayer = CreateActor<Player>(ActorType::Player);
     CreateActor<Farm>();
     CreateActor<UI>();
 
-    FarmPlayer = CreateActor<Player>(ActorType::Player);
     FarmInventory = CreateActor<Inventory>();
 
 

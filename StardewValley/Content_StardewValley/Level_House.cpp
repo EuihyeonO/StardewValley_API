@@ -31,6 +31,7 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
     Player::GetPlayer()->SetPos({ 475, 600 });
 
     Inventory::CopyItemList(HouseInventory);
+    globalValue::AllInventoryItemOn();
 
     if (Player::GetIsCollision() == true)
     {

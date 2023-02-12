@@ -34,6 +34,11 @@ void Player::CreateAllAnimation()
     std::vector<float> DWateringFrame(4);
     DWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f};
 
+    std::vector<int> DHarvesting(5);
+    DHarvesting = { 54, 55, 56, 57, 57 };
+    std::vector<float> DHarvestingFrame(5);
+    DHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+
     //오른쪽 기반 움직임
     std::vector<int> RIdle(1);
     RIdle = { 6 };
@@ -52,6 +57,11 @@ void Player::CreateAllAnimation()
     std::vector<float> RWateringFrame(4);
     RWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
 
+    std::vector<int> RHarvesting(5);
+    RHarvesting = { 58, 59, 60, 61, 61 };
+    std::vector<float> RHarvestingFrame(5);
+    RHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+
     //위쪽 기반 움직임
     std::vector<int> UIdle(1);
     UIdle = { 12 };
@@ -69,6 +79,12 @@ void Player::CreateAllAnimation()
     UWatering = { 62, 63, 46, 46 };
     std::vector<float> UWateringFrame(4);
     UWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
+
+    std::vector<int> UHarvesting(5);
+    UHarvesting = { 62, 63, 64, 65, 65 };
+    std::vector<float> UHarvestingFrame(5);
+    UHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+
     //왼쪽 기반 움직임
     std::vector<int> LIdle(1);
     LIdle = { 11 };
@@ -87,25 +103,34 @@ void Player::CreateAllAnimation()
     std::vector<float> LWateringFrame(4);
     LWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
 
+    std::vector<int> LHarvesting(5);
+    LHarvesting = { 55, 54, 65, 64, 64 };
+    std::vector<float> LHarvestingFrame(5);
+    LHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+
     CreatePlayerAnimation("DIdle", DIdle, { 1.0f });
     CreatePlayerAnimation("DMove", DMove, DMoveFrame);
     CreatePlayerAnimation("DHeavyTool", DHeavyTool, DHeavyToolFrame);
     CreatePlayerAnimation("DWatering", DWatering, DWateringFrame);
+    CreatePlayerAnimation("DHarvesting", DHarvesting, DHarvestingFrame);
 
     CreatePlayerAnimation("RIdle", RIdle, { 1.0f });
     CreatePlayerAnimation("RMove", RMove, RMoveFrame);
     CreatePlayerAnimation("RHeavyTool", RHeavyTool, RHeavyToolFrame);
     CreatePlayerAnimation("RWatering", RWatering, RWateringFrame);
+    CreatePlayerAnimation("RHarvesting", RHarvesting, RHarvestingFrame);
 
     CreatePlayerAnimation("UIdle", UIdle, { 1.0f });
     CreatePlayerAnimation("UMove", UMove, UMoveFrame);
     CreatePlayerAnimation("UHeavyTool", UHeavyTool, UHeavyToolFrame);
     CreatePlayerAnimation("UWatering", UWatering, UWateringFrame);
+    CreatePlayerAnimation("UHarvesting", UHarvesting, UHarvestingFrame);
 
     CreatePlayerAnimation("LIdle", LIdle, { 1.0f }, Act::Left);
     CreatePlayerAnimation("LMove", LMove, LMoveFrame, Act::Left);
     CreatePlayerAnimation("LHeavyTool", LHeavyTool, LHeavyToolFrame, Act::Left);
-    CreatePlayerAnimation("LWatering", LWatering, LWateringFrame, Act::Left);
+    CreatePlayerAnimation("LWatering", LWatering, LWateringFrame, Act::Left); 
+    CreatePlayerAnimation("LHarvesting", LHarvesting, LHarvestingFrame, Act::Left);
 
     CreateToolAnimation();
     //최초 애니메이션 설정

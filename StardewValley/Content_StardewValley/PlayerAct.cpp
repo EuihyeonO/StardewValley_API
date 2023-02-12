@@ -24,8 +24,8 @@ void Player::InitPlayer()
     PlayerRender->SetScale({ 64, 128 });
 
     ColBody = CreateCollision(ActorType::Player);
-    ColBody->SetScale({ 64,128 });
-    ColBody->SetPosition({ 0,0 });
+    ColBody->SetScale({ 64,64 });
+    ColBody->SetPosition({ 0,32 });
 }
 
 
@@ -53,10 +53,10 @@ void Player::SetDir()
 void Player::ActingUpdate(float _DeltaTime)
 {
 
-    if(isInteract() == true)
+    if (isInteract() == true)
     {
         return;
-    }   
+    }
 
     int Act = GetKeyInput();
 
@@ -69,13 +69,13 @@ void Player::ActingUpdate(float _DeltaTime)
         Move(_DeltaTime);
         break;
     case Act::Interact:
-        Interact(_DeltaTime);
+        Interact();
         break;
     case Act::Menu:
         Inventory::GetInventory()->OpenInventory();
         break;
     case Act::ChangeItem:
-        Inventory::ChangeSelectedItem();
+        globalValue::ChangeAllSelectedItem();
         break;
     }
 }
@@ -190,8 +190,8 @@ void Player::Move(float _DeltaTime)
     SetDir();
 }
 
-void Player::Interact(float _DeltaTime)
-{
+void Player::Interact()
+{   
 
 
     if (Dir[0] == 'R' || Dir[0] == 'L')
@@ -201,17 +201,22 @@ void Player::Interact(float _DeltaTime)
     else if (Dir[0] == 'D' || Dir[0] == 'U')
     {
         CurTool->SetScale({ 64, 250 });
-    }
+    }   
 
     CurTool->On();
 
-    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"])
+    if (CurTool == Tool["Default"])
+    {
+        return;
+    }
+
+    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"] )
     {
         CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "HeavyTool");
         ChangePlayerAnimation(Dir + "HeavyTool");
     }
-    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
+    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"] )
     {
         CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "Watering");  
@@ -231,6 +236,7 @@ bool Player::isInteract()
     if (PlayerRender->IsAnimationEnd() == true)
     {
         CurTool->Off();
+        isHarvesting = false;
         return false;
     }
 
@@ -241,12 +247,6 @@ bool Player::isInteract()
 
 void Player::InteractToCrops()
 {
-
-    if (CurTool != Tool["Watering"])
-    {
-        return;
-    }
-
     ColTool->SetPosition(SetToolPos());
 
     if (CurTool->IsUpdate() == true)
@@ -258,20 +258,22 @@ void Player::InteractToCrops()
             {
                 Crops* ColActor = dynamic_cast<Crops*>(Collisions[i]->GetActor());
                
-                if (ColActor->GetLife() > 0)
+                if (ColActor->GetLife() > 0 && CurTool == Tool["Watering"])
                 {
                     ColActor->GrowUp();
                 }
+
                 else if (ColActor->GetLife() <= 0)
                 {
-                    PlayerRender->ChangeAnimation(Dir + "Idle");
+                    SetIsHarvesting();
                     ColActor->Death();
                     Level_Farm::DeathCrops(ColActor);
-                    //Inventory::GetInventory()->CreateItem(ColActor->GetName());
-                    globalValue::CreateItemToAllInventory(ColActor->GetName());
+
+                    globalValue::CreateItemToAllInventory(ColActor->GetName(), static_cast<int>(ItemType::Crops));
                 }
 
                 ColActor->CollisionOff();
+
             }
         }
     }
@@ -290,4 +292,33 @@ void Player::InteractToCrops()
 void Player::ChangePlayerIdle()
 {
     MyPlayer->ChangePlayerAnimation(MyPlayer->Dir + "Idle");
+}
+
+
+bool Player::isCollisionCrops()
+{
+    std::vector<GameEngineCollision*> Collisions;
+
+    if (true == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+    {
+        if (Collisions.size() >= 1)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Player::Harvesting()
+{
+    if (isHarvesting == true)
+    {
+        CurTool->On();
+        CurTool->SetScale({ 0,0 });
+
+        ChangePlayerAnimation(Dir + "Harvesting");
+
+        return;
+    }
 }

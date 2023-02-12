@@ -7,7 +7,7 @@
 
 Crops::Crops()
 {
-    SetPos(Player::GetPlayer()->GetPos());  
+    SetPos(Player::GetPlayer()->GetPos() + float4{0, 100});
 }
 
 Crops::~Crops()
@@ -49,7 +49,6 @@ void Crops::Update(float _DeltaTime)
         isSetting = true;
     }
 
-
 }
 
 void Crops::Render(float _Time)
@@ -69,7 +68,7 @@ void Crops::GrowUp()
 
 void Crops::SetCrops()
 {
-    Image = CreateRender(CropName + ".bmp", 5);
+    Image = CreateRender(CropName + ".bmp", 2);
     Image->SetScale({ 64,64 });
     CollisionImage = CreateCollision(ActorType::Crops);
     CollisionImage->SetScale({ 64,64 });

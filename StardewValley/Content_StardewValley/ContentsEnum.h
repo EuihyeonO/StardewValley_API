@@ -18,3 +18,13 @@ enum class ActorType
     Tool,
     Portal,
 };
+
+enum class ItemType
+{
+    Crops,
+    Pick,
+    Hoe,
+    Watering,
+    Axe,
+    Seed,
+};

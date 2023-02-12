@@ -12,12 +12,32 @@ globalValue::~globalValue()
 
 }
 
-void globalValue::CreateItemToAllInventory(std::string_view _Name)
+void globalValue::CreateItemToAllInventory(std::string_view _Name, int _ItemType)
 {
     size_t size = InventoryList.size();
 
     for (int i = 0; i < size; i++)
     {
-        InventoryList[i]->CreateItem(_Name);
+        InventoryList[i]->CreateItem(_Name, _ItemType);
+    }
+}
+
+void globalValue::ChangeAllSelectedItem()
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->ChangeSelectedItem();
+    }
+}
+
+void  globalValue::AllInventoryItemOn()
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->AllItemOn();
     }
 }

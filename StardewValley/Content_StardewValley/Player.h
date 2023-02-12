@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
@@ -38,6 +39,22 @@ public:
    
     void ChangePlayerAnimation(std::string_view _Act);
 
+    bool isPlayerAnimationEnd()
+    {
+        return PlayerRender->IsAnimationEnd();
+    }
+
+    int GetPlayerAnimationFrame()
+    {
+        return PlayerRender->GetFrame();
+    }
+
+    std::string GetDir()
+    {
+        return Dir;
+    }
+
+    bool isCollisionCrops();
     bool isInteract();
 
     static void SetIsCollision(bool _isCollision)
@@ -61,7 +78,12 @@ public:
 
     void Move(float _DeltaTime);
     void Idle();
-    void Interact(float _DeltaTime);
+    void Interact();
+
+    void SetIsHarvesting()
+    {
+        isHarvesting = true;
+    }
 
     void InteractToCrops();
 
@@ -69,7 +91,10 @@ public:
     void ToolPosUpdate();
     float4 SetToolPos();
 
+    void Harvesting();
+
     void ActingUpdate(float _DeltaTime);
+    void CurToolTypeUpdate();
 
 protected:
 
@@ -78,7 +103,8 @@ protected:
 
 private:
     float MoveSpeed = 300.0f;
-
+    int CurToolType = -1;
+ 
     GameEngineRender* PlayerRender = nullptr;
     GameEngineRender* CurTool = nullptr;
 
@@ -88,14 +114,16 @@ private:
     GameEngineRender* Axe = nullptr;
     GameEngineRender* Hoe = nullptr;
     GameEngineRender* Watering = nullptr;
+    GameEngineRender* Default = nullptr;
 
     GameEngineCollision* ColTool = nullptr;
 
+    std::map<std::string, GameEngineRender*> Tool;
 
-    std::map<std::string, GameEngineRender*> Tool; 
 
     bool isDebug = false;
     bool isCollision = false;
+    bool isHarvesting = false;
 
     static Player* MyPlayer;
 

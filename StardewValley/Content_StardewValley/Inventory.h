@@ -32,17 +32,11 @@ public:
         return GlobalInventory->InventoryRender;
     }
 
-    static void InsertItem(Item* _item)
-    {
-        GlobalInventory->ItemList.push_back(_item);
-    }
-
     void InsertToMyInventory(Item* _item)
     {
         ItemList.push_back(_item);
     }
    
-    static void InsertItem(std::string_view _Name);
 
     static size_t GetNumOfItem()
     {
@@ -51,12 +45,14 @@ public:
 
     int IsExistInInventory(std::string_view& _Name);
 
-    void CreateItem(std::string_view _Name);
+    void CreateItem(std::string_view _Name, int ItemType);
+
     static Item* GetLastItem();
 
     static std::string GetSelectedItemName();
     static Item* GetSelectedItem();
-    static void ChangeSelectedItem();
+    void ChangeSelectedItem();
+
 
     static void SetGlobalInventory(Inventory* _Inventory)
     {

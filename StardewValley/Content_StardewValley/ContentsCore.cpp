@@ -6,6 +6,7 @@
 #include "Level_Village.h"
 #include "Level_House.h"
 #include "globalValue.h"
+#include "ContentsEnum.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 
 
@@ -51,10 +52,11 @@ void ContentsCore::Update()
     {
         ChangeLevel("House");
 
-        globalValue::CreateItemToAllInventory("PickIcon.bmp");
-        globalValue::CreateItemToAllInventory("AxeIcon.bmp");
-        globalValue::CreateItemToAllInventory("HoeIcon.bmp");
-        globalValue::CreateItemToAllInventory("WateringIcon.bmp");
+        globalValue::CreateItemToAllInventory("PickIcon.bmp", static_cast<int>(ItemType::Pick));
+        globalValue::CreateItemToAllInventory("AxeIcon.bmp", static_cast<int>(ItemType::Axe));
+        globalValue::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
+        globalValue::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
+        globalValue::CreateItemToAllInventory("ParsnipSeed.bmp", static_cast<int>(ItemType::Seed));
 
         isSet = 2;
     }

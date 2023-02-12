@@ -9,6 +9,7 @@
 #include "Level_House.h"
 #include "Level_Village.h"
 #include "globalValue.h"
+#include "ContentsEnum.h"
 
 Inventory* Inventory::GlobalInventory = nullptr;
 
@@ -113,20 +114,24 @@ Item* Inventory::GetLastItem()
     return GlobalInventory->ItemList[Num - 1];
 }
 
-void Inventory::CreateItem(std::string_view _Name)
+void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 {
     int ItemIndex = IsExistInInventory(_Name);
 
     if (-1 != ItemIndex)
     {
         ItemList[ItemIndex]->PlusQuntity();
+
+        if (ItemList[ItemIndex]->GetItemType() == static_cast<int>(ItemType::Crops))
+        {
+            ItemList[ItemIndex]->SetItemisHarvesting();
+        }
+
         return;
     }
-    //getlevel->createactor로 하자.
-    //static으로 level의 inventory를 선언 후에 다시 설정해보자 
 
     ItemList.push_back(GetLevel()->CreateActor<Item>());
-    ItemList[ItemList.size() - 1]->ItemInit(_Name);
+    ItemList[ItemList.size() - 1]->ItemInit(_Name, _ItemType);
 
     if (SelectedItem == nullptr)
     {
@@ -162,24 +167,29 @@ void Inventory::SetItemPos()
     {
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
+            if (ItemList[ItemOrder]->GetIsHarvesting() == true)
+            {
+                return;
+            }
+
             if (ItemOrder < 10)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });            
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });            
             }
             else if (ItemOrder < 20)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
             }
             else if (ItemOrder < 30)
             {
-                GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
             }  
 
             //아이템 개수출력
-            if (GlobalInventory->ItemList[ItemOrder]->GetQuantity() > 1)
+            if (ItemList[ItemOrder]->GetQuantity() > 1)
             {
-                Quantity = std::to_string(GlobalInventory->ItemList[ItemOrder]->GetQuantity());
-                float4 ItemPos = GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+                Quantity = std::to_string(ItemList[ItemOrder]->GetQuantity());
+                float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
 
                 TextOut(hdc, ItemPos.ix() + 13, ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
             }
@@ -197,13 +207,18 @@ void Inventory::SetItemPos()
                 return;
             }
 
-            GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 723.0f });
+            if (ItemList[ItemOrder]->GetIsHarvesting() == true)
+            {
+                return;
+            }
+
+            ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 723.0f });
 
             //아이템 개수출력
-            if (GlobalInventory->ItemList[ItemOrder]->GetQuantity() > 1)
+            if (ItemList[ItemOrder]->GetQuantity() > 1)
             {
-                Quantity = std::to_string(GlobalInventory->ItemList[ItemOrder]->GetQuantity());
-                float4 ItemPos = GlobalInventory->ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+                Quantity = std::to_string(ItemList[ItemOrder]->GetQuantity());
+                float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
 
                 TextOut(hdc, ItemPos.ix() + 13 , ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
             }
@@ -244,15 +259,15 @@ Item* Inventory::GetSelectedItem()
 
 void Inventory::ChangeSelectedItem()
 {
-    if (GlobalInventory->SelecetedItemIndex + 1 == GlobalInventory->ItemList.size())
+    if (SelecetedItemIndex + 1 == ItemList.size())
     {
-        GlobalInventory->SelectedItem = GlobalInventory->ItemList[0];
-        GlobalInventory->SelecetedItemIndex = 0;
+        SelectedItem = ItemList[0];
+        SelecetedItemIndex = 0;
     }
-    else if (GlobalInventory->SelecetedItemIndex + 1 < GlobalInventory->ItemList.size())
+    else if (SelecetedItemIndex + 1 < ItemList.size())
     {
-        GlobalInventory->SelectedItem = GlobalInventory->ItemList[GlobalInventory->SelecetedItemIndex + 1 ];
-        ++(GlobalInventory->SelecetedItemIndex);
+        SelectedItem = ItemList[SelecetedItemIndex + 1 ];
+        ++(SelecetedItemIndex);
     }
 }
 

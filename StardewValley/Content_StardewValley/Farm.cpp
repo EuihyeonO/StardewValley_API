@@ -34,7 +34,7 @@ void Farm::Start()
 
     PortalToHouse = CreateCollision(ActorType::Portal);
     PortalToHouse->SetScale({ 50, 50 });
-    PortalToHouse->SetPosition({ 365, -210 });
+    PortalToHouse->SetPosition({ 365, -150 });
 
 
     Farm->SetScaleToImage();

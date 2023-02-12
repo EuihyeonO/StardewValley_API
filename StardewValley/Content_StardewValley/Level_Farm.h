@@ -34,9 +34,7 @@ public:
         return FarmManager;
     }
 
-    void CreateCrops(std::string _CropName);
-    
-    void CreateItemToFarmInventory();
+    void CreateCrops(std::string _CropName);    
 
 protected:
     void Loading() override;

@@ -22,21 +22,25 @@ void Player::ToolChange()
 
     std::string Name = Inventory::GetSelectedItemName();
 
-    if (Inventory::GetSelectedItemName() == "AxeIcon.bmp")
+    if (CurToolType == static_cast<int>(ItemType::Axe))
     {
         CurTool = Tool["Axe"];
     }
-    else if (Inventory::GetSelectedItemName() == "HoeIcon.bmp")
+    else if (CurToolType == static_cast<int>(ItemType::Hoe))
     {
         CurTool = Tool["Hoe"];
     }
-    else if (Inventory::GetSelectedItemName() == "PickIcon.bmp")
+    else if (CurToolType == static_cast<int>(ItemType::Pick))
     {
         CurTool = Tool["Pick"];
     }
-    else if (Inventory::GetSelectedItemName() == "WateringIcon.bmp")
+    else if (CurToolType == static_cast<int>(ItemType::Watering))
     {
         CurTool = Tool["Watering"];
+    }
+    else
+    {
+        CurTool = Tool["Default"];
     }
 }
 
@@ -48,10 +52,14 @@ void Player::InitTool()
     Hoe = CreateRender(2);
     Watering = CreateRender(2);
 
+    Default = CreateRender("Default.bmp", 2);
+    Default->Off();
+
     Tool.insert({ "Pick", Pick });
     Tool.insert({ "Axe", Axe });
-    Tool.insert({ "Hoe", Hoe });
+    Tool.insert({ "Hoe",  Hoe });
     Tool.insert({ "Watering", Watering });
+    Tool.insert({ "Default", Default });
 
     //Dir이 R인지 L인지에 따라 다르게 만들어야함
     ColTool = CreateCollision(ActorType::Tool);
@@ -97,5 +105,13 @@ bool Player::IsSameCurTool(std::string _ToolName)
     else
     {
         return false;
+    }
+}
+
+void Player::CurToolTypeUpdate()
+{
+    if (Inventory::GetSelectedItem() != nullptr)
+    {
+        CurToolType = Inventory::GetSelectedItem()->GetItemType();
     }
 }

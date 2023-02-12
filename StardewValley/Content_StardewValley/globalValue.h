@@ -29,7 +29,9 @@ public:
         return InventoryList;
     }
 
-    static void CreateItemToAllInventory(std::string_view _Name);
+    static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
+    static void ChangeAllSelectedItem();
+    static void AllInventoryItemOn();
 
     globalValue();
 	~globalValue();
