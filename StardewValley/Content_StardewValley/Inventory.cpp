@@ -174,15 +174,15 @@ void Inventory::SetItemPos()
 
             if (ItemOrder < 10)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 172.0f });            
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder) * 64, 172.0f });            
             }
             else if (ItemOrder < 20)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
             }
             else if (ItemOrder < 30)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
             }  
 
             //아이템 개수출력
@@ -212,7 +212,7 @@ void Inventory::SetItemPos()
                 return;
             }
 
-            ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 353.0f + (ItemOrder) * 64, 723.0f });
+            ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder) * 64, 723.0f });
 
             //아이템 개수출력
             if (ItemList[ItemOrder]->GetQuantity() > 1)
