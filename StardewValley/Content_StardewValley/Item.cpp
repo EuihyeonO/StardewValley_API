@@ -19,9 +19,10 @@ Item::~Item()
 void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
 {
     Itemtype = _ItemType;
-    ItemOrder = Inventory::GetInventory()->GetNumOfItem();
     ItemName = _ItemName;
-    
+
+    QuantityText = CreateRender(200); 
+
     SetItemRender(_ItemName);
 
     if (Itemtype == static_cast<int>(ItemType::Crops))
@@ -39,7 +40,7 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
 
 void Item::SetItemRender(std::string_view& _ItemName)
 {
-    RenderImage = CreateRender(_ItemName, 2);
+    RenderImage = CreateRender(_ItemName, 201);
     RenderImage->SetScale({ 45, 45 });
 }
 
@@ -83,8 +84,10 @@ void Item::Update(float _DeltaTime)
         isHarvesting = false;
 
         RenderImage->SetScale({ 45, 45 });
-        RenderImage->SetOrder(2);       
+        RenderImage->SetOrder(150);       
     }
+
+    UpdateQuantity();
 }
 
 void Item::Render(float _Time)
@@ -107,5 +110,31 @@ void Item::SetItemisHarvesting()
     {
         RenderImage->SetPosition(Player::GetPlayer()->GetPos() + float4{ 0, -50 });
         RenderImage->SetScale({ 64, 64 });
+    }
+}
+
+void Item::UpdateQuantity()
+{
+    if (Itemtype == static_cast<int>(ItemType::Axe) ||
+        Itemtype == static_cast<int>(ItemType::Watering) ||
+        Itemtype == static_cast<int>(ItemType::Hoe) ||
+        Itemtype == static_cast<int>(ItemType::Pick))
+    {
+        QuantityText->Off();
+    }
+
+    QuantityText->SetText(std::to_string(Quantity));
+    QuantityText->SetPosition(RenderImage->GetPosition() + float4(20,10));
+}
+
+int Item::GetSeedFloor()
+{
+    if (ItemName == "SeedParsnip.bmp")
+    {
+        return SeedName::Parsnip;
+    }
+    else
+    {
+        return -1;
     }
 }

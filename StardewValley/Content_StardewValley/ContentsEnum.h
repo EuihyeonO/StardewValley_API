@@ -28,3 +28,19 @@ enum class ItemType
     Axe,
     Seed,
 };
+
+enum class RenderOrder
+{
+    Map,
+    Player,
+    Tool,
+    Tile, 
+    Layer,
+};
+
+
+enum SeedName
+{
+    Parsnip = 1,
+
+};

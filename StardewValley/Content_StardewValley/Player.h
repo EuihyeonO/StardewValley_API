@@ -53,6 +53,7 @@ public:
     {
         return Dir;
     }
+    const float4 GetDirPos();
 
     bool isCollisionCrops();
     bool isInteract();
@@ -79,6 +80,7 @@ public:
     void Move(float _DeltaTime);
     void Idle();
     void Interact();
+    void OpenInventory();
 
     void SetIsHarvesting()
     {
@@ -86,6 +88,8 @@ public:
     }
 
     void InteractToCrops();
+    void InteractToTile();
+    const float4 GetInteractPos();
 
     void ToolChange();
     void ToolPosUpdate();
@@ -128,5 +132,6 @@ private:
     static Player* MyPlayer;
 
     std::string Dir = "D";
+
 };
 

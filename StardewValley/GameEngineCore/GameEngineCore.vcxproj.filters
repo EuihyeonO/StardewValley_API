@@ -29,6 +29,9 @@
     <ClInclude Include="NumberRenderObject.h">
       <Filter>Object\BasicContents\SubClass</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTileMap.h">
+      <Filter>Object\BasicContents\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="NumberRenderObject.cpp">
       <Filter>Object\BasicContents\SubClass</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTileMap.cpp">
+      <Filter>Object\BasicContents\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

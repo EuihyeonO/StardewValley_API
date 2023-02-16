@@ -2,7 +2,10 @@
 #include "Item.h"
 #include "Inventory.h"
 #include <GameEngineBase/GameEngineMath.h>
+
 #include <vector>
+#include <string>
+#include <string_view>
 
 class globalValue
 {
@@ -32,6 +35,16 @@ public:
     static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
     static void ChangeAllSelectedItem();
     static void AllInventoryItemOn();
+    static void AllInventoryDelete();
+
+    static void SetCurLevelName(std::string_view _name)
+    {
+        CurLevelName = _name;
+    }
+
+    static Item* GetSelectedItem();
+    static std::string GetSelectedItemName();
+    static bool isUpdate_CurLevelInventory(const std::string_view& _Name);
 
     globalValue();
 	~globalValue();
@@ -46,4 +59,5 @@ protected:
 private:
     static std::vector<Inventory*> InventoryList;
     static float4 cameraLimitPos;
+    static std::string_view CurLevelName;
 };

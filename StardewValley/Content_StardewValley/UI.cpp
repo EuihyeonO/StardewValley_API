@@ -25,8 +25,11 @@ void UI::Start()
 
     CameraPos = GetLevel()->GetCameraPos();
 
-    TimeBar = CreateRender("TimeBar.BMP", 2);
-    StatusBar = CreateRender("StatusBar.BMP", 2);
+    TimeBar = CreateRender("TimeBar.BMP", 200);
+    TimeBar->SetScaleToImage();
+
+    StatusBar = CreateRender("StatusBar.BMP", 200);
+    StatusBar->SetScaleToImage();
 }
 
 void UI::Update(float _DeltaTime)
@@ -38,30 +41,9 @@ void UI::Update(float _DeltaTime)
 
     //화면 우측상단 시간표시창
     TimeBar->SetPosition({ CameraPos.x + Screensize.x - 108.0f , CameraPos.y + 85.0f });
-    TimeBar->SetScaleToImage();
 
     //화면 우측하단 체력바
-    StatusBar->SetPosition({ CameraPos.x + Screensize.x - 36.5f, CameraPos.y + Screensize.y - 87.5f });
-    StatusBar->SetScaleToImage();
-    
-    //우측 상단에 시간 표시
-    {
-        HDC hdc = GameEngineWindow::GetWindowBackBufferHdc();
-        EndTime = clock();
-
-        size_t mytime = EndTime - StartTime;
-        if (mytime >= 1000)
-        {
-            GlobalTime += 1;
-            StartTime = clock();
-        }
-
-        time = std::to_string(GlobalTime) + "초";
-
-        // 핸들  X좌표 Y좌표 문자열 문자열길이
-        TextOut(hdc, 1150, 20, time.c_str(), time.size());
-        SetBkMode(hdc, TRANSPARENT);
-    }
+    StatusBar->SetPosition({ CameraPos.x + Screensize.x - 36.5f, CameraPos.y + Screensize.y - 87.5f });        
 }
 
 void UI::Render(float _Time)

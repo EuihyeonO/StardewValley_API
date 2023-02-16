@@ -7,7 +7,6 @@
 #include "UI.h"
 #include "Level_Farm.h"
 #include "Level_House.h"
-#include "Level_Village.h"
 #include "globalValue.h"
 #include "ContentsEnum.h"
 
@@ -32,6 +31,8 @@ void Inventory::Start()
 
 void Inventory::Update(float _DeltaTime)
 {
+    CameraPosUpdate();
+    ItemUpdate();
     QuickSlotUpdate();
     SetItemPos();
 }
@@ -86,17 +87,17 @@ void Inventory::InitInventory()
     CameraPos = GetLevel()->GetCameraPos();
     float4 Screensize = GameEngineWindow::GetScreenSize();
 
-    InventoryRender = CreateRender("Inventory.bmp", 2);
+    InventoryRender = CreateRender("Inventory.bmp", 150);
 
     InventoryRender->SetPosition(CameraPos+(GameEngineWindow::GetScreenSize().half()));
     InventoryRender->SetScaleToImage();
     InventoryRender->Off();
 
-    QuickSlotRender = CreateRender("QuickSlot.bmp", 2);
+    QuickSlotRender = CreateRender("QuickSlot.bmp", 150);
     QuickSlotRender->SetScaleToImage();
     QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
 
-    SelectedLine = CreateRender("SelectedLine.BMP", 2);
+    SelectedLine = CreateRender("SelectedLine.BMP", 150);
     SelectedLine->SetScaleToImage();
 
     ItemList.reserve(30);
@@ -149,10 +150,9 @@ void Inventory::CameraPosUpdate()
 
 void Inventory::QuickSlotUpdate()
 {
-    CameraPosUpdate();
     float4 Screensize = GameEngineWindow::GetScreenSize();
 
-    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });   
+    QuickSlotRender->SetPosition(CameraPos + float4((Screensize.x / 2) , Screensize.y - 45.0f));
 }
 
 void Inventory::SetItemPos()
@@ -207,6 +207,11 @@ void Inventory::SetItemPos()
                 return;
             }
 
+            /*if (ItemOrder >= ItemList.size())
+            {
+                return;
+            }*/
+
             if (ItemList[ItemOrder]->GetIsHarvesting() == true)
             {
                 return;
@@ -232,24 +237,12 @@ void Inventory::SetItemPos()
 
 }
 
-std::string Inventory::GetSelectedItemName()
-{
-    if (GlobalInventory->SelectedItem != nullptr)
-    {
-        return GlobalInventory->SelectedItem->GetItemName();
-    }
-
-    else
-    {
-        return "";
-    }
-}
 
 Item* Inventory::GetSelectedItem()
 {
-    if (GlobalInventory->SelectedItem != nullptr)
+    if (SelectedItem != nullptr)
     {
-        return GlobalInventory->SelectedItem;
+        return SelectedItem;
     }
     else
     {
@@ -290,4 +283,31 @@ int Inventory::IsExistInInventory(std::string_view& _Name)
 void Inventory::CopyItemList(Inventory* _Inventory)
 {      
     GlobalInventory = _Inventory;
+}
+
+void Inventory::ItemUpdate()
+{
+    size_t size = ItemList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        if (0 >= ItemList[i]->GetQuantity())
+        {
+            ChangeSelectedItem();
+            ItemList[i]->Death();
+            ItemList.erase(ItemList.begin() + i);
+        }
+    }
+}
+
+std::string Inventory::GetSelectedItemName()
+{
+    if (SelectedItem != nullptr)
+    {
+        return SelectedItem->GetItemName();
+    }
+    else
+    {
+        return "";
+    }
 }

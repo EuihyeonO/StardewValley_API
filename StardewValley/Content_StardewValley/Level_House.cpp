@@ -13,6 +13,7 @@ Inventory* Level_House::HouseInventory = nullptr;
 
 Level_House::Level_House()
 {
+    HouseInventory = CreateActor<Inventory>();
 }
 
 Level_House::~Level_House()
@@ -29,6 +30,13 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
     Player::SetMyPlayer(HousePlayer);
     Player::GetPlayer()->SetPos({ 475, 600 });
+
+    if (_PrevLevel!=nullptr &&_PrevLevel->GetName() == "Farm")
+    {
+        Player::GetPlayer()->SetPos({ 490, 600 });
+    }
+
+    globalValue::SetCurLevelName(GetName());
 
     Inventory::CopyItemList(HouseInventory);
     globalValue::AllInventoryItemOn();
@@ -48,14 +56,18 @@ void Level_House::Loading()
     Dir.Move("Image");
 
     {
+
+        Dir.Move("Map");
+
         GameEngineImage* House = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("House.BMP"));
         GameEngineImage* HouseC = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HouseC.BMP"));
+
+        Dir.MoveParent();
     }
 
     CreateActor<House>();
 
-    HousePlayer = CreateActor<Player>();
-    HouseInventory = CreateActor<Inventory>();
+    HousePlayer = CreateActor<Player>();   
 
     Player::GetPlayer()->SetPos({ 475, 600 });
     SetCameraPos({ 0,0 });

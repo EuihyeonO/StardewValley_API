@@ -3,7 +3,7 @@
 #include "ContentsCore.h"
 #include "Level_Title.h"
 #include "Level_Farm.h"
-#include "Level_Village.h"
+#include "Level_Road.h"
 #include "Level_House.h"
 #include "globalValue.h"
 #include "ContentsEnum.h"
@@ -34,7 +34,7 @@ void ContentsCore::Start()
 
     CreateLevel<Level_Title>("Title");
 	CreateLevel<Level_Farm>("Farm");
-	CreateLevel<Level_Village>("Village");
+	CreateLevel<Level_Road>("Road");
 	CreateLevel<Level_House>("House");
 
 	ChangeLevel("House");
@@ -42,23 +42,20 @@ void ContentsCore::Start()
 
 void ContentsCore::Update()
 {
-    //기초설정 (필요한 로드를 다 해놓고 시작)
+
     if (isSet == 0)
     {
-        ChangeLevel("Farm");
-        isSet = 1;
-    }
-    else if (isSet == 1)
-    {
-        ChangeLevel("House");
-
         globalValue::CreateItemToAllInventory("PickIcon.bmp", static_cast<int>(ItemType::Pick));
         globalValue::CreateItemToAllInventory("AxeIcon.bmp", static_cast<int>(ItemType::Axe));
         globalValue::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
         globalValue::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
-        globalValue::CreateItemToAllInventory("ParsnipSeed.bmp", static_cast<int>(ItemType::Seed));
 
-        isSet = 2;
+        for (int i = 0; i < 1; i++)
+        {
+            globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
+        }
+
+        isSet = 1;
     }
 
     MapChange();
@@ -78,6 +75,11 @@ void ContentsCore::MapChange()
     if (NextMap == "Farm")
     {
         ChangeLevel("Farm");
+    }
+
+    if (NextMap == "Road")
+    {
+        ChangeLevel("Road");
     }
 
     NextMap = "Default";

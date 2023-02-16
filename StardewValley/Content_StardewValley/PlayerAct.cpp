@@ -7,12 +7,14 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineCore/GameEngineTileMap.h>
 
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Farm.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
+#include "Level_Road.h"
 #include "Level_House.h"
 #include "globalValue.h"
 #include "Crops.h"
@@ -20,7 +22,7 @@
 
 void Player::InitPlayer()
 {
-    PlayerRender = CreateRender(2);
+    PlayerRender = CreateRender(50);
     PlayerRender->SetScale({ 64, 128 });
 
     ColBody = CreateCollision(ActorType::Player);
@@ -72,7 +74,7 @@ void Player::ActingUpdate(float _DeltaTime)
         Interact();
         break;
     case Act::Menu:
-        Inventory::GetInventory()->OpenInventory();
+        OpenInventory();
         break;
     case Act::ChangeItem:
         globalValue::ChangeAllSelectedItem();
@@ -83,6 +85,22 @@ void Player::ActingUpdate(float _DeltaTime)
 void Player::Idle()
 {
     ChangePlayerAnimation(Dir + "Idle");
+}
+
+void Player::OpenInventory()
+{
+    if (GetLevel()->GetName() == "Farm")
+    {
+        dynamic_cast<Level_Farm*>(GetLevel())->FarmInventory->OpenInventory();
+    }
+    else if (GetLevel()->GetName() == "House")
+    {
+        dynamic_cast<Level_House*>(GetLevel())->HouseInventory->OpenInventory();
+    }
+    else if (GetLevel()->GetName() == "Road")
+    {
+        dynamic_cast<Level_Road*>(GetLevel())->RoadInventory->OpenInventory();
+    }
 }
 
 
@@ -205,6 +223,8 @@ void Player::Interact()
 
     CurTool->On();
 
+    InteractToTile();
+
     if (CurTool == Tool["Default"])
     {
         return;
@@ -222,13 +242,13 @@ void Player::Interact()
         CurTool->ChangeAnimation(Dir + "Watering");  
 
         ChangePlayerAnimation(Dir + "Watering");
-    }
+    }   
 }
 
 
 bool Player::isInteract()
 {
-    if (CurTool->IsUpdate() == false)
+    if (CurTool == Tool["Default"] || CurTool->IsUpdate() == false)
     {
         return false;
     }
@@ -320,5 +340,93 @@ void Player::Harvesting()
         ChangePlayerAnimation(Dir + "Harvesting");
 
         return;
+    }
+}
+
+const float4 Player::GetDirPos()
+{
+    if (Dir == "R")
+    {
+        return float4::Right;
+    }
+    else if (Dir == "L")
+    {
+        return float4::Left;
+    }
+    else if (Dir == "U")
+    {
+        return float4::Up;
+    }
+    else if (Dir == "D")
+    {
+        return float4::Down;
+    }
+
+    else
+    {
+        return { 0,0 };
+    }
+}
+
+void Player::InteractToTile()
+{
+    if (GetLevel()->GetName() != "Farm")
+    {
+        return;
+    }
+
+    int TileFrame = Level_Farm::GetTileMap()->GetTileFrame(0, GetInteractPos());
+
+    if (TileFrame == -1)
+    {
+        if (CurTool == Tool["Hoe"])
+        {
+            Level_Farm::GetTileMap()->SetTileFrame(0, GetInteractPos(), 0);
+        }
+    }
+
+    else if (TileFrame == 0)
+    {
+        if (CurTool == Tool["Watering"])
+        {
+            Level_Farm::GetTileMap()->SetTileFrame(0, GetInteractPos(), 1);
+        }
+    }
+
+    else if (TileFrame == 1 && Level_Farm::GetTileMap()->GetTile(1, GetInteractPos())->IsUpdate() == false)
+    {
+        if (globalValue::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
+        {
+            int Floor = globalValue::GetSelectedItem()->GetSeedFloor();
+
+            //들고 있는 아이템은 앞에 Seed가 붙어있고, 심어질 아이템은 앞에 Seed가 없으므로 이름에서 Seed를 제거하는 과정이 필요
+            std::string Name = globalValue::GetSelectedItem()->GetItemName();
+            size_t NameSize = Name.size();
+            Name = Name.substr(4, NameSize - 4);
+
+            globalValue::AllInventoryDelete();
+
+            Level_Farm::GetTileMap()->SetTileFrame(Floor, GetInteractPos(), 0);
+        }
+    }
+}
+
+const float4 Player::GetInteractPos()
+{
+    if (Dir == "D")
+    {
+        return GetPos() + GetDirPos() * float4(0, 80) ;
+    }
+    else if (Dir == "R" || Dir == "L")
+    {
+        return GetPos() + GetDirPos() * float4(64, 0) + float4(0, 32);
+    }
+    else if(Dir == "U")
+    {
+        return GetPos() + GetDirPos() * float4(64, 0);
+    }
+    else
+    {
+        return GetPos();
     }
 }

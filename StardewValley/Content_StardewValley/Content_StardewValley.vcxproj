@@ -44,11 +44,15 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Level_Village.h">
+    <ClInclude Include="Level_Road.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Road.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -99,7 +103,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Level_Village.cpp">
+    <ClCompile Include="Level_Road.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -108,6 +112,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="Road.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Title.cpp">
       <SubType>
       </SubType>

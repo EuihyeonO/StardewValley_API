@@ -35,18 +35,16 @@ void House::Update(float _DeltaTime)
 
 void House::Render(float _Time) 
 {
-    if (true == GameEngineInput::IsPress("Debug"))
+
+    if (GameEngineInput::IsDown("Debug"))
     {
-        if (GameEngineInput::IsDown("Debug"))
+        if (isDebug == false)
         {
-            if (isDebug == false)
-            {
-                isDebug = true;
-            }
-            else
-            {
-                isDebug = false;
-            }
+            isDebug = true;
+        }
+        else
+        {
+            isDebug = false;
         }
     }
 

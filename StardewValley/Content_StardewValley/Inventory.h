@@ -27,9 +27,9 @@ public:
         return GlobalInventory;
     }
 
-    static GameEngineRender* GetInventoryRender()
+    GameEngineRender* GetInventoryRender()
     {
-        return GlobalInventory->InventoryRender;
+        return InventoryRender;
     }
 
     void InsertToMyInventory(Item* _item)
@@ -38,19 +38,22 @@ public:
     }
    
 
-    static size_t GetNumOfItem()
+    size_t GetNumOfItem()
     {
-        return GlobalInventory->ItemList.size();
+        return ItemList.size();
     }
 
     int IsExistInInventory(std::string_view& _Name);
 
+    void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
 
     static Item* GetLastItem();
 
-    static std::string GetSelectedItemName();
-    static Item* GetSelectedItem();
+    std::string GetSelectedItemName();
+
+    Item* GetSelectedItem();
+
     void ChangeSelectedItem();
 
 

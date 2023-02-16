@@ -18,6 +18,7 @@ public:
 	Level_House& operator=(Level_House&& _Other) noexcept = delete;
 
     static Inventory* HouseInventory; 
+
 protected:
     void Loading() override;
     void Update(float _DeltaTime) override;

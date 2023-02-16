@@ -26,7 +26,7 @@ void Farm::Start()
     SetPos({ 1280,512 });
 
     GameEngineRender* Farm = CreateRender("Farm.bmp", 0);
-    GameEngineRender* FarmLayer = CreateRender("FarmLayer.bmp", 2);
+    GameEngineRender* FarmLayer = CreateRender("FarmLayer.bmp", 100);
 
     PortalToVillage = CreateCollision(ActorType::Portal);
     PortalToVillage->SetScale({ 50, 200 });
@@ -98,7 +98,7 @@ std::string Farm::isCollision_PortalToPlayer()
         {
             for (size_t i = 0; i < Collisions.size(); i++)
             {
-                return "Village";
+                return "Road";
             }
         }
     }

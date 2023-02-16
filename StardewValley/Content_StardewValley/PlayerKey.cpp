@@ -12,6 +12,7 @@
 #include "Farm.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
+#include "globalValue.h"
 
 
 void Player::CreatePlayerKey()
@@ -44,7 +45,7 @@ void Player::CreatePlayerKey()
 
 int Player::GetKeyInput()
 {
-    if (Inventory::GetInventoryRender()->IsUpdate() == true)
+    if (globalValue::isUpdate_CurLevelInventory(GetLevel()->GetName()) == true)
     {
 
         if (true == GameEngineInput::IsDown("Menu"))

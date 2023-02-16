@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineTileMap.h>
 
 #include "Level_Farm.h"
 #include "Farm.h"
@@ -16,12 +17,14 @@
 #include "Crops.h"
 #include "globalValue.h"
 
+
 std::vector<Crops*> Level_Farm::CropList;
-Level_Farm* Level_Farm::FarmManager = nullptr;
+GameEngineTileMap* Level_Farm::TileMap;
+Inventory* Level_Farm::FarmInventory;
 
 Level_Farm::Level_Farm()
 {  
-    FarmManager = this;
+    FarmInventory = CreateActor<Inventory>();
 }
 
 Level_Farm::~Level_Farm()
@@ -35,10 +38,23 @@ void Level_Farm::LevelChangeEnd(GameEngineLevel* _NextLevel)
 void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
     globalValue::SetcameraLimitPos(float4{ 2560 , 1024 } - GameEngineWindow::GetScreenSize());
+
     Player::SetMyPlayer(FarmPlayer);
-    Inventory::CopyItemList(FarmInventory);
     globalValue::AllInventoryItemOn();
     Player::ChangePlayerIdle();
+
+    globalValue::SetCurLevelName(GetName());
+
+    if (_PrevLevel->GetName() == "Road")
+    {
+        FarmPlayer->SetPos({ 2490, 512 });
+    }
+    else if (_PrevLevel->GetName() == "House")
+    {
+        FarmPlayer->SetPos({ 1645, 442 });
+        SetCameraPos({ FarmPlayer->GetPos().x - 640, FarmPlayer->GetPos().y - 384});
+    }
+
 }
 
 void Level_Farm::Loading()
@@ -49,20 +65,23 @@ void Level_Farm::Loading()
     Dir.Move("ContentsResources");
     Dir.Move("Image");
 
+    //
+    {
+        GameEngineImage* HoeDirt = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoeDirt.BMP"));
+        HoeDirt->Cut(2, 1);
+    }
     //농장 맵
     {
+        Dir.Move("Map");
+
         GameEngineImage* Farm = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Farm.BMP"));
         GameEngineImage* FarmLayer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FarmLayer.BMP"));
         GameEngineImage* FarmC = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FarmC.BMP"));
+
+        Dir.MoveParent();
     }
     //인터페이스
-    {
-        GameEngineImage* Quickslot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Quickslot.BMP"));
-        GameEngineImage* TimeBar = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TimeBar.BMP"));
-        GameEngineImage* StatusBar = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("StatusBar.BMP"));
 
-        GameEngineImage* Inventory = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Inventory.BMP"));       
-    }
     //플레이어
     {
         GameEngineImage* Player = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Player.BMP"));
@@ -77,15 +96,15 @@ void Level_Farm::Loading()
         
         GameEngineImage* Parsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Parsnip.BMP"));
         Parsnip->Cut(6, 1);
-        GameEngineImage* ParsnipT = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ParsnipT.BMP"));
-        GameEngineImage* ParsnipSeed = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ParsnipSeed.BMP"));
+        GameEngineImage* IconParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconParsnip.BMP"));
+        GameEngineImage* SeedParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedParsnip.BMP"));
+
+        Dir.MoveParent();
     }
     //도구
     {
-        Dir.MoveParent();
-        Dir.Move("Tools");
-
-        GameEngineImage* SelectedLine = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SelectedLine.BMP"));
+       
+        Dir.Move("Tools");      
 
         GameEngineImage* Pick = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Pick.BMP"));
         Pick->Cut(6, 1);
@@ -133,18 +152,27 @@ void Level_Farm::Loading()
         GameEngineImage* WateringIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WateringIcon.BMP"));
 
         GameEngineImage* Default = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Default.BMP"));
+
+        Dir.MoveParent();
     }
 
     //액터생성  
+    TileMap = CreateActor<GameEngineTileMap>();
     FarmPlayer = CreateActor<Player>(ActorType::Player);
+
     CreateActor<Farm>();
     CreateActor<UI>();
 
-    FarmInventory = CreateActor<Inventory>();
+    //FarmInventory = CreateActor<Inventory>();
 
+
+    TileMap->CreateTileMap(2560/64, 1024/64, 10, 0, float4{ 64, 64 });
+    TileMap->SetFloorSetting(0, "HoeDirt.bmp");  
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
+
+    InitTile();
 }
 
 void Level_Farm::Update(float _DeltaTime)
@@ -153,11 +181,24 @@ void Level_Farm::Update(float _DeltaTime)
 
 void Level_Farm::CreateCrops(std::string _CropName)
 {
-    //Crop 클래스에 static 으로 CropList를 멤버변수로 선언 후, Actor 단계에서 관리하도록 하자
+
     if (GameEngineInput::IsDown("MakeCrop"))
     {
-        CropList.push_back(CreateActor<Crops>());
-        CropList[CropList.size() - 1]->SetName(_CropName);
+        //테스트 코드
+        float4 Pos = FarmPlayer->GetInteractPos();
+        if (TileMap->GetTile(0, Pos)->GetFrame() == 1 && TileMap->GetTile(1, Pos)->IsUpdate() == true)
+        {
+            TileMap->SetTileFrame(0, Pos, 0);
+
+            int frame = TileMap->GetTile(1, Pos)->GetFrame();
+
+            if (frame >= 5)
+            {
+                return;
+            }
+
+            TileMap->SetTileFrame(1, Pos, frame + 1);       
+        }
     }
 }
 
@@ -171,4 +212,13 @@ void Level_Farm::DeathCrops(Crops* _Crop)
             return;
         }
     }
+}
+
+void Level_Farm::InitTile()
+{
+
+    Level_Farm::GetTileMap()->SetFloorSetting(SeedName::Parsnip, "Parsnip.bmp");
+    Level_Farm::GetTileMap()->AllTileMove(SeedName::Parsnip, float4(0, -16));
+
+    TileFloorIndex.insert({SeedName::Parsnip, 5 });
 }

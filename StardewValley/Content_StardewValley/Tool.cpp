@@ -12,6 +12,7 @@
 #include "Farm.h"
 #include "Inventory.h"
 #include "Level_Farm.h"
+#include "globalValue.h"
 
 void Player::ToolChange()
 {
@@ -19,8 +20,6 @@ void Player::ToolChange()
     {
         MsgAssert("CurTool이 설정되지 않았는데 변경하려 했습니다.");
     }
-
-    std::string Name = Inventory::GetSelectedItemName();
 
     if (CurToolType == static_cast<int>(ItemType::Axe))
     {
@@ -47,10 +46,10 @@ void Player::ToolChange()
 
 void Player::InitTool()
 {
-    Pick = CreateRender(2);
-    Axe = CreateRender(2);
-    Hoe = CreateRender(2);
-    Watering = CreateRender(2);
+    Pick = CreateRender(50);
+    Axe = CreateRender(50);
+    Hoe = CreateRender(50);
+    Watering = CreateRender(50);
 
     Default = CreateRender("Default.bmp", 2);
     Default->Off();
@@ -110,8 +109,8 @@ bool Player::IsSameCurTool(std::string _ToolName)
 
 void Player::CurToolTypeUpdate()
 {
-    if (Inventory::GetSelectedItem() != nullptr)
+    if (globalValue::GetSelectedItem() != nullptr)
     {
-        CurToolType = Inventory::GetSelectedItem()->GetItemType();
+        CurToolType = globalValue::GetSelectedItem()->GetItemType();
     }
 }

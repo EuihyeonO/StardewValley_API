@@ -3,11 +3,14 @@
 #include "Inventory.h"
 
 #include <vector>
+#include <map>
 
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+
 class Crops;
+class GameEngineTileMap;
 class Level_Farm : public GameEngineLevel
 {
 
@@ -26,15 +29,23 @@ public:
     {
         return CropList;
     }
-   
-    static void DeathCrops(Crops* _Crop); 
 
-    static Level_Farm* GetFarmManager()
+    static GameEngineTileMap* GetTileMap()
     {
-        return FarmManager;
+        return TileMap;
     }
 
+    Inventory* GetFarmInventory()
+    {
+        return FarmInventory;
+    }
+
+    static void DeathCrops(Crops* _Crop); 
+
     void CreateCrops(std::string _CropName);    
+    void InitTile();
+
+    static Inventory* FarmInventory;
 
 protected:
     void Loading() override;
@@ -44,11 +55,13 @@ protected:
 
 private:
 
-    static Level_Farm* FarmManager;
-    static std::vector<Crops*> CropList;    
+    static std::vector<Crops*> CropList;   
 
-    Inventory* FarmInventory = nullptr;
+    static GameEngineTileMap* TileMap;
+    std::map<int, int> TileFloorIndex;
+
     Player* FarmPlayer = nullptr;
+
     
 };
 

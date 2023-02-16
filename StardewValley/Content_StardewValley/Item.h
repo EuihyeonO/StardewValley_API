@@ -31,6 +31,11 @@ public:
         ++Quantity;
     }
 
+    void MinusQuntity()
+    {
+        --Quantity;
+    }
+
     int GetQuantity()
     {
         return Quantity;
@@ -41,7 +46,7 @@ public:
         return Itemtype;
     }
 
-    void SelectedLineRender();
+    int GetSeedFloor();
 
     GameEngineRender* GetRenderImage()
     {
@@ -60,6 +65,8 @@ public:
 	Item& operator=(const Item& _Other) = delete;
 	Item& operator=(Item&& _Other) noexcept = delete;
 
+    void UpdateQuantity();
+
 protected:
     void Start() override;
     void Update(float _DeltaTime) override;
@@ -67,10 +74,10 @@ protected:
 private:
     GameEngineRender* RenderImage =  nullptr;
     GameEngineRender* SelectedLine =  nullptr;
-    
+    GameEngineRender* QuantityText = nullptr;
     
     std::string ItemName;    
-    size_t ItemOrder = 0;
+
    
     int Itemtype = 0;
     int Quantity = 1;
