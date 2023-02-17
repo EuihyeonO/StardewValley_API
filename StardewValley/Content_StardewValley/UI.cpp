@@ -7,12 +7,14 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 
 #include "UI.h"
+#include "globalValue.h"
 
 UI* UI::GlobalUI = nullptr;
 
 UI::UI()
 {
     GlobalUI = this;
+    globalValue::AddUIToList(this);
 }
 
 UI::~UI()

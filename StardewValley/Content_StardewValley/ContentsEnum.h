@@ -17,6 +17,7 @@ enum class ActorType
     Crops,
     Tool,
     Portal,
+    NPC,
 };
 
 enum class ItemType

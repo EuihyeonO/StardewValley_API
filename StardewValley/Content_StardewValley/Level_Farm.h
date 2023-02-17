@@ -8,7 +8,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
-
+class UI;
 class Crops;
 class GameEngineTileMap;
 class Level_Farm : public GameEngineLevel
@@ -35,6 +35,11 @@ public:
         return TileMap;
     }
 
+    static UI* getFarmUI()
+    {
+        return FarmUI;
+    }
+
     Inventory* GetFarmInventory()
     {
         return FarmInventory;
@@ -46,6 +51,7 @@ public:
     void InitTile();
 
     static Inventory* FarmInventory;
+    static UI* FarmUI;
 
 protected:
     void Loading() override;
@@ -58,10 +64,10 @@ private:
     static std::vector<Crops*> CropList;   
 
     static GameEngineTileMap* TileMap;
+
     std::map<int, int> TileFloorIndex;
 
     Player* FarmPlayer = nullptr;
-
     
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEnginePlatform/ThirdParty/FMOD/inc/fmod.hpp>
+#include <GameEnginePlatform/ThirdParty/FMod/inc/fmod.hpp>
 #include <string_view>
 
 // Ό³Έν :

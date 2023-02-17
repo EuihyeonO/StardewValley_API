@@ -1,8 +1,11 @@
 #include <string>
+#include <vector>
 
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEngineBase/GameEngineFile.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineTileMap.h>
@@ -21,10 +24,12 @@
 std::vector<Crops*> Level_Farm::CropList;
 GameEngineTileMap* Level_Farm::TileMap;
 Inventory* Level_Farm::FarmInventory;
+UI* Level_Farm::FarmUI;
 
 Level_Farm::Level_Farm()
 {  
     FarmInventory = CreateActor<Inventory>();
+    FarmUI = CreateActor<UI>();
 }
 
 Level_Farm::~Level_Farm()
@@ -156,12 +161,15 @@ void Level_Farm::Loading()
         Dir.MoveParent();
     }
 
+    {       
+    }
+
     //액터생성  
     TileMap = CreateActor<GameEngineTileMap>();
     FarmPlayer = CreateActor<Player>(ActorType::Player);
 
     CreateActor<Farm>();
-    CreateActor<UI>();
+   
 
     //FarmInventory = CreateActor<Inventory>();
 
@@ -222,3 +230,4 @@ void Level_Farm::InitTile()
 
     TileFloorIndex.insert({SeedName::Parsnip, 5 });
 }
+

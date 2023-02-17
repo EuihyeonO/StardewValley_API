@@ -47,6 +47,9 @@
     <ClInclude Include="Road.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="Pierre.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -107,6 +110,9 @@
     <ClCompile Include="Road.cpp">
       <Filter>Actor\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Pierre.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -132,6 +138,9 @@
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{f5dbd0c5-4cda-4495-a1ba-491101ddfa7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\NPC">
+      <UniqueIdentifier>{db2796f5-7e0d-4351-9350-4bca2a96370d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

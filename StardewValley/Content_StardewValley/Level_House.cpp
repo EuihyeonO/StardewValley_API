@@ -2,6 +2,7 @@
 #include "House.h"
 #include "Player.h"
 #include "Inventory.h"
+#include "UI.h"
 #include "globalValue.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -10,10 +11,12 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 
 Inventory* Level_House::HouseInventory = nullptr;
+UI* Level_House::HouseUI = nullptr;
 
 Level_House::Level_House()
 {
     HouseInventory = CreateActor<Inventory>();
+    HouseUI = CreateActor<UI>();
 }
 
 Level_House::~Level_House()

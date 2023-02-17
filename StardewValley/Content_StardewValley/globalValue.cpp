@@ -2,10 +2,12 @@
 #include "Level_Farm.h"
 #include "Level_House.h"
 #include "Level_Road.h"
+#include "UI.h"
 
 float4 globalValue::cameraLimitPos = {0,0};
 std::vector<Inventory*> globalValue::InventoryList;
 std::string_view globalValue::CurLevelName;
+std::vector<UI*> globalValue::UIList;
 
 globalValue::globalValue()
 {
@@ -93,5 +95,45 @@ bool globalValue::isUpdate_CurLevelInventory(const std::string_view& _Name)
     else if (_Name == "Road")
     {
         return Level_Road::RoadInventory->GetInventoryRender()->IsUpdate();
+    }
+    else
+    {
+        false;
+    }
+}
+
+void globalValue::OpenInventory(const std::string_view& _Name)
+{
+    if (_Name == "Farm")
+    {
+        Level_Farm::FarmInventory->OpenInventory();
+    }
+    else if (_Name == "House")
+    {
+        Level_House::HouseInventory->OpenInventory();
+    }
+    else if (_Name == "Road")
+    {
+        Level_Road::RoadInventory->OpenInventory();
+    }
+    else
+    {
+        false;
+    }
+}
+
+void globalValue::UI_OnOff(const std::string_view& _Name)
+{
+    if (_Name == "Farm")
+    {
+        Level_Farm::FarmUI->UI_ONOFF();
+    }
+    else if (_Name == "House")
+    {
+        Level_House::HouseUI->UI_ONOFF();
+    }
+    else if (_Name == "Road")
+    {
+        Level_Road::RoadUI->UI_ONOFF();
     }
 }

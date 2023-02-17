@@ -89,18 +89,8 @@ void Player::Idle()
 
 void Player::OpenInventory()
 {
-    if (GetLevel()->GetName() == "Farm")
-    {
-        dynamic_cast<Level_Farm*>(GetLevel())->FarmInventory->OpenInventory();
-    }
-    else if (GetLevel()->GetName() == "House")
-    {
-        dynamic_cast<Level_House*>(GetLevel())->HouseInventory->OpenInventory();
-    }
-    else if (GetLevel()->GetName() == "Road")
-    {
-        dynamic_cast<Level_Road*>(GetLevel())->RoadInventory->OpenInventory();
-    }
+    globalValue::OpenInventory(GetLevel()->GetName());
+    globalValue::UI_OnOff(GetLevel()->GetName());
 }
 
 
@@ -112,7 +102,6 @@ void Player::Move(float _DeltaTime)
     
     std::string MapName = GetLevel()->GetName() + "C";
 
-    GameEngineImage* ColMap = nullptr;
     ColMap = GameEngineResources::GetInst().ImageFind(MapName + ".bmp");
 
     //아래쪽 기반 이동
@@ -371,6 +360,11 @@ const float4 Player::GetDirPos()
 void Player::InteractToTile()
 {
     if (GetLevel()->GetName() != "Farm")
+    {
+        return;
+    }
+
+    if (nullptr != ColMap && RGB(255, 0, 255) != ColMap->GetPixelColor(GetInteractPos(), RGB(255, 0, 255)))
     {
         return;
     }

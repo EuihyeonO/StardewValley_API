@@ -42,6 +42,7 @@ void Player::Update(float _DeltaTime)
     Harvesting();
 
     dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
+
 }
 
 void Player::Render(float _Time)

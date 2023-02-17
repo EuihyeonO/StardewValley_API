@@ -8,6 +8,7 @@
 class GameEngineCollision;
 class Inventory;
 class Player;
+class UI;
 class Level_Road : public GameEngineLevel
 {
 
@@ -21,6 +22,8 @@ public:
 	Level_Road(Level_Road&& _Other) noexcept = delete;
 	Level_Road& operator=(const Level_Road& _Other) = delete;
 	Level_Road& operator=(Level_Road&& _Other) noexcept = delete;
+
+    static UI* RoadUI;
 
 protected:
     void Loading() override;

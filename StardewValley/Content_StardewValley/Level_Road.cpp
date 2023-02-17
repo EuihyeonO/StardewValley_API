@@ -18,12 +18,15 @@
 #include "ContentsEnum.h"
 #include "Crops.h"
 #include "globalValue.h"
+#include "Pierre.h"
 
 Inventory* Level_Road::RoadInventory;
+UI* Level_Road::RoadUI;
 
 Level_Road::Level_Road()
 {
     RoadInventory = CreateActor<Inventory>();
+    RoadUI = CreateActor<UI>();
 }
 
 Level_Road::~Level_Road()
@@ -63,14 +66,26 @@ void Level_Road::Loading()
 
     {
         Dir.Move("NPC");
-        GameEngineImage* Pierre = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Pierre.BMP"));
+        GameEngineImage* PierreRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Pierre.BMP"));
         Dir.MoveParent();
     }
 
+    {
+        Dir.Move("UI");
+        GameEngineImage* Shop = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Shop.BMP"));
+        Dir.MoveParent();
+    }
+
+    {
+        GameEngineImage* parsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("parsnipitem.BMP"));
+
+    }
     CreateActor<Road>();
+
     RoadPlayer = CreateActor<Player>();
-    RoadPlayer->SetPos({ 100, 1280 });  
-    CreateActor<UI>();
+    RoadPlayer->SetPos({ 80, 1280 });     
+
+    CreateActor<Pierre>();
 }
 
 void Level_Road::Update(float _DeltaTime)

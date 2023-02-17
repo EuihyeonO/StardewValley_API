@@ -3,8 +3,14 @@
 #include <filesystem>
 
 // 설명 : 경로에 관련된 기능을 대표하는 클래스
+//class GameEngineFile;
+//class GameEngineDirectory;
 class GameEnginePath
 {
+    // 전방선언을 그냥 필요
+    friend class GameEngineFile;
+    friend class GameEngineDirectory;
+
 public:
     // constrcuter destructer
     GameEnginePath();

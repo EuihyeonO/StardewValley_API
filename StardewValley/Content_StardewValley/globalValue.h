@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 
+class UI;
 class globalValue
 {
 
@@ -31,6 +32,19 @@ public:
     {
         return InventoryList;
     }
+
+    static void AddUIToList(UI* _UI)
+    {
+        UIList.push_back(_UI);
+    }
+
+    static std::vector<UI*> GetUIList()
+    {
+        return UIList;
+    }
+
+    static void UI_OnOff(const std::string_view& _Name);
+    static void OpenInventory(const std::string_view& _Name);
 
     static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
     static void ChangeAllSelectedItem();
@@ -58,6 +72,8 @@ protected:
 
 private:
     static std::vector<Inventory*> InventoryList;
+    static std::vector<UI*> UIList;
+
     static float4 cameraLimitPos;
     static std::string_view CurLevelName;
 };

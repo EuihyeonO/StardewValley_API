@@ -4,6 +4,7 @@
 
 #include <GameEngineCore/GameEngineLevel.h>
 
+class UI;
 class Level_House : public GameEngineLevel
 {
 
@@ -18,6 +19,7 @@ public:
 	Level_House& operator=(Level_House&& _Other) noexcept = delete;
 
     static Inventory* HouseInventory; 
+    static UI* HouseUI;
 
 protected:
     void Loading() override;
@@ -26,7 +28,7 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
+
     Player* HousePlayer = nullptr;  
-    
 };
 

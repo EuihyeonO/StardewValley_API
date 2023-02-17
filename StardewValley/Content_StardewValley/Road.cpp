@@ -27,10 +27,6 @@ void Road::Start()
     PortalToFarm->SetScale({ 50, 100 });
     PortalToFarm->SetPosition({ -940, 457 });
 
-    GameEngineRender* Pierre = CreateRender("Pierre.bmp", 50);
-    Pierre->SetScaleToImage();
-    Pierre->SetPosition({ 470, -100 });
-
     SetPos({ 960, 823 });
 }
 void Road::Update(float _DeltaTime) 

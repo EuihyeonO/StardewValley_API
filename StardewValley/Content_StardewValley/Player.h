@@ -91,6 +91,8 @@ public:
     void InteractToTile();
     const float4 GetInteractPos();
 
+    void test();
+
     void ToolChange();
     void ToolPosUpdate();
     float4 SetToolPos();
@@ -99,7 +101,6 @@ public:
 
     void ActingUpdate(float _DeltaTime);
     void CurToolTypeUpdate();
-
 protected:
 
     void Start() override;
@@ -119,6 +120,8 @@ private:
     GameEngineRender* Hoe = nullptr;
     GameEngineRender* Watering = nullptr;
     GameEngineRender* Default = nullptr;
+
+    GameEngineImage* ColMap = nullptr;
 
     GameEngineCollision* ColTool = nullptr;
 
