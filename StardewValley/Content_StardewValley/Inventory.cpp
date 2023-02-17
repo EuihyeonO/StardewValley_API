@@ -36,7 +36,7 @@ void Inventory::Update(float _DeltaTime)
     QuickSlotUpdate();
     SetItemPos();
 
-    int a = globalValue::GetUIList().size();
+    size_t a = globalValue::GetUIList().size();
 }
 
 void Inventory::Render(float _Time)
