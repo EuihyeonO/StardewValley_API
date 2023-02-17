@@ -13,6 +13,7 @@
 #include "Inventory.h"
 #include "Level_Farm.h"
 #include "globalValue.h"
+#include "Pierre.h"
 
 
 void Player::CreatePlayerKey()
@@ -45,6 +46,11 @@ void Player::CreatePlayerKey()
 
 int Player::GetKeyInput()
 {
+    if (Pierre::IsOpenShop() == true)
+    {
+        return Act::Idle;
+    }
+
     if (globalValue::isUpdate_CurLevelInventory(GetLevel()->GetName()) == true)
     {
 

@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-class GameEngineRender;
+class Button;
 class GameEngineCollision;
 
 struct shopItem
@@ -19,6 +19,17 @@ public:
     void OpenPierreShop();
     void AddItemToShop(std::string _Name);
     void SortToShopItem();
+    void AllShopItemOnOff();
+
+    static std::string GetNameShopItem(Button* _button);
+
+    static bool IsOpenShop()
+    {
+        return isOpenShop;
+    }
+
+    void ChangeSelectedItem();
+
 
 	Pierre();
 	~Pierre();
@@ -34,15 +45,19 @@ protected:
     void Render(float _Time) override;
 
 private:
+    static std::map<std::string, Button*> ShopItemList;
+    static bool isOpenShop;
 
     GameEngineRender* PierreRender = nullptr;
     GameEngineCollision* PierreCollision = nullptr;
 
     GameEngineRender* ShopRender = nullptr;
 
-    std::map<std::string, GameEngineRender*> ShopItemList;
 
-    GameEngineRender* SelectedItem = nullptr;
+    Button* SelectedItem = nullptr;
+
     GameEngineRender* SelectedLine = nullptr;
+
+    float4 ShopTopPos = { 119, -271 };
 };
 

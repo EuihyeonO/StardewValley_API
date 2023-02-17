@@ -19,6 +19,7 @@
 #include "Crops.h"
 #include "globalValue.h"
 #include "Pierre.h"
+#include "Mouse.h"
 
 Inventory* Level_Road::RoadInventory;
 UI* Level_Road::RoadUI;
@@ -42,7 +43,29 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::SetcameraLimitPos(float4{ 1920, 1646 } - GameEngineWindow::GetScreenSize());
     Player::SetMyPlayer(RoadPlayer);
     RoadPlayer->SetPos({ 80, 1280 });
+    float4 PlayerPos = Player::GetPlayer()->GetPos();
+    float4 HalfSize = GameEngineWindow::GetScreenSize().half();
+    float4 CameraPos = PlayerPos - HalfSize;
 
+    if (CameraPos.x < 0)
+    {
+        CameraPos.x = 0;
+    }
+    else if (globalValue::GetcameraLimitPos().x < CameraPos.x)
+    {
+        CameraPos.x = globalValue::GetcameraLimitPos().x;
+    }
+
+    if (CameraPos.y < 0)
+    {
+        CameraPos.y = 0;
+    }
+    else if (globalValue::GetcameraLimitPos().y < CameraPos.y)
+    {
+        CameraPos.y = globalValue::GetcameraLimitPos().y;
+    }
+
+    SetCameraPos(CameraPos);
     Inventory::CopyItemList(RoadInventory);
     globalValue::SetCurLevelName(GetName());
 }
@@ -77,11 +100,14 @@ void Level_Road::Loading()
     }
 
     {
-        GameEngineImage* parsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("parsnipitem.BMP"));
+        GameEngineImage* parsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemParsnip.BMP"));
+        GameEngineImage* hparsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemParsnip.BMP"));
+        GameEngineImage* Cauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemCauliflower.BMP"));
+        GameEngineImage* hCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemCauliflower.BMP"));
 
     }
     CreateActor<Road>();
-
+    CreateActor<Mouse>();
     RoadPlayer = CreateActor<Player>();
     RoadPlayer->SetPos({ 80, 1280 });     
 

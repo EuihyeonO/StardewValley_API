@@ -18,6 +18,7 @@ enum class ActorType
     Tool,
     Portal,
     NPC,
+    Mouse,
 };
 
 enum class ItemType

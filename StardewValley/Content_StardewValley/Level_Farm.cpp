@@ -48,6 +48,30 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::AllInventoryItemOn();
     Player::ChangePlayerIdle();
 
+    float4 PlayerPos = Player::GetPlayer()->GetPos();
+    float4 HalfSize = GameEngineWindow::GetScreenSize().half();
+    float4 CameraPos = PlayerPos - HalfSize;
+
+    if (CameraPos.x <0)
+    {
+        CameraPos.x = 0;
+    }
+    else if (globalValue::GetcameraLimitPos().x < CameraPos.x)
+    {
+        CameraPos.x = globalValue::GetcameraLimitPos().x;
+    }
+
+    if (CameraPos.y < 0)
+    {
+        CameraPos.y = 0;
+    }
+    else if (globalValue::GetcameraLimitPos().y < CameraPos.y)
+    {
+        CameraPos.y = globalValue::GetcameraLimitPos().y;
+    }
+
+    SetCameraPos(CameraPos);
+    
     globalValue::SetCurLevelName(GetName());
 
     if (_PrevLevel->GetName() == "Road")
@@ -103,6 +127,7 @@ void Level_Farm::Loading()
         Parsnip->Cut(6, 1);
         GameEngineImage* IconParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconParsnip.BMP"));
         GameEngineImage* SeedParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedParsnip.BMP"));
+        GameEngineImage* SeedCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedCauliflower.BMP"));
 
         Dir.MoveParent();
     }
@@ -189,9 +214,9 @@ void Level_Farm::Update(float _DeltaTime)
 
 void Level_Farm::CreateCrops(std::string _CropName)
 {
-
     if (GameEngineInput::IsDown("MakeCrop"))
     {
+        globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
         //테스트 코드
         float4 Pos = FarmPlayer->GetInteractPos();
         if (TileMap->GetTile(0, Pos)->GetFrame() == 1 && TileMap->GetTile(1, Pos)->IsUpdate() == true)

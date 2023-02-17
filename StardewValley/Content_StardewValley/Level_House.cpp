@@ -33,6 +33,9 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
     Player::SetMyPlayer(HousePlayer);
     Player::GetPlayer()->SetPos({ 475, 600 });
+   
+
+    SetCameraPos({0,0});
 
     if (_PrevLevel!=nullptr &&_PrevLevel->GetName() == "Farm")
     {

@@ -4,6 +4,7 @@
 
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 class Item : public GameEngineActor
 {
@@ -78,7 +79,8 @@ private:
     
     std::string ItemName;    
 
-   
+    NumberRenderObject QuantityRender;
+
     int Itemtype = 0;
     int Quantity = 1;
 

@@ -21,7 +21,13 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     Itemtype = _ItemType;
     ItemName = _ItemName;
 
-    QuantityText = CreateRender(200); 
+    //QuantityText = CreateRender(202); 
+
+    QuantityRender.SetOwner(this);
+    QuantityRender.SetImage("Number.bmp", { 20,20 }, 202, RGB(255, 255, 255), "Number.bmp");
+    QuantityRender.SetValue(1);
+    QuantityRender.SetAlign(Align::Right);
+    QuantityRender.SetCameraEffect(true);
 
     SetItemRender(_ItemName);
 
@@ -35,13 +41,13 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
         return;
     }
 
-    RenderImage->SetScale({ 45, 45 });
+    RenderImage->SetScaleToImage();
 }
 
 void Item::SetItemRender(std::string_view& _ItemName)
 {
     RenderImage = CreateRender(_ItemName, 201);
-    RenderImage->SetScale({ 45, 45 });
+    RenderImage->SetScaleToImage();
 }
 
 
@@ -83,7 +89,7 @@ void Item::Update(float _DeltaTime)
 
         isHarvesting = false;
 
-        RenderImage->SetScale({ 45, 45 });
+        RenderImage->SetScaleToImage();
         RenderImage->SetOrder(150);       
     }
 
@@ -120,11 +126,12 @@ void Item::UpdateQuantity()
         Itemtype == static_cast<int>(ItemType::Hoe) ||
         Itemtype == static_cast<int>(ItemType::Pick))
     {
-        QuantityText->Off();
+        QuantityRender.Off();
     }
-
-    QuantityText->SetText(std::to_string(Quantity));
-    QuantityText->SetPosition(RenderImage->GetPosition() + float4(20,10));
+    QuantityRender.SetValue(Quantity);
+    QuantityRender.SetRenderPos(RenderImage->GetPosition() + float4(23, 23));
+   // QuantityText->SetText(std::to_string(Quantity), 25, "Sandoll ¹Ì»ý");
+    //QuantityText->SetPosition(RenderImage->GetPosition() + float4(20,10));
 }
 
 int Item::GetSeedFloor()

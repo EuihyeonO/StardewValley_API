@@ -25,8 +25,7 @@ public:
     static Player* GetPlayer()
     {
         return MyPlayer;
-    }
-    void Render(float _Time) override;
+    }  
 
     void InitPlayer();
     void InitTool();
@@ -105,6 +104,7 @@ protected:
 
     void Start() override;
     void Update(float _DeltaTime) override;
+    void Render(float _Time) override;
 
 private:
     float MoveSpeed = 300.0f;

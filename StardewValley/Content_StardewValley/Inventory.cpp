@@ -190,10 +190,7 @@ void Inventory::SetItemPos()
             //아이템 개수출력
             if (ItemList[ItemOrder]->GetQuantity() > 1)
             {
-                Quantity = std::to_string(ItemList[ItemOrder]->GetQuantity());
                 float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
-
-                TextOut(hdc, ItemPos.ix() + 13, ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
             }
         }
     }   
@@ -209,11 +206,6 @@ void Inventory::SetItemPos()
                 return;
             }
 
-            /*if (ItemOrder >= ItemList.size())
-            {
-                return;
-            }*/
-
             if (ItemList[ItemOrder]->GetIsHarvesting() == true)
             {
                 return;
@@ -224,10 +216,7 @@ void Inventory::SetItemPos()
             //아이템 개수출력
             if (ItemList[ItemOrder]->GetQuantity() > 1)
             {
-                Quantity = std::to_string(ItemList[ItemOrder]->GetQuantity());
                 float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
-
-                TextOut(hdc, ItemPos.ix() + 13 , ItemPos.iy() + 15, Quantity.c_str(), (int)Quantity.size());
             }
         }
     }

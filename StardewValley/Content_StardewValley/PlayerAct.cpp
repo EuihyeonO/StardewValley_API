@@ -200,7 +200,6 @@ void Player::Move(float _DeltaTime)
 void Player::Interact()
 {   
 
-
     if (Dir[0] == 'R' || Dir[0] == 'L')
     {
         CurTool->SetScale({ 250, 250 });

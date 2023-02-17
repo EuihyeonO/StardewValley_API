@@ -50,6 +50,9 @@
     <ClInclude Include="Pierre.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Pierre.cpp">
       <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
