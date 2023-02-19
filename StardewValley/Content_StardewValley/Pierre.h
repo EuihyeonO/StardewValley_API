@@ -59,5 +59,7 @@ private:
     GameEngineRender* SelectedLine = nullptr;
 
     float4 ShopTopPos = { 119, -271 };
+
+    bool isDebug = false;
 };
 

@@ -32,13 +32,14 @@ void UI::Start()
 
     StatusBar = CreateRender("StatusBar.BMP", 200);
     StatusBar->SetScaleToImage();
+
+    Screensize = GameEngineWindow::GetScreenSize();
 }
 
 void UI::Update(float _DeltaTime)
 {
 
-    //UI위치의 기준이 될 값들(카메라위치, 스크린의 크기 등) 기초설정
-    float4 Screensize = GameEngineWindow::GetScreenSize();
+    //UI위치의 기준이 될 값들(카메라위치, 스크린의 크기 등) 기초설정  
     CameraPos = GetLevel()->GetCameraPos();
 
     //화면 우측상단 시간표시창

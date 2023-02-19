@@ -18,7 +18,9 @@
 #include "Item.h"
 #include "ContentsEnum.h"
 #include "Crops.h"
+#include "Mouse.h"
 #include "globalValue.h"
+#include "SelectedLine.h"
 
 
 std::vector<Crops*> Level_Farm::CropList;
@@ -38,6 +40,7 @@ Level_Farm::~Level_Farm()
 
 void Level_Farm::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+    FarmPlayer->ChangePlayerIdle();
 }
 
 void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -47,6 +50,7 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
     Player::SetMyPlayer(FarmPlayer);
     globalValue::AllInventoryItemOn();
     Player::ChangePlayerIdle();
+    Inventory::ChangeGlobalInventory(FarmInventory);
 
     float4 PlayerPos = Player::GetPlayer()->GetPos();
     float4 HalfSize = GameEngineWindow::GetScreenSize().half();
@@ -74,11 +78,11 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
     
     globalValue::SetCurLevelName(GetName());
 
-    if (_PrevLevel->GetName() == "Road")
+    if (_PrevLevel!=nullptr && _PrevLevel->GetName() == "Road")
     {
         FarmPlayer->SetPos({ 2490, 512 });
     }
-    else if (_PrevLevel->GetName() == "House")
+    else if (_PrevLevel != nullptr  && _PrevLevel->GetName() == "House")
     {
         FarmPlayer->SetPos({ 1645, 442 });
         SetCameraPos({ FarmPlayer->GetPos().x - 640, FarmPlayer->GetPos().y - 384});
@@ -127,7 +131,18 @@ void Level_Farm::Loading()
         Parsnip->Cut(6, 1);
         GameEngineImage* IconParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconParsnip.BMP"));
         GameEngineImage* SeedParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedParsnip.BMP"));
+       
+        GameEngineImage* Cauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cauliflower.BMP"));
+        Cauliflower->Cut(7, 1);     
         GameEngineImage* SeedCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedCauliflower.BMP"));
+
+        GameEngineImage* Garlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Garlic.BMP"));
+        Garlic->Cut(5, 1);
+        GameEngineImage* SeedGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedGarlic.BMP"));
+
+        GameEngineImage* Bean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bean.BMP"));
+        Bean->Cut(8, 1);
+        GameEngineImage* SeedBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedBean.BMP"));
 
         Dir.MoveParent();
     }
@@ -191,16 +206,13 @@ void Level_Farm::Loading()
 
     //액터생성  
     TileMap = CreateActor<GameEngineTileMap>();
-    FarmPlayer = CreateActor<Player>(ActorType::Player);
+    FarmPlayer = CreateActor<Player>();
 
     CreateActor<Farm>();
-   
+    CreateActor<Mouse>();
+    CreateActor<SelectedLine>();
 
     //FarmInventory = CreateActor<Inventory>();
-
-
-    TileMap->CreateTileMap(2560/64, 1024/64, 10, 0, float4{ 64, 64 });
-    TileMap->SetFloorSetting(0, "HoeDirt.bmp");  
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
@@ -215,22 +227,23 @@ void Level_Farm::Update(float _DeltaTime)
 void Level_Farm::CreateCrops(std::string _CropName)
 {
     if (GameEngineInput::IsDown("MakeCrop"))
-    {
-        globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
+    {      
         //테스트 코드
         float4 Pos = FarmPlayer->GetInteractPos();
-        if (TileMap->GetTile(0, Pos)->GetFrame() == 1 && TileMap->GetTile(1, Pos)->IsUpdate() == true)
+        int Zindex = CheckUpdateTile(Pos);
+
+        if (TileMap->GetTile(0, Pos)->GetFrame() == 1 && Zindex != -1)
         {
             TileMap->SetTileFrame(0, Pos, 0);
 
-            int frame = TileMap->GetTile(1, Pos)->GetFrame();
+            int frame = TileMap->GetTile(Zindex, Pos)->GetFrame();
 
-            if (frame >= 5)
+            if (frame >= GetLastIndexCrops(Zindex))
             {
                 return;
             }
 
-            TileMap->SetTileFrame(1, Pos, frame + 1);       
+            TileMap->SetTileFrame(Zindex, Pos, frame + 1);
         }
     }
 }
@@ -247,12 +260,7 @@ void Level_Farm::DeathCrops(Crops* _Crop)
     }
 }
 
-void Level_Farm::InitTile()
+bool Level_Farm::isCollisionMouseToTile()
 {
 
-    Level_Farm::GetTileMap()->SetFloorSetting(SeedName::Parsnip, "Parsnip.bmp");
-    Level_Farm::GetTileMap()->AllTileMove(SeedName::Parsnip, float4(0, -16));
-
-    TileFloorIndex.insert({SeedName::Parsnip, 5 });
 }
-

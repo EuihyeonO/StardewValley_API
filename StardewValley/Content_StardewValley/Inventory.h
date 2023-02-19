@@ -44,25 +44,23 @@ public:
     }
 
     int IsExistInInventory(std::string_view& _Name);
+    int QuickSlotOrder = 1;
 
     void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
 
-    static Item* GetLastItem();
+    void ChangeQuickSlot();
 
     std::string GetSelectedItemName();
-
+    void ChangeSelectedItem(int _InputKey);
     Item* GetSelectedItem();
-
-    void ChangeSelectedItem();
-
 
     static void SetGlobalInventory(Inventory* _Inventory)
     {
         GlobalInventory = _Inventory;
     }
 
-    static void CopyItemList(Inventory* _Inventory);
+    static void ChangeGlobalInventory(Inventory* _Inventory);
 
     void AllItemOn();
     void AllItemOff();
@@ -87,13 +85,14 @@ private:
     std::vector<Item*> ItemList;
 
     Item* SelectedItem = nullptr;
-    int SelecetedItemIndex = 0;
+    int SelectedItemIndex = 0;
 
     GameEngineRender* InventoryRender = nullptr;
     GameEngineRender* QuickSlotRender = nullptr;
     GameEngineRender* SelectedLine = nullptr;
 
     float4 CameraPos = { 0,0 };
+    float4 Screensize = { 0,0 };
 };
 
 

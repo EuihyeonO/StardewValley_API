@@ -1,4 +1,6 @@
 #pragma once
+#include "globalSound.h"
+
 #include <GameEngineCore/GameEngineCore.h>
 
 #include <map>
@@ -42,7 +44,10 @@ private:
 
 	static ContentsCore Core;
     static std::string NextMap;
-    
+    std::string CurLevel;
+
+    globalSound SoundContoller;
+
     int isSet = 0;
 };
 

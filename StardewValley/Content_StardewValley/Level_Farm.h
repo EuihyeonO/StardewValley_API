@@ -30,6 +30,8 @@ public:
         return CropList;
     }
 
+    static void SetSeedPos(float4 _pos, int _SeedType);
+
     static GameEngineTileMap* GetTileMap()
     {
         return TileMap;
@@ -49,7 +51,10 @@ public:
 
     void CreateCrops(std::string _CropName);    
     void InitTile();
-
+    static int CheckUpdateTile(float4 _pos);
+    static int GetLastIndexCrops(int _SeedType);
+    static bool IsMaxGrow(float4 _pos, int _SeedType);
+    static bool isCollisionMouseToTile();
     static Inventory* FarmInventory;
     static UI* FarmUI;
 
@@ -64,9 +69,6 @@ private:
     static std::vector<Crops*> CropList;   
 
     static GameEngineTileMap* TileMap;
-
-    std::map<int, int> TileFloorIndex;
-
     Player* FarmPlayer = nullptr;
     
 };

@@ -28,15 +28,6 @@ void globalValue::CreateItemToAllInventory(std::string_view _Name, int _ItemType
     }
 }
 
-void globalValue::ChangeAllSelectedItem()
-{
-    size_t size = InventoryList.size();
-
-    for (int i = 0; i < size; i++)
-    {
-        InventoryList[i]->ChangeSelectedItem();
-    }
-}
 
 void globalValue::AllInventoryItemOn()
 {
@@ -135,5 +126,25 @@ void globalValue::UI_OnOff(const std::string_view& _Name)
     else if (_Name == "Road")
     {
         Level_Road::RoadUI->UI_ONOFF();
+    }
+}
+
+void globalValue::ChangeAllQuickSlot()
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->ChangeQuickSlot();
+    }
+}
+
+void globalValue::ChangeAllQuickSlotItem(int _Num)
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->ChangeSelectedItem(_Num);
     }
 }

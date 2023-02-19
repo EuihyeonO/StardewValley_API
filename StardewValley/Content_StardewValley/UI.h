@@ -33,7 +33,7 @@ private:
     static UI* GlobalUI;
 
     float4 CameraPos = { 0,0 };
-
+    float4 Screensize = { 0 ,0 };
     GameEngineRender* TimeBar = nullptr;
     GameEngineRender* StatusBar = nullptr;
 

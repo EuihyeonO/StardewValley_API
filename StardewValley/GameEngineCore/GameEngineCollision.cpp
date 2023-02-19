@@ -101,8 +101,7 @@ bool GameEngineCollision::CollisionRectToPoint(const CollisionData& _Left, const
 
 void GameEngineCollision::SetOrder(int _Order)
 {
-    GameEngineComponent::SetOrder(_Order);
-    GetActor()->GetLevel()->PushCollision(this);
+    GetActor()->GetLevel()->PushCollision(this, _Order);
 }
 
 bool GameEngineCollision::Collision(const CollisionCheckParameter& _Parameter)

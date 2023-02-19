@@ -6,9 +6,11 @@ enum Act
     Right,
     Idle,
     Move,
-    Interact,
+    MouseInteract,
     Menu,
-    ChangeItem,
+    ChangeQuickSlot,
+    ChangeQuickSlotItem,
+    KeyInteract,
 };
 
 enum class ActorType
@@ -44,5 +46,7 @@ enum class RenderOrder
 enum SeedName
 {
     Parsnip = 1,
-
+    Cauliflower,
+    Garlic,
+    Bean,
 };

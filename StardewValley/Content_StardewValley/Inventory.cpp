@@ -86,8 +86,9 @@ void Inventory::AllItemOff()
 
 void Inventory::InitInventory()
 {
+    Screensize = GameEngineWindow::GetScreenSize();
+
     CameraPos = GetLevel()->GetCameraPos();
-    float4 Screensize = GameEngineWindow::GetScreenSize();
 
     InventoryRender = CreateRender("Inventory.bmp", 150);
 
@@ -104,18 +105,13 @@ void Inventory::InitInventory()
 
     ItemList.reserve(30);
 
-    if (GameEngineInput::IsKey("ChangeItem") == false)
+    if (GameEngineInput::IsKey("ChangeQuickSlot") == false)
     {
-        GameEngineInput::CreateKey("ChangeItem", VK_TAB);
+        GameEngineInput::CreateKey("ChangeQuickSlot", VK_TAB);
     }
 
 }
 
-Item* Inventory::GetLastItem()
-{
-    size_t Num =GlobalInventory->ItemList.size();
-    return GlobalInventory->ItemList[Num - 1];
-}
 
 void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 {
@@ -151,10 +147,14 @@ void Inventory::CameraPosUpdate()
 }
 
 void Inventory::QuickSlotUpdate()
-{
-    float4 Screensize = GameEngineWindow::GetScreenSize();
+{   
 
     QuickSlotRender->SetPosition(CameraPos + float4((Screensize.x / 2) , Screensize.y - 45.0f));
+   
+    if (ItemList.size() >= 1)
+    {
+        SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
+    }
 }
 
 void Inventory::SetItemPos()
@@ -197,35 +197,26 @@ void Inventory::SetItemPos()
 
     else if (QuickSlotRender->IsUpdate() == true)
     {
-        size_t ant = GetNumOfItem();
+        size_t Num = GetNumOfItem();
+        int StartNum = (QuickSlotOrder - 1) * 10;
 
-        for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
+        for (; StartNum < GetNumOfItem(); StartNum++)
         {
-            if (ItemOrder >= 10)
+
+            if (ItemList[StartNum]->GetIsHarvesting() == true)
             {
                 return;
             }
 
-            if (ItemList[ItemOrder]->GetIsHarvesting() == true)
-            {
-                return;
-            }
-
-            ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder) * 64, 723.0f });
+            ItemList[StartNum]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (StartNum%10) * 64, 723.0f });
 
             //아이템 개수출력
-            if (ItemList[ItemOrder]->GetQuantity() > 1)
+            if (ItemList[StartNum]->GetQuantity() > 1)
             {
-                float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+                float4 ItemPos = ItemList[StartNum]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
             }
         }
     }
-
-    if(ItemList.size()>=1)
-    {
-        SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
-    }
-
 }
 
 
@@ -241,21 +232,18 @@ Item* Inventory::GetSelectedItem()
     }
 }
 
-void Inventory::ChangeSelectedItem()
+void Inventory::ChangeSelectedItem(int _InputKey)
 {
-    if (SelecetedItemIndex + 1 == ItemList.size())
+    if (_InputKey > (QuickSlotOrder - 1) * 10 + ItemList.size())
     {
-        SelectedItem = ItemList[0];
-        SelecetedItemIndex = 0;
+        return;
     }
-    else if (SelecetedItemIndex + 1 < ItemList.size())
-    {
-        SelectedItem = ItemList[SelecetedItemIndex + 1 ];
-        ++(SelecetedItemIndex);
-    }
+
+    SelectedItemIndex = (QuickSlotOrder - 1) * 10 + _InputKey;
+    SelectedItem = ItemList[SelectedItemIndex - 1];
 }
 
-/*이미 있는 아이템이라면 인덱스를 반환, 없다면 -1을 반환*/
+/*이미있는 아이템이라면 인덱스를 반환, 없다면 -1을 반환*/
 int Inventory::IsExistInInventory(std::string_view& _Name)
 {
     size_t size = ItemList.size();
@@ -271,7 +259,7 @@ int Inventory::IsExistInInventory(std::string_view& _Name)
     return -1;
 }
 
-void Inventory::CopyItemList(Inventory* _Inventory)
+void Inventory::ChangeGlobalInventory(Inventory* _Inventory)
 {      
     GlobalInventory = _Inventory;
 }
@@ -284,7 +272,7 @@ void Inventory::ItemUpdate()
     {
         if (0 >= ItemList[i]->GetQuantity())
         {
-            ChangeSelectedItem();
+            ChangeSelectedItem(--SelectedItemIndex);
             ItemList[i]->Death();
             ItemList.erase(ItemList.begin() + i);
         }
@@ -300,5 +288,20 @@ std::string Inventory::GetSelectedItemName()
     else
     {
         return "";
+    }
+}
+
+void Inventory::ChangeQuickSlot()
+{
+    if (ItemList.size() <= 10)
+    {
+        return;
+    }
+
+    ++QuickSlotOrder;
+
+    if (QuickSlotOrder > 3)
+    {
+        QuickSlotOrder = 0;
     }
 }

@@ -1,5 +1,6 @@
 #include "GameEngineSound.h"
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineBase/GameEngineString.h>
 
 // 다른 lib나 dll을 사용하기 위한 전처리문을 여기 넣을것입니다.
 // #pragma comment(lib, "GameEngineBase.lib");
@@ -63,7 +64,9 @@ GameEngineSound::~GameEngineSound()
 
 void GameEngineSound::SoundLoad(const std::string_view& _Path)
 {
-    if (FMOD_OK != SoundSystem->createSound(_Path.data(), FMOD_LOOP_NORMAL, nullptr, &FMODSound))
+    std::string UTF8Path = GameEngineString::AnsiToUTF8(_Path);
+
+    if (FMOD_OK != SoundSystem->createSound(UTF8Path.c_str(), FMOD_LOOP_NORMAL, nullptr, &FMODSound))
     {
         MsgAssert(std::string("사운드 로드에 실패했습니다.\n 경로 : ") + _Path.data());
     }

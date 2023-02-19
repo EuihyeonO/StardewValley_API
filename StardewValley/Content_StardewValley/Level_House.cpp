@@ -4,11 +4,13 @@
 #include "Inventory.h"
 #include "UI.h"
 #include "globalValue.h"
+#include "Mouse.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineFile.h>
 
 Inventory* Level_House::HouseInventory = nullptr;
 UI* Level_House::HouseUI = nullptr;
@@ -25,6 +27,7 @@ Level_House::~Level_House()
 
 void Level_House::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+    HousePlayer->ChangePlayerIdle();
 }
 
 void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -44,7 +47,7 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
     globalValue::SetCurLevelName(GetName());
 
-    Inventory::CopyItemList(HouseInventory);
+    Inventory::ChangeGlobalInventory(HouseInventory);
     globalValue::AllInventoryItemOn();
 
     if (Player::GetIsCollision() == true)
@@ -71,7 +74,12 @@ void Level_House::Loading()
         Dir.MoveParent();
     }
 
+    //»ç¿îµå
+    {
+       
+    }
     CreateActor<House>();
+    CreateActor<Mouse>();
 
     HousePlayer = CreateActor<Player>();   
 

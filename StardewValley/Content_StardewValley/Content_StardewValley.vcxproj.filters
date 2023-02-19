@@ -50,7 +50,13 @@
     <ClInclude Include="Pierre.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="SelectedLine.h">
+      <Filter>Actor\Mouse</Filter>
+    </ClInclude>
     <ClInclude Include="Mouse.h">
+      <Filter>Actor\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="globalSound.h">
       <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +122,16 @@
     <ClCompile Include="Pierre.cpp">
       <Filter>Actor\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="Level_Farm_Tile.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedLine.cpp">
+      <Filter>Actor\Mouse</Filter>
+    </ClCompile>
     <ClCompile Include="Mouse.cpp">
+      <Filter>Actor\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="globalSound.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
@@ -147,6 +162,9 @@
     </Filter>
     <Filter Include="Actor\NPC">
       <UniqueIdentifier>{db2796f5-7e0d-4351-9350-4bca2a96370d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Mouse">
+      <UniqueIdentifier>{58830c71-deb3-406f-b572-f160e8f38070}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

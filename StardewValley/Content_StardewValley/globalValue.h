@@ -43,11 +43,13 @@ public:
         return UIList;
     }
 
+    static void ChangeAllQuickSlot();
+    static void ChangeAllQuickSlotItem(int _Num);
+
     static void UI_OnOff(const std::string_view& _Name);
     static void OpenInventory(const std::string_view& _Name);
 
     static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
-    static void ChangeAllSelectedItem();
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
 

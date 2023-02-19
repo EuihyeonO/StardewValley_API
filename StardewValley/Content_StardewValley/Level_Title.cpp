@@ -1,5 +1,6 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineBase/GameEngineFile.h>
 
 #include "globalValue.h"
 #include "Level_Title.h"
@@ -73,6 +74,19 @@ void Level_Title::Loading()
         GameEngineImage* Mountain2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain2.BMP"));
 
         GameEngineImage* Tree = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleTree.BMP"));
+    }
+
+    {
+        Dir.MoveParent();
+        Dir.Move("Sound");
+        Dir.Move("Effect");
+
+        std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+        for (size_t i = 0; i < Files.size(); i++)
+        {
+            GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+        }
     }
 
     CreateActor<Title>();

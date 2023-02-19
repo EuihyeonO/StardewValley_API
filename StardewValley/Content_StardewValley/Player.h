@@ -7,6 +7,8 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/GameEngineResources.h>
+
 
 class Inventory;
 class Player : public GameEngineActor
@@ -56,6 +58,7 @@ public:
 
     bool isCollisionCrops();
     bool isInteract();
+    bool isFront(float4 _pos);
 
     static void SetIsCollision(bool _isCollision)
     {
@@ -89,6 +92,7 @@ public:
     void InteractToCrops();
     void InteractToTile();
     const float4 GetInteractPos();
+    void InteractToNPC();
 
     void test();
 
@@ -125,6 +129,8 @@ private:
 
     GameEngineCollision* ColTool = nullptr;
 
+    GameEngineSoundPlayer WalkSound;
+
     std::map<std::string, GameEngineRender*> Tool;
 
 
@@ -135,6 +141,6 @@ private:
     static Player* MyPlayer;
 
     std::string Dir = "D";
-
+    int inputNumberKey = -1;
 };
 

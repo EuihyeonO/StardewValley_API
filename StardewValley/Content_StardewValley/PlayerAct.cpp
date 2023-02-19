@@ -17,6 +17,7 @@
 #include "Level_Road.h"
 #include "Level_House.h"
 #include "globalValue.h"
+#include "Pierre.h"
 #include "Crops.h"
 
 
@@ -70,14 +71,20 @@ void Player::ActingUpdate(float _DeltaTime)
     case Act::Move:
         Move(_DeltaTime);
         break;
-    case Act::Interact:
+    case Act::MouseInteract:
         Interact();
+        break;
+    case Act::KeyInteract:
+        InteractToNPC();
         break;
     case Act::Menu:
         OpenInventory();
         break;
-    case Act::ChangeItem:
-        globalValue::ChangeAllSelectedItem();
+    case Act::ChangeQuickSlotItem:
+        globalValue::ChangeAllQuickSlotItem(inputNumberKey);
+        break;
+    case Act::ChangeQuickSlot:
+        globalValue::ChangeAllQuickSlot();
         break;
     }
 }
@@ -173,7 +180,6 @@ void Player::Move(float _DeltaTime)
     {
         SetPos(NextPos);  
 
-        // 카메라가 멈추는 좌표를 맵의 크기에 따라 가변적이게 설정해야함
         if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
         {
             NextCameraPos.x = globalValue::GetcameraLimitPos().x;
@@ -189,7 +195,7 @@ void Player::Move(float _DeltaTime)
         if (NextPos.y <= GameEngineWindow::GetScreenSize().half().y)
         {
             NextCameraPos.y = 0;
-        }
+        }        
 
          GetLevel()->SetCameraPos(NextCameraPos);
     }
@@ -362,19 +368,33 @@ void Player::InteractToTile()
     {
         return;
     }
+   
+    float4 MousePos = GetLevel()->GetMousePosToCamera();
+    float4 PlayerPos = GetPos();
 
-    if (nullptr != ColMap && RGB(255, 0, 255) != ColMap->GetPixelColor(GetInteractPos(), RGB(255, 0, 255)))
+    if (nullptr != ColMap && RGB(255, 0, 255) != ColMap->GetPixelColor(MousePos, RGB(255, 0, 255)))
+    {
+        return;
+    }
+    if (isFront(MousePos) != true)
     {
         return;
     }
 
-    int TileFrame = Level_Farm::GetTileMap()->GetTileFrame(0, GetInteractPos());
+    float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));
+    
+    if (distance >= 112)
+    {
+        return;
+    }
+
+    int TileFrame = Level_Farm::GetTileMap()->GetTileFrame(0, MousePos);
 
     if (TileFrame == -1)
     {
         if (CurTool == Tool["Hoe"])
         {
-            Level_Farm::GetTileMap()->SetTileFrame(0, GetInteractPos(), 0);
+            Level_Farm::GetTileMap()->SetTileFrame(0, MousePos, 0);
         }
     }
 
@@ -382,24 +402,25 @@ void Player::InteractToTile()
     {
         if (CurTool == Tool["Watering"])
         {
-            Level_Farm::GetTileMap()->SetTileFrame(0, GetInteractPos(), 1);
+            Level_Farm::GetTileMap()->SetTileFrame(0, MousePos, 1);
         }
     }
 
-    else if (TileFrame == 1 && Level_Farm::GetTileMap()->GetTile(1, GetInteractPos())->IsUpdate() == false)
+    else if (TileFrame == 1 && Level_Farm::CheckUpdateTile(MousePos) == -1)
     {
         if (globalValue::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
         {
             int Floor = globalValue::GetSelectedItem()->GetSeedFloor();
 
             //들고 있는 아이템은 앞에 Seed가 붙어있고, 심어질 아이템은 앞에 Seed가 없으므로 이름에서 Seed를 제거하는 과정이 필요
-            std::string Name = globalValue::GetSelectedItem()->GetItemName();
-            size_t NameSize = Name.size();
-            Name = Name.substr(4, NameSize - 4);
+            //std::string Name = globalValue::GetSelectedItem()->GetItemName();
+            //size_t NameSize = Name.size();
+            //Name = Name.substr(4, NameSize - 4);
 
             globalValue::AllInventoryDelete();
-
-            Level_Farm::GetTileMap()->SetTileFrame(Floor, GetInteractPos(), 0);
+ 
+            Level_Farm::SetSeedPos(MousePos, Floor);
+            Level_Farm::GetTileMap()->SetTileFrame(Floor, MousePos, 0);
         }
     }
 }
@@ -422,4 +443,31 @@ const float4 Player::GetInteractPos()
     {
         return GetPos();
     }
+}
+
+void Player::InteractToNPC()
+{
+    Level_Road::NPCPierre->OpenPierreShop();
+}
+
+bool Player::isFront(float4 _pos)
+{
+    if (Dir == "D")
+    {
+        return _pos.y - 64 >= GetPos().y;
+    }
+    else if (Dir == "U")
+    {
+        return _pos.y - 63 <= GetPos().y;
+    }
+    else if (Dir == "L")
+    {
+        return _pos.x - 32<= GetPos().x;
+    }
+    else if (Dir == "R")
+    {
+        return _pos.x - 32 >= GetPos().x;
+    }
+
+    return false;
 }

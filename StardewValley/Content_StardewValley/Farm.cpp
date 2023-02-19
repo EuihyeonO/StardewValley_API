@@ -85,7 +85,7 @@ std::string Farm::isCollision_PortalToPlayer()
     {
         std::vector<GameEngineCollision*> Collisions;
 
-        if (true == GameEngineInput::IsDown("Interact") && true == PortalToHouse->Collision({.TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect}, Collisions))
+        if (true == GameEngineInput::IsDown("KeyInteract") && true == PortalToHouse->Collision({.TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect}, Collisions))
         {
             for (size_t i = 0; i < Collisions.size(); i++)
             {

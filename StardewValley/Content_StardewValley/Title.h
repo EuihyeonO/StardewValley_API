@@ -28,6 +28,8 @@ private:
     float4 Mountain1Pos = {480, 490};
     float4 TreePos = {0, 490};
 
+    float4 IntroScale = { 0,0 };
+
     GameEngineRender* intro1 = nullptr;
     GameEngineRender* TitleName = nullptr; 
     GameEngineRender* TitleMountain1 = nullptr;

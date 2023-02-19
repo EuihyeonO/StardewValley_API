@@ -268,7 +268,18 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
         for (size_t i = 0; i < DebugTexts.size(); i++)
         {
             HDC ImageDc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-            TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()));
+
+            // TextOutStart.ix(), TextOutStart.iy(),
+
+            RECT Rect;
+            Rect.left = TextOutStart.ix();
+            Rect.top = TextOutStart.iy();
+            Rect.right = TextOutStart.ix() + 100;
+            Rect.bottom = TextOutStart.iy() + 100;
+
+            DrawTextA(ImageDc, DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()), &Rect, DT_LEFT);
+
+            // TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()));
             TextOutStart.y += 20.0f;
         }
 
@@ -328,8 +339,12 @@ void GameEngineLevel::PushRender(GameEngineRender* _Render, int _ChangeOrder)
     Renders[_Render->GetOrder()].push_back(_Render);
 }
 
-void GameEngineLevel::PushCollision(GameEngineCollision* _Collision)
+void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _ChangeOrder)
 {
+    Collisions[_Collision->GetOrder()].remove(_Collision);
+
+    _Collision->GameEngineObject::SetOrder(_ChangeOrder);
+
     if (nullptr == _Collision)
     {
         MsgAssert("nullptr인 충돌체를 충돌 그룹속에 넣으려고 했습니다.");

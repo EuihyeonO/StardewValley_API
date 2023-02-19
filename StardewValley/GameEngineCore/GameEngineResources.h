@@ -16,6 +16,10 @@ public:
     void LoopCount(int _Count);
     void Volume(float _Volume);
     void Stop();
+    void PauseOn();
+    void PauseOff();
+
+    bool GetPause();
 
 private:
     FMOD::Channel* ControlChannel = nullptr;

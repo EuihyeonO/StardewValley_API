@@ -4,7 +4,7 @@
 
 #include <GameEngineCore/GameEngineLevel.h>
 
-
+class Pierre;
 class GameEngineCollision;
 class Inventory;
 class Player;
@@ -14,6 +14,7 @@ class Level_Road : public GameEngineLevel
 
 public:
     static Inventory* RoadInventory;
+    
 
 	Level_Road();
 	~Level_Road();
@@ -24,6 +25,7 @@ public:
 	Level_Road& operator=(Level_Road&& _Other) noexcept = delete;
 
     static UI* RoadUI;
+    static Pierre* NPCPierre;
 
 protected:
     void Loading() override;
@@ -32,7 +34,6 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:  
-
     Player* RoadPlayer = nullptr;
 };
 

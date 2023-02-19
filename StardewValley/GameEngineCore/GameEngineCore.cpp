@@ -23,6 +23,12 @@ void GameEngineCore::GlobalStart()
 
 void GameEngineCore::GlobalUpdate()
 {
+
+    // 프레임 시작할때 한번 델타타임을 정하고
+    GameEngineSound::SoundUpdate();
+    float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
+    GameEngineInput::Update(TimeDeltaTime);
+
     // 여기에서 처리한다
     if (nullptr != Core->NextLevel)
     {
@@ -45,10 +51,10 @@ void GameEngineCore::GlobalUpdate()
         }
     }
 
-    // 프레임 시작할때 한번 델타타임을 정하고
-    GameEngineSound::SoundUpdate();
-    float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
-    GameEngineInput::Update(TimeDeltaTime);
+    if (1.0f / 60.0f <= TimeDeltaTime)
+    {
+        TimeDeltaTime = 1.0f / 60.0f;
+    }
 
     Core->Update();
     if (nullptr == Core->MainLevel)

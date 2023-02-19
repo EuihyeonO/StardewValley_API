@@ -39,26 +39,50 @@ void Pierre::Start()
 
     AddItemToShop("ItemParsnip.bmp");
     AddItemToShop("ItemCauliflower.bmp");
+    AddItemToShop("ItemGarlic.bmp");
+    AddItemToShop("ItemBean.bmp");
 }
 
 void Pierre::Update(float _DeltaTime)
 {   
-    OpenPierreShop();
     SortToShopItem();
 }
 
 void Pierre::Render(float _Time)
 {
+    if (GameEngineInput::IsDown("Debug"))
+    {
+        if (isDebug == false)
+        {
+            isDebug = true;
+        }
+        else
+        {
+            isDebug = false;
+        }
+    }
 
+    if (isDebug == true)
+    {
+        HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+
+        Rectangle(_hdc, PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - PierreRender->GetScale().hx(),
+            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - PierreRender->GetScale().hy(),
+            PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + PierreRender->GetScale().hx(),
+            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + PierreRender->GetScale().hy());
+
+        Rectangle(_hdc, ShopRender->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - ShopRender->GetScale().hx(),
+            ShopRender->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - ShopRender->GetScale().hy(),
+            ShopRender->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + ShopRender->GetScale().hx(),
+            ShopRender->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + ShopRender->GetScale().hy());
+    }
 }
 
 void Pierre::OpenPierreShop()
 {
-    std::vector<GameEngineCollision*> Collisions;
-
-    if (true == PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+    if (true == PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
-        if (GameEngineInput::IsDown("Interact") == true && ShopRender->IsUpdate() ==false)
+        if (GameEngineInput::IsDown("KeyInteract") == true && ShopRender->IsUpdate() ==false)
         {
             Player::ChangePlayerIdle();
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
@@ -66,7 +90,7 @@ void Pierre::OpenPierreShop()
             AllShopItemOnOff();
             isOpenShop = true;
         }
-        else if (GameEngineInput::IsDown("Interact") == true && ShopRender->IsUpdate() == true)
+        else if (GameEngineInput::IsDown("KeyInteract") == true && ShopRender->IsUpdate() == true)
         {
             Player::ChangePlayerIdle();
             ShopRender->Off();

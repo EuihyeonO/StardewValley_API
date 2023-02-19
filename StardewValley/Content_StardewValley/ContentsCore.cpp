@@ -37,7 +37,10 @@ void ContentsCore::Start()
 	CreateLevel<Level_Road>("Road");
 	CreateLevel<Level_House>("House");
 
-	ChangeLevel("Road");
+	ChangeLevel("Farm");
+
+    CurLevel = "Farm";
+   
 }
 
 void ContentsCore::Update()
@@ -50,15 +53,21 @@ void ContentsCore::Update()
         globalValue::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
         globalValue::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
 
+        SoundContoller.SoundInit();
+
         for (int i = 0; i < 1; i++)
         {
             globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
+            globalValue::CreateItemToAllInventory("SeedGarlic.bmp", static_cast<int>(ItemType::Seed));
         }
 
         isSet = 1;
     }
 
+    SoundContoller.WalkSoundOnOff(CurLevel);
+
     MapChange();
+
 }
 
 void ContentsCore::End()
@@ -69,17 +78,20 @@ void ContentsCore::MapChange()
 {
     if (NextMap == "House")
     {
-        ChangeLevel("House");      
+        ChangeLevel("House"); 
+        CurLevel = "House";
     }
 
     if (NextMap == "Farm")
     {
         ChangeLevel("Farm");
+        CurLevel = "Farm";
     }
 
     if (NextMap == "Road")
     {
         ChangeLevel("Road");
+        CurLevel = "Road";
     }
 
     NextMap = "Default";

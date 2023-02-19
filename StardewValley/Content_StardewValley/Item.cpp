@@ -24,7 +24,7 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     //QuantityText = CreateRender(202); 
 
     QuantityRender.SetOwner(this);
-    QuantityRender.SetImage("Number.bmp", { 20,20 }, 202, RGB(255, 255, 255), "Number.bmp");
+    QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");
     QuantityRender.SetValue(1);
     QuantityRender.SetAlign(Align::Right);
     QuantityRender.SetCameraEffect(true);
@@ -140,8 +140,16 @@ int Item::GetSeedFloor()
     {
         return SeedName::Parsnip;
     }
-    else
+    else if (ItemName == "SeedCauliflower.bmp")
     {
-        return -1;
+        return SeedName::Cauliflower;
+    }
+    else if (ItemName == "SeedGarlic.bmp")
+    {
+        return SeedName::Garlic;
+    }
+    else if (ItemName == "SeedBean.bmp")
+    {
+        return SeedName::Bean;
     }
 }

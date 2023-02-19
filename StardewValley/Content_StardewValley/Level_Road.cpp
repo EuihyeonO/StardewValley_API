@@ -23,6 +23,7 @@
 
 Inventory* Level_Road::RoadInventory;
 UI* Level_Road::RoadUI;
+Pierre* Level_Road::NPCPierre;
 
 Level_Road::Level_Road()
 {
@@ -36,6 +37,7 @@ Level_Road::~Level_Road()
 
 void Level_Road::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+    RoadPlayer->ChangePlayerIdle();
 }
 
 void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -66,7 +68,7 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     }
 
     SetCameraPos(CameraPos);
-    Inventory::CopyItemList(RoadInventory);
+    Inventory::ChangeGlobalInventory(RoadInventory);
     globalValue::SetCurLevelName(GetName());
 }
 
@@ -102,8 +104,15 @@ void Level_Road::Loading()
     {
         GameEngineImage* parsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemParsnip.BMP"));
         GameEngineImage* hparsnipitem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemParsnip.BMP"));
+
         GameEngineImage* Cauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemCauliflower.BMP"));
         GameEngineImage* hCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemCauliflower.BMP"));
+
+        GameEngineImage* Garlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemGarlic.BMP"));
+        GameEngineImage* hGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemGarlic.BMP"));
+
+        GameEngineImage* Bean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ItemBean.BMP"));
+        GameEngineImage* hBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemBean.BMP"));
 
     }
     CreateActor<Road>();
@@ -111,9 +120,10 @@ void Level_Road::Loading()
     RoadPlayer = CreateActor<Player>();
     RoadPlayer->SetPos({ 80, 1280 });     
 
-    CreateActor<Pierre>();
+    NPCPierre = CreateActor<Pierre>();
 }
 
 void Level_Road::Update(float _DeltaTime)
 {
 }
+
