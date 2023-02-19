@@ -7,11 +7,15 @@ class globalSound
 
 public:
 
-    void WalkSoundOn();
-    void WalkSoundOff();
     void SoundInit();
+    void SoundOff();
 
-    void WalkSoundOnOff(const std::string_view _LevelName);
+    void ToolSoundOn();
+    void WalkSoundOn(const std::string_view _LevelName);
+    
+    void SoundUpdate(const std::string_view _LevelName);
+
+    void BGM_On(const std::string_view _LevelName);
 
 	globalSound();
 	~globalSound();
@@ -25,5 +29,12 @@ protected:
 
 private:
     GameEngineSoundPlayer WalkSound;
+
+    GameEngineSoundPlayer Farm_BGM;
+
+    GameEngineSoundPlayer AxeSound;
+    GameEngineSoundPlayer HoeSound;
+    GameEngineSoundPlayer PickSound;
+    GameEngineSoundPlayer WateringSound;
 };
 

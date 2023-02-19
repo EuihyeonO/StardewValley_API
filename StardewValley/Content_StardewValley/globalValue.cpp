@@ -3,6 +3,10 @@
 #include "Level_House.h"
 #include "Level_Road.h"
 #include "UI.h"
+#include "ContentsEnum.h"
+#include "Pierre.h"
+
+#include <GameEnginePlatform/GameEngineInput.h>
 
 float4 globalValue::cameraLimitPos = {0,0};
 std::vector<Inventory*> globalValue::InventoryList;
@@ -146,5 +150,41 @@ void globalValue::ChangeAllQuickSlotItem(int _Num)
     for (int i = 0; i < size; i++)
     {
         InventoryList[i]->ChangeSelectedItem(_Num);
+    }
+}
+
+int globalValue::GetKeyInput()
+{
+    {
+        if (Pierre::IsOpenShop() == true)
+        {
+            return Act::Idle;
+        }
+
+        else
+        {
+            if (true == GameEngineInput::IsDown("MouseInteract"))
+            {
+                return Act::MouseInteract;
+            }
+
+            if (true == GameEngineInput::IsDown("KeyInteract"))
+            {
+                return Act::KeyInteract;
+            }
+
+            else if (true == GameEngineInput::IsPress("LMove") ||
+                true == GameEngineInput::IsPress("RMove") ||
+                true == GameEngineInput::IsPress("UMove") ||
+                true == GameEngineInput::IsPress("DMove"))
+            {
+                return Act::Move;
+            }
+
+            else
+            {
+                return Act::Idle;
+            }
+        }
     }
 }

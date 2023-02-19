@@ -42,7 +42,7 @@ public:
     {
         return UIList;
     }
-
+    static int GetKeyInput();
     static void ChangeAllQuickSlot();
     static void ChangeAllQuickSlotItem(int _Num);
 

@@ -64,7 +64,8 @@ void ContentsCore::Update()
         isSet = 1;
     }
 
-    SoundContoller.WalkSoundOnOff(CurLevel);
+    SoundContoller.SoundUpdate(CurLevel);
+    SoundContoller.BGM_On(CurLevel);
 
     MapChange();
 
