@@ -24,7 +24,7 @@
 void Level_Farm::InitTile()
 {
     TileMap->CreateTileMap(2560 / 64, 1024 / 64, 10, 0, float4{ 64, 64 });
-    TileMap->CreateTileMapCollision(2560 / 64, 1024 / 64, 1, static_cast<int>(ActorType::Tile), float4{ 64, 64 });
+    TileMap->CreateTileMapCollision(2560 / 64, 1024 / 64, 5, static_cast<int>(ActorType::Tile), float4{ 64, 64 });
     TileMap->SetFloorSetting(0, "HoeDirt.bmp");
 
     TileMap->SetFloorSetting(SeedName::Parsnip, "Parsnip.bmp");
