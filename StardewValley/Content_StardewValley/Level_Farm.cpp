@@ -261,7 +261,3 @@ void Level_Farm::DeathCrops(Crops* _Crop)
     }
 }
 
-bool Level_Farm::isCollisionMouseToTile()
-{
-
-}

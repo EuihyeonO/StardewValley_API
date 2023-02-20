@@ -54,7 +54,7 @@ public:
     static int CheckUpdateTile(float4 _pos);
     static int GetLastIndexCrops(int _SeedType);
     static bool IsMaxGrow(float4 _pos, int _SeedType);
-    static bool isCollisionMouseToTile();
+
     static Inventory* FarmInventory;
     static UI* FarmUI;
 
