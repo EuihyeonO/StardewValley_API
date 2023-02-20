@@ -134,6 +134,7 @@ void Level_Farm::Loading()
        
         GameEngineImage* Cauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cauliflower.BMP"));
         Cauliflower->Cut(7, 1);     
+        GameEngineImage* IconCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconCauliflower.BMP"));
         GameEngineImage* SeedCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedCauliflower.BMP"));
 
         GameEngineImage* Garlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Garlic.BMP"));

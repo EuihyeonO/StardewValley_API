@@ -1,11 +1,14 @@
 #include "Mouse.h"
 #include "ContentsEnum.h"
 #include "SelectedLine.h"
+#include "Player.h"
+#include "Level_Farm.h"
 
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineTileMap.h>
 
 Mouse::Mouse()
 {
@@ -57,9 +60,21 @@ void Mouse::SelectedTileOnOff()
 
     if (nullptr != ColMap && RGB(255, 0, 255) == ColMap->GetPixelColor(GetPos(), RGB(255, 0, 255)))
     {
-        float4 Pos = GetPos();
-        SelectedLine::LineOn();
-        SelectedLine::SetLinePos(Pos);
+        float4 MousePos = GetPos();
+        float4 PlayerPos = Player::GetPlayer()->GetPos();
+
+        float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));      
+
+        if (distance<=112 && Player::GetPlayer()->isFront(MousePos) == true)
+        {
+            SelectedLine::LineOn();
+            SelectedLine::SetLinePos(MousePos);
+        }
+        else
+        {
+            SelectedLine::LineOff();
+        }
     }
 }
+
 

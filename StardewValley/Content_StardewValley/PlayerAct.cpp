@@ -19,6 +19,7 @@
 #include "globalValue.h"
 #include "Pierre.h"
 #include "Crops.h"
+#include "SelectedLine.h"
 
 
 void Player::InitPlayer()
@@ -219,8 +220,9 @@ void Player::Interact()
 
     InteractToTile();
 
-    if (CurTool == Tool["Default"])
+    if (isHarvesting == true || CurTool == Tool["Default"])
     {
+        isHarvesting = false;
         return;
     }
 
@@ -376,21 +378,31 @@ void Player::InteractToTile()
     {
         return;
     }
+
     if (isFront(MousePos) != true)
     {
         return;
     }
 
-    float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));
+    //float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));
     
-    if (distance >= 112)
+    if (SelectedLine::IsLineOn() == false)
     {
         return;
     }
-
+    
+    int SeedIndex = Level_Farm::CheckUpdateTile(MousePos);
     int TileFrame = Level_Farm::GetTileMap()->GetTileFrame(0, MousePos);
+    
+    if (SeedIndex != -1 && Level_Farm::IsMaxGrow(MousePos, SeedIndex) == true)
+    {
+        isHarvesting = true;
+        globalValue::CreateItemToAllInventory(SeedIndex);
+        Harvesting();
+        return;
+    }
 
-    if (TileFrame == -1)
+    else if (TileFrame == -1)
     {
         if (CurTool == Tool["Hoe"])
         {
@@ -404,9 +416,9 @@ void Player::InteractToTile()
         {
             Level_Farm::GetTileMap()->SetTileFrame(0, MousePos, 1);
         }
-    }
+    }  
 
-    else if (TileFrame == 1 && Level_Farm::CheckUpdateTile(MousePos) == -1)
+    else if (TileFrame == 1 && SeedIndex == -1)
     {
         if (globalValue::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
         {

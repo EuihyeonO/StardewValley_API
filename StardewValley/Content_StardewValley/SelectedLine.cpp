@@ -47,3 +47,8 @@ void SelectedLine::SetLinePos(float4 _pos)
     float4 Pos = Level_Farm::GetTileMap()->GetTile(0,_pos)->GetPosition();
     SelectedLineRender->SetPosition(Pos);
 }
+
+bool SelectedLine::IsLineOn()
+{
+    return SelectedLineRender->IsUpdate();
+}

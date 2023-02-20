@@ -32,6 +32,15 @@ void globalValue::CreateItemToAllInventory(std::string_view _Name, int _ItemType
     }
 }
 
+void globalValue::CreateItemToAllInventory(int _SeedName)
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->CreateItem(_SeedName);
+    }
+}
 
 void globalValue::AllInventoryItemOn()
 {

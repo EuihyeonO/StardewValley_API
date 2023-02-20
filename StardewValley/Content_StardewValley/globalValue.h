@@ -50,6 +50,7 @@ public:
     static void OpenInventory(const std::string_view& _Name);
 
     static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
+    static void CreateItemToAllInventory(int _SeedName);
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
 

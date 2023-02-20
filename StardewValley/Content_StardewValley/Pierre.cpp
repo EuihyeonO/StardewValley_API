@@ -80,9 +80,11 @@ void Pierre::Render(float _Time)
 
 void Pierre::OpenPierreShop()
 {
-    if (true == PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    std::vector<GameEngineCollision*> Collisions;
+
+    if (true == PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
     {
-        if (GameEngineInput::IsDown("KeyInteract") == true && ShopRender->IsUpdate() ==false)
+        if (Collisions.size()>=1 && ShopRender->IsUpdate() == false)
         {
             Player::ChangePlayerIdle();
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
@@ -90,7 +92,7 @@ void Pierre::OpenPierreShop()
             AllShopItemOnOff();
             isOpenShop = true;
         }
-        else if (GameEngineInput::IsDown("KeyInteract") == true && ShopRender->IsUpdate() == true)
+        else if (Collisions.size() >= 1 && ShopRender->IsUpdate() == true)
         {
             Player::ChangePlayerIdle();
             ShopRender->Off();
@@ -98,6 +100,7 @@ void Pierre::OpenPierreShop()
             isOpenShop = false;
         }
     }
+    else return;
 }
 
 void CreateItem(Button* _button)

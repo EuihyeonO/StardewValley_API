@@ -48,6 +48,7 @@ public:
 
     void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
+    void CreateItem(int Seedtype);
 
     void ChangeQuickSlot();
 

@@ -10,6 +10,7 @@ public:
     static void LineOff();
     static void LineOn();
     static void SetLinePos(float4 _pos);
+    static bool IsLineOn();
 
 	SelectedLine();
 	~SelectedLine();

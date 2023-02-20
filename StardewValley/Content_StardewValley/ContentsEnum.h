@@ -21,6 +21,7 @@ enum class ActorType
     Portal,
     NPC,
     Mouse,
+    Tile,
 };
 
 enum class ItemType

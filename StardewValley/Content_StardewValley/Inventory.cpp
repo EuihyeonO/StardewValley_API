@@ -140,6 +140,22 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
     }
 }
 
+void Inventory::CreateItem(int Seedtype)
+{
+    if (Seedtype == SeedName::Parsnip)
+    {
+        CreateItem("IconParsnip.BMP", static_cast<int>(ItemType::Seed));
+        return;
+    }
+    else if (Seedtype == SeedName::Cauliflower)
+    {
+        CreateItem("IconCauliflower.BMP", static_cast<int>(ItemType::Seed));
+        return;
+    }
+
+}
+
+
 
 void Inventory::CameraPosUpdate()
 {
