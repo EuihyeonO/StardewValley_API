@@ -66,25 +66,21 @@ void Pierre::Render(float _Time)
     {
         HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
-        Rectangle(_hdc, PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - PierreRender->GetScale().hx(),
-            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - PierreRender->GetScale().hy(),
-            PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + PierreRender->GetScale().hx(),
-            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + PierreRender->GetScale().hy());
-
-        Rectangle(_hdc, ShopRender->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - ShopRender->GetScale().hx(),
-            ShopRender->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - ShopRender->GetScale().hy(),
-            ShopRender->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + ShopRender->GetScale().hx(),
-            ShopRender->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + ShopRender->GetScale().hy());
+        Rectangle(_hdc, PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - PierreCollision->GetScale().hix(),
+            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - PierreCollision->GetScale().hiy(),
+            PierreCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + PierreCollision->GetScale().hix(),
+            PierreCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + PierreCollision->GetScale().hiy());
     }
 }
 
 void Pierre::OpenPierreShop()
 {
-    std::vector<GameEngineCollision*> Collisions;
 
-    if (true == PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
+    bool isd = PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
+
+    if (true == isd)
     {
-        if (Collisions.size()>=1 && ShopRender->IsUpdate() == false)
+        if (isOpenShop ==false)
         {
             Player::ChangePlayerIdle();
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
@@ -92,7 +88,7 @@ void Pierre::OpenPierreShop()
             AllShopItemOnOff();
             isOpenShop = true;
         }
-        else if (Collisions.size() >= 1 && ShopRender->IsUpdate() == true)
+        else if (isOpenShop = true)
         {
             Player::ChangePlayerIdle();
             ShopRender->Off();
@@ -100,7 +96,6 @@ void Pierre::OpenPierreShop()
             isOpenShop = false;
         }
     }
-    else return;
 }
 
 void CreateItem(Button* _button)
@@ -165,4 +160,6 @@ std::string Pierre::GetNameShopItem(Button* _Item)
             return "Seed" + startiter->first;
         }
     }
+
+    return "";
 }

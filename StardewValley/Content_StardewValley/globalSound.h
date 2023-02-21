@@ -31,10 +31,13 @@ private:
     GameEngineSoundPlayer WalkSound;
 
     GameEngineSoundPlayer Farm_BGM;
+    GameEngineSoundPlayer Title_BGM;
 
     GameEngineSoundPlayer AxeSound;
     GameEngineSoundPlayer HoeSound;
     GameEngineSoundPlayer PickSound;
     GameEngineSoundPlayer WateringSound;
+
+    float Volume = 1;
 };
 

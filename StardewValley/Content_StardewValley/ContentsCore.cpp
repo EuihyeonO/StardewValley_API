@@ -37,9 +37,9 @@ void ContentsCore::Start()
 	CreateLevel<Level_Road>("Road");
 	CreateLevel<Level_House>("House");
 
-	ChangeLevel("Farm");
+	ChangeLevel("House");
 
-    CurLevel = "Farm";
+    CurLevel = "House";
    
 }
 

@@ -64,6 +64,10 @@ int Level_Farm::GetLastIndexCrops(int _SeedType)
     {
         return 7;
     }
+    else 
+    {
+        return -1;
+    }
 }
 
 bool Level_Farm::IsMaxGrow(float4 _pos, int _SeedType)
@@ -78,6 +82,10 @@ bool Level_Farm::IsMaxGrow(float4 _pos, int _SeedType)
         return false;
     }
 
+    else
+    {
+        return false;
+    }
 }
 
 void Level_Farm::SetSeedPos(float4 _pos, int _SeedType)

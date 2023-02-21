@@ -22,6 +22,8 @@ void House::Start()
 
     GameEngineRender* House = CreateRender("House.bmp", 0);
     House->SetScaleToImage();
+    GameEngineRender* HouseLayer = CreateRender("HouseLayer.bmp", 100);
+    HouseLayer->SetScaleToImage();
 
     PortalToFarm = CreateCollision(ActorType::Portal);
     PortalToFarm->SetScale({ 60, 20 });

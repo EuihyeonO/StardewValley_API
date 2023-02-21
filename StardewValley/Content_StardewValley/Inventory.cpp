@@ -34,9 +34,7 @@ void Inventory::Update(float _DeltaTime)
     CameraPosUpdate();
     ItemUpdate();
     QuickSlotUpdate();
-    SetItemPos();
-
-    size_t a = globalValue::GetUIList().size();
+    SetItemPos(); 
 }
 
 void Inventory::Render(float _Time)
@@ -150,6 +148,16 @@ void Inventory::CreateItem(int Seedtype)
     else if (Seedtype == SeedName::Cauliflower)
     {
         CreateItem("IconCauliflower.BMP", static_cast<int>(ItemType::Seed));
+        return;
+    }
+    else if (Seedtype == SeedName::Garlic)
+    {
+        CreateItem("IconGarlic.BMP", static_cast<int>(ItemType::Seed));
+        return;
+    }
+    else if (Seedtype == SeedName::Bean)
+    {
+        CreateItem("IconBean.BMP", static_cast<int>(ItemType::Seed));
         return;
     }
 

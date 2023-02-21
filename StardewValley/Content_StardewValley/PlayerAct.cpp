@@ -398,6 +398,7 @@ void Player::InteractToTile()
     {
         isHarvesting = true;
         globalValue::CreateItemToAllInventory(SeedIndex);
+        Level_Farm::GetTileMap()->GetTile(SeedIndex, MousePos)->Off();
         Harvesting();
         return;
     }

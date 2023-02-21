@@ -1,5 +1,7 @@
 #include "Title.h"
 #include "Player.h"
+#include "ContentsCore.h"
+#include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
@@ -7,6 +9,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineCore/Button.h>
 
 #include <iostream>
 
@@ -21,134 +24,97 @@ Title::~Title()
 
 void Title::Start()
 {
-
-    intro1 = CreateRender("intro1.bmp", 0);
-    intro1->SetScaleToImage();
-    intro1->SetPosition({ 0,0 });
-    intro1->GetImage()->GetImageScale().half();
-
-    IntroScale = intro1->GetImage()->GetImageScale();
-
-    SetPos(IntroScale.half());
-
-    //타이틀 화면 하단 산맥
-    TitleMountain2 = CreateRender("TitleMountain2.bmp", 3);
-    TitleMountain2->SetScaleToImage();
-    TitleMountain2->SetPosition({ -100,IntroScale.hy() - 263.0f });
-
-    TitleMountain1 = CreateRender("TitleMountain1.bmp", 4);
-    TitleMountain1->SetScaleToImage();
-    TitleMountain1->SetPosition({ 0,IntroScale.hy() - 213.0f });
-
-    Tree = CreateRender("TitleTree.bmp", 5);
-    Tree->SetScaleToImage();
-    Tree->SetPosition({ 0,IntroScale.hy() - 200.0f });
-
-    //타이틀 화면 게임이름 창
-    /*TitleName = CreateRender("TitleName.bmp", 2);
-    TitleName->SetScaleToImage();
-    TitleName->SetPosition({ 0, -530 });*/
-
+   
+    ObjectInit();
+    ButtonInit();
 }
 
 void Title::Update(float _DeltaTime)
 {
 
     mytime += _DeltaTime;
-  
-    //TitleMountain1->SetAlpha(200);
-    //Tree->SetAlpha(200);
-    //타이틀화면 배경
-
-    ////산맥 위치 및 속도 설정
-    //TitleMountain2->SetPosition(float4::Up * _DeltaTime * 10.0f);
-
-    //TitleMountain1->SetPosition(Mountain1Pos);
-    //Tree->SetPosition(TreePos);
-
-    //if (isSet == 0)
-    //{
-          GetLevel()->SetCameraPos({ 0, IntroScale.y - 768 });
-    //    isSet = 1;
-    //}
-
-    //if (GetLevel()->GetCameraPos().y > 0)
-    //{       
-    //    if (mytime >= 1) 
-    //    {
-
-    //        Mountain2Pos += float4::Up * 20.0f * _DeltaTime;
-    //        Mountain1Pos += float4::Down * 30.0f * _DeltaTime;
-    //        TreePos += float4::Down * 10.0f * _DeltaTime;
-
-    //        GetLevel()->SetCameraMove(float4::Up * 80.0f * _DeltaTime); //float4::Up * 70.0f * _DeltaTime
-    //    }
-    //}
-    //else
-    //{
-    //    GetLevel()->SetCameraPos(float4::Zero);
-    //    isCameraSet = 1;
-    //}
     
-    //타이틀 화면 구름
+    if (Alpha >= 255)
     {
-       /* GameEngineRender* Render1 = CreateRender("cloud1.bmp", 1);
-        Render1->SetScale({ 300, 133 });
-        Render1->SetPosition({ 500, -250 });
-
-        GameEngineRender* Render2 = CreateRender("cloud2.bmp", 1);
-        Render2->SetScale({ 250, 112 });
-        Render2->SetPosition({ 300, 160 });
-
-
-        GameEngineRender* Render3 = CreateRender("cloud3.bmp", 1);
-        Render3->SetScale({ 128, 72 });
-        Render3->SetPosition({ -500, -200 });*/
+        Alpha = 255;
+        isSet = 1;
+    }
+    else if(Alpha<255)
+    {
+        Alpha = mytime * 50;        
     }
 
-    //타이틀 화면 버튼 (시작하기, 불러오기 등)
-    //{   
-    //    if (isCameraSet == 1)
-    //    {
-    //        //mytime += _DeltaTime;
-    //        if(mytime >= 11)
-    //        {
-    //            GameEngineRender* Render1 = CreateRender("newgamebutton.bmp", 2);
-    //            Render1->SetPosition({ -252, -150 }); //250
-    //            Render1->SetScale({ 148,116 });
+    TitleMountain1->SetAlpha(Alpha);
+    TitleMountain2->SetAlpha(Alpha);
+    intro1->SetAlpha(Alpha);
+    Tree->SetAlpha(Alpha);
+    Bird1->SetAlpha(Alpha);
+    Bird2->SetAlpha(Alpha);
 
-    //            if (mytime >= 11.25)
-    //            {
-    //                Render1->SetScaleToImage();
-    //            }
-    //        }
+    Bird1->SetMove({ float4::Left * _DeltaTime * 15.0f });
+    Bird2->SetMove({ float4::Left * _DeltaTime * 15.0f });
 
-    //        if (mytime >= 11.5)
-    //        {
-    //            GameEngineRender* Render2 = CreateRender("loadbutton.bmp", 2);
-    //            Render2->SetPosition({ 0, -150 });
-    //            Render2->SetScale({ 148,116 });
+    Cloud1->SetMove({ float4::Left * _DeltaTime * 25.0f });
 
-    //            if (mytime >= 11.75)
-    //            {
-    //                Render2->SetScaleToImage();
-    //            } 
-    //        }
+    if (isSet == 1)
+    {
+        if(GetLevel()->GetCameraPos().y > 0)
+        {
+            if (mytime >= 7.5 && mytime < 8)
+            {
 
-    //        if (mytime >= 12)
-    //        {
-    //            GameEngineRender* Render3 = CreateRender("ExitButton.bmp", 2);
-    //            Render3->SetPosition({ 252, -150 });
-    //            Render3->SetScale({ 148,116 });
+                GetLevel()->SetCameraMove(float4::Up * _DeltaTime * 40.0f);
 
-    //            if (mytime >= 12.25)
-    //            {
-    //                Render3->SetScaleToImage();
-    //            }
-    //        }
-    //    }       
-    //}
+                TitleMountain1->SetMove(float4::Up * _DeltaTime * 20.0f);
+                TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
+                Tree->SetMove(float4::Up * _DeltaTime * 5.0f);
+            }
+            else if (mytime >= 8 && mytime <10)
+            {
+                GetLevel()->SetCameraMove(float4::Up * _DeltaTime * 40.0f);
 
+                Accel1 += _DeltaTime;
+
+                TitleMountain1->SetMove(float4::Up * _DeltaTime * 20.0f);
+                TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
+                Tree->SetMove(float4::Down * Accel1 * 0.3);
+            }
+            else if (mytime >= 10 && mytime < 11.5)
+            {
+                Accel2 += _DeltaTime;
+
+                GetLevel()->SetCameraMove(float4::Up * _DeltaTime * 40.0f);
+
+                TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
+
+                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3);
+                Tree->SetMove(float4::Down * Accel1 * 0.3);
+            }
+            else if (mytime >= 11.5)
+            {
+                Accel3 += _DeltaTime;
+
+                GetLevel()->SetCameraMove(float4::Up * _DeltaTime * 40.0f);
+
+                TitleMountain2->SetMove(float4::Down * Accel3 * 0.3);
+                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3);
+            }
+        }
+
+        else if (GetLevel()->GetCameraPos().y <= 0)
+        {
+            GetLevel()->SetCameraPos({ 0,0 });
+            isCameraSet = 1;
+        }
+    }
+
+    if (isCameraSet == 1)
+    {
+        if (mytime >= 25)
+        {
+            NewGame->GetButtonRender()->On();
+        }
+    }
 
     if (false == GameEngineInput::IsKey("LevelChange"))
     {
@@ -157,7 +123,7 @@ void Title::Update(float _DeltaTime)
 
     if (true == GameEngineInput::IsDown("LevelChange"))
     {
-        GameEngineCore::GetInst()->ChangeLevel("Farm");
+        ContentsCore::SetNextMap("Farm");
     }
 
 }
@@ -166,4 +132,67 @@ void Title::Render(float _Time)
 {
 
 
+}
+
+void Title::ObjectInit()
+{
+    intro1 = CreateRender("intro1.bmp", 0);
+    intro1->SetScaleToImage();
+    intro1->SetPosition({ 0,0 });
+    intro1->GetImage()->GetImageScale().half();
+    intro1->SetAlpha(0);
+    IntroScale = intro1->GetImage()->GetImageScale();
+
+    TitleMountain2 = CreateRender("TitleMountain2.bmp", 3);
+    TitleMountain2->SetScaleToImage();
+    TitleMountain2->SetPosition({ -100,IntroScale.hy() - 238.0f });
+    TitleMountain2->SetAlpha(0);
+
+    TitleMountain1 = CreateRender("TitleMountain1.bmp", 4);
+    TitleMountain1->SetScaleToImage();
+    TitleMountain1->SetPosition({ 0,IntroScale.hy() - 213.0f });
+    TitleMountain1->SetAlpha(0);
+
+    Cloud1 = CreateRender("Cloud1.bmp", 2);
+    Cloud1->SetScaleToImage();
+    Cloud1->SetPosition({ 0,-100 });
+    Cloud1->SetAlpha(150);
+    Cloud1->EffectCameraOff();
+
+    Tree = CreateRender("TitleTree.bmp", 5);
+    Tree->SetScaleToImage();
+    Tree->SetPosition({ 0,IntroScale.hy() - 200.0f });
+    Tree->SetAlpha(0);
+
+    Bird1 = CreateRender("Bird.bmp", 5);
+    Bird1->CreateAnimation({ .AnimationName = "BirdFlying1",.ImageName = "Bird.bmp",.FrameIndex = {0,1,2,3,4,5},.FrameTime = {0.5,0.5,0.5,0.5,0.5,0.5} });
+    Bird1->SetScale({ 52, 36 });
+    Bird1->SetAlpha(0);
+    Bird1->SetPosition({ 0,IntroScale.hy() - 213.0f });
+    Bird1->ChangeAnimation("BirdFlying1");
+
+    Bird2 = CreateRender("Bird.bmp", 5);
+    Bird2->CreateAnimation({ .AnimationName = "BirdFlying2",.ImageName = "Bird.bmp",.FrameIndex = {4,5,0,1,2,3},.FrameTime = {0.5,0.5,0.5,0.5,0.5,0.5} });
+    Bird2->SetScale({ 52, 36 });
+    Bird2->SetAlpha(0);
+    Bird2->SetPosition({ 100,IntroScale.hy() - 213.0f });
+    Bird2->ChangeAnimation("BirdFlying2");
+
+    GetLevel()->SetCameraPos({ 0, IntroScale.y - 768 });
+
+    SetPos(IntroScale.half());
+}
+
+void Title::ButtonInit()
+{
+    NewGame = GetLevel()->CreateActor<Button>();
+    NewGame->SetReleaseImage("newgamebutton.bmp");
+    NewGame->SetHoverImage("newgamebuttonHover.bmp");
+    NewGame->SetPressImage("newgamebuttonHover.bmp");
+    NewGame->SetScale({ 222, 174 });
+    NewGame->SetRenderOrder(10);
+    NewGame->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
+    NewGame->SetPos(IntroScale.half() - float4(200, 100));
+    NewGame->GetButtonRender()->Off();
+    //NewGame->SetClickCallBack();
 }

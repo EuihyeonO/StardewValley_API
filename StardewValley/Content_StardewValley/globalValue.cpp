@@ -102,7 +102,7 @@ bool globalValue::isUpdate_CurLevelInventory(const std::string_view& _Name)
     }
     else
     {
-        false;
+        return false;
     }
 }
 

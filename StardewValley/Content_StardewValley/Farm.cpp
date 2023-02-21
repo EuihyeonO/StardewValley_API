@@ -34,7 +34,7 @@ void Farm::Start()
 
     PortalToHouse = CreateCollision(ActorType::Portal);
     PortalToHouse->SetScale({ 50, 50 });
-    PortalToHouse->SetPosition({ 365, -150 });
+    PortalToHouse->SetPosition({ 365, -130 });
 
 
     Farm->SetScaleToImage();
@@ -67,15 +67,18 @@ void Farm::Render(float _Time)
     {
         HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
-        Rectangle(_hdc, PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
-                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 100,
-                        PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
-                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 100);
+        float4 Vscale = PortalToVillage->GetScale().half();
+        float4 Hscale = PortalToHouse->GetScale().half();
 
-        Rectangle(_hdc, PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
-                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
-                        PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
-                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25);
+        Rectangle(_hdc, PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Vscale.x,
+                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Vscale.y,
+                        PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Vscale.x,
+                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Vscale.y);
+
+        Rectangle(_hdc, PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Hscale.x,
+                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Hscale.y,
+                        PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Hscale.x,
+                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Hscale.y);
     }
 }
 

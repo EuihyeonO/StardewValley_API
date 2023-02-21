@@ -44,6 +44,7 @@ public:
     }
 
     int IsExistInInventory(std::string_view& _Name);
+
     int QuickSlotOrder = 1;
 
     void ItemUpdate();

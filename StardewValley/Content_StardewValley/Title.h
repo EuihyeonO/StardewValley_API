@@ -1,14 +1,17 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+class Button;
 class Title : public GameEngineActor
 {
 
 public:
 
+    void ObjectInit();
+    void ButtonInit();
+
     Title();
     ~Title();
-
     Title(const Title& _Other) = delete;
     Title(Title&& _Other) noexcept = delete;
     Title& operator=(const Title& _Other) = delete;
@@ -34,7 +37,20 @@ private:
     GameEngineRender* TitleName = nullptr; 
     GameEngineRender* TitleMountain1 = nullptr;
     GameEngineRender* TitleMountain2 = nullptr;
+
+    GameEngineRender* Cloud1 = nullptr;
+
     GameEngineRender* Tree = nullptr;
+
+    GameEngineRender* Bird1 = nullptr;
+    GameEngineRender* Bird2 = nullptr;
+
+    Button* NewGame = nullptr;
+
+    int Alpha = 0;
+    float Accel1 = 0;
+    float Accel2 = 0;
+    float Accel3 = 0;
 
 };
 

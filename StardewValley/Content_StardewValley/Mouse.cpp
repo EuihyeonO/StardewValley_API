@@ -24,7 +24,12 @@ void Mouse::Start()
     render->SetScaleToImage();
     CursorScale = render->GetScale();
     render->SetPosition(CursorScale.half());
-    ColMap = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
+
+    if (GetLevel()->GetName() == "Farm")
+    {
+        ColMap = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
+    }
+
     GameEngineCollision* collision = CreateCollision(static_cast<int>(ActorType::Mouse));
     SetPos(GetLevel()->GetMousePosToCamera());
     collision->SetPosition(float4{-20,-20 });

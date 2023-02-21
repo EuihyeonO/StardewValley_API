@@ -39,7 +39,6 @@ void Player::Update(float _DeltaTime)
 
     ActingUpdate(_DeltaTime);   
     InteractToCrops();  
-    Harvesting();
 
     dynamic_cast<Level_Farm*>(GetLevel())->CreateCrops("Parsnip");
 

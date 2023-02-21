@@ -139,10 +139,12 @@ void Level_Farm::Loading()
 
         GameEngineImage* Garlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Garlic.BMP"));
         Garlic->Cut(5, 1);
+        GameEngineImage* IconGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconGarlic.BMP"));
         GameEngineImage* SeedGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedGarlic.BMP"));
 
         GameEngineImage* Bean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bean.BMP"));
         Bean->Cut(8, 1);
+        GameEngineImage* IconBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconBean.BMP"));
         GameEngineImage* SeedBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SeedBean.BMP"));
 
         Dir.MoveParent();
@@ -228,8 +230,7 @@ void Level_Farm::Update(float _DeltaTime)
 void Level_Farm::CreateCrops(std::string _CropName)
 {
     if (GameEngineInput::IsDown("MakeCrop"))
-    {      
-        //테스트 코드
+    {            
         float4 Pos = FarmPlayer->GetInteractPos();
         int Zindex = CheckUpdateTile(Pos);
 
@@ -243,7 +244,6 @@ void Level_Farm::CreateCrops(std::string _CropName)
             {
                 return;
             }
-
             TileMap->SetTileFrame(Zindex, Pos, frame + 1);
         }
     }

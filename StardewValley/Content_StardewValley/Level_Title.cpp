@@ -5,6 +5,7 @@
 #include "globalValue.h"
 #include "Level_Title.h"
 #include "Title.h"
+#include "Mouse.h"
 #include "Player.h"
 
 Level_Title::Level_Title()
@@ -44,6 +45,7 @@ void Level_Title::Loading()
 
         //타이틀 버튼 ( 시작, 종료 등등)
         GameEngineImage* Button1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("newgamebutton.BMP"));
+        GameEngineImage* Button5 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("newgamebuttonHover.BMP"));
 
         GameEngineImage* colButton1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("colnewgame.BMP"));
 
@@ -73,7 +75,12 @@ void Level_Title::Loading()
         GameEngineImage* Mountain1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain1.BMP"));
         GameEngineImage* Mountain2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain2.BMP"));
 
+        GameEngineImage* Cloud1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud1.BMP"));
+
         GameEngineImage* Tree = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleTree.BMP"));
+
+        GameEngineImage* Bird = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bird.BMP"));
+        Bird->Cut(6, 1);
     }
 
     {
@@ -90,6 +97,7 @@ void Level_Title::Loading()
     }
 
     CreateActor<Title>();
+    CreateActor<Mouse>();
 }
 void Level_Title::Update(float _DeltaTime)
 {

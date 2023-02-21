@@ -16,41 +16,6 @@ Item::~Item()
 {
 }
 
-void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
-{
-    Itemtype = _ItemType;
-    ItemName = _ItemName;
-
-    //QuantityText = CreateRender(202); 
-
-    QuantityRender.SetOwner(this);
-    QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");
-    QuantityRender.SetValue(1);
-    QuantityRender.SetAlign(Align::Right);
-    QuantityRender.SetCameraEffect(true);
-
-    SetItemRender(_ItemName);
-
-    if (Itemtype == static_cast<int>(ItemType::Crops))
-    {
-        RenderImage->SetPosition(Player::GetPlayer()->GetPos()+ float4{0, -50});
-        RenderImage->Off();
-
-        SetItemisHarvesting();
-
-        return;
-    }
-
-    RenderImage->SetScaleToImage();
-}
-
-void Item::SetItemRender(std::string_view& _ItemName)
-{
-    RenderImage = CreateRender(_ItemName, 201);
-    RenderImage->SetScaleToImage();
-}
-
-
 void Item::Start()
 {
 }
@@ -130,8 +95,6 @@ void Item::UpdateQuantity()
     }
     QuantityRender.SetValue(Quantity);
     QuantityRender.SetRenderPos(RenderImage->GetPosition() + float4(23, 23));
-   // QuantityText->SetText(std::to_string(Quantity), 25, "Sandoll ¹Ì»ý");
-    //QuantityText->SetPosition(RenderImage->GetPosition() + float4(20,10));
 }
 
 int Item::GetSeedFloor()
@@ -152,4 +115,39 @@ int Item::GetSeedFloor()
     {
         return SeedName::Bean;
     }
+    return -1;
+}
+
+void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
+{
+    Itemtype = _ItemType;
+    ItemName = _ItemName;
+
+    //QuantityText = CreateRender(202); 
+
+    QuantityRender.SetOwner(this);
+    QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");
+    QuantityRender.SetValue(1);
+    QuantityRender.SetAlign(Align::Right);
+    QuantityRender.SetCameraEffect(true);
+
+    SetItemRender(_ItemName);
+
+    if (Itemtype == static_cast<int>(ItemType::Crops))
+    {
+        RenderImage->SetPosition(Player::GetPlayer()->GetPos() + float4{ 0, -50 });
+        RenderImage->Off();
+
+        SetItemisHarvesting();
+
+        return;
+    }
+
+    RenderImage->SetScaleToImage();
+}
+
+void Item::SetItemRender(std::string_view& _ItemName)
+{
+    RenderImage = CreateRender(_ItemName, 201);
+    RenderImage->SetScaleToImage();
 }
