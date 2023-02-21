@@ -43,6 +43,11 @@ public:
         return ItemList.size();
     }
 
+    void SetOwnerToPierre()
+    {
+        isPierreInventory = true;
+    }
+
     int IsExistInInventory(std::string_view& _Name);
 
     int QuickSlotOrder = 1;
@@ -50,6 +55,7 @@ public:
     void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
     void CreateItem(int Seedtype);
+   
 
     void ChangeQuickSlot();
 
@@ -63,6 +69,11 @@ public:
     }
 
     static void ChangeGlobalInventory(Inventory* _Inventory);
+
+    bool IsPierreInventory()
+    {
+        return isPierreInventory;
+    }
 
     void AllItemOn();
     void AllItemOff();
@@ -95,6 +106,8 @@ private:
 
     float4 CameraPos = { 0,0 };
     float4 Screensize = { 0,0 };
+
+    bool isPierreInventory = false;
 };
 
 

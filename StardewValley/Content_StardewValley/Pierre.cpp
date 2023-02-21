@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 #include "globalValue.h"
 #include "Player.h"
+#include "Inventory.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRender.h>
@@ -28,6 +29,10 @@ void Pierre::Start()
     PierreRender = CreateRender("Pierre.bmp", 45);
     PierreRender->SetScaleToImage();
     PierreRender->SetPosition({ 1430, 723 });
+
+    PierreInventory = GetLevel()->CreateActor<Inventory>();
+    PierreInventory->SetOwnerToPierre();
+    PierreInventory->Off();
 
     PierreCollision = CreateCollision(ActorType::NPC);
     PierreCollision->SetScale(PierreRender->GetScale());
@@ -76,9 +81,14 @@ void Pierre::Render(float _Time)
 void Pierre::OpenPierreShop()
 {
 
-    bool isd = PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
+    bool isCollision = PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
+   
+    if (false == isCollision)
+    {
+        return;
+    }
 
-    if (true == isd)
+    if (true == isCollision)
     {
         if (isOpenShop ==false)
         {
@@ -86,11 +96,15 @@ void Pierre::OpenPierreShop()
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
             ShopRender->On();
             AllShopItemOnOff();
+            PierreInventory->On();
+            PierreInventory->AllItemOn();
             isOpenShop = true;
         }
         else if (isOpenShop = true)
         {
             Player::ChangePlayerIdle();
+            PierreInventory->AllItemOff();
+            PierreInventory->Off();
             ShopRender->Off();
             AllShopItemOnOff();
             isOpenShop = false;

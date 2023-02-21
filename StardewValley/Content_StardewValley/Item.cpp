@@ -55,7 +55,7 @@ void Item::Update(float _DeltaTime)
         isHarvesting = false;
 
         RenderImage->SetScaleToImage();
-        RenderImage->SetOrder(150);       
+        RenderImage->SetOrder(200);       
     }
 
     UpdateQuantity();

@@ -46,6 +46,7 @@ private:
     GameEngineRender* Bird2 = nullptr;
 
     Button* NewGame = nullptr;
+    Button* ExitGame = nullptr;
 
     int Alpha = 0;
     float Accel1 = 0;

@@ -225,6 +225,8 @@ void Level_Farm::Loading()
 
 void Level_Farm::Update(float _DeltaTime)
 {  
+    SetTileAlphaMax();
+    isCollisionToPlayer();
 }
 
 void Level_Farm::CreateCrops(std::string _CropName)

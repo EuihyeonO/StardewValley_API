@@ -9,13 +9,14 @@
 #include "Level_House.h"
 #include "globalValue.h"
 #include "ContentsEnum.h"
+#include "Pierre.h"
 
 Inventory* Inventory::GlobalInventory = nullptr;
 
 //몬스터, 농작물 등의 오브젝트는 item* 를 멤버변수로 가지며, 특정 함수가 실행되면 동적할당 후 아이템의 이미지, 이름을 설정한 뒤 인벤토리의 itemlist에 들어가도록 구현
 
 Inventory::Inventory()
-{
+{   
     GlobalInventory = this;
     globalValue::AddItemListToList(this);
 }
@@ -66,18 +67,18 @@ void Inventory::OpenInventory()
 
 void Inventory::AllItemOn()
 {
-    for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
+    for (size_t i = 0; i < ItemList.size(); i++)
     {
-        GlobalInventory->ItemList[i]->GetRenderImage()->On();
+        ItemList[i]->On();
     }
 }
 
 
 void Inventory::AllItemOff()
 {
-    for (size_t i = 0; i < GlobalInventory->ItemList.size(); i++)
+    for (size_t i = 0; i < ItemList.size(); i++)
     {
-        GlobalInventory->ItemList[i]->GetRenderImage()->Off();
+        ItemList[i]->Off();
     }
 }
 
@@ -189,10 +190,52 @@ void Inventory::SetItemPos()
     // 핸들  X좌표 Y좌표 문자열 문자열길이
     std::string Quantity;
 
+    if (isPierreInventory == true)
+    {
+        if (Pierre::IsOpenShop() == false)
+        {
+            return;
+        }
+
+        else
+        {
+
+            for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
+            {
+                if (ItemList[ItemOrder]->GetIsHarvesting() == true)
+                {
+                    return;
+                }
+
+                if (ItemOrder < 10)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 560.0f + (ItemOrder) * 64, 480.0f });
+                }
+                else if (ItemOrder < 20)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                }
+                else if (ItemOrder < 30)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                }
+
+                //아이템 개수출력
+                if (ItemList[ItemOrder]->GetQuantity() > 1)
+                {
+                    float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+                }
+            }
+        }
+        return;
+    }
+
     if(QuickSlotRender->IsUpdate() == false)
     {
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
+            AllItemOn();
+
             if (ItemList[ItemOrder]->GetIsHarvesting() == true)
             {
                 return;
@@ -224,8 +267,16 @@ void Inventory::SetItemPos()
         size_t Num = GetNumOfItem();
         int StartNum = (QuickSlotOrder - 1) * 10;
 
-        for (; StartNum < GetNumOfItem(); StartNum++)
+        AllItemOff();
+
+        int count = 0;
+
+        for (; StartNum < Num; StartNum++)
         {
+            if (count >= 10)
+            {
+                return;
+            }
 
             if (ItemList[StartNum]->GetIsHarvesting() == true)
             {
@@ -233,12 +284,15 @@ void Inventory::SetItemPos()
             }
 
             ItemList[StartNum]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (StartNum%10) * 64, 723.0f });
+            ItemList[StartNum]->On();
 
             //아이템 개수출력
             if (ItemList[StartNum]->GetQuantity() > 1)
             {
                 float4 ItemPos = ItemList[StartNum]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
-            }
+            }  
+
+            ++count;
         }
     }
 }
@@ -292,7 +346,7 @@ void Inventory::ItemUpdate()
 {
     size_t size = ItemList.size();
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size - 1; i++)
     {
         if (0 >= ItemList[i]->GetQuantity())
         {
@@ -324,7 +378,7 @@ void Inventory::ChangeQuickSlot()
 
     ++QuickSlotOrder;
 
-    if (QuickSlotOrder > 3)
+    if (QuickSlotOrder >= 3)
     {
         QuickSlotOrder = 0;
     }

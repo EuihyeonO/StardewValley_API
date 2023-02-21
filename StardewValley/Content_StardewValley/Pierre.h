@@ -5,7 +5,7 @@
 
 class Button;
 class GameEngineCollision;
-
+class Inventory;
 struct shopItem
 {
     std::string ShopItemName;
@@ -28,7 +28,8 @@ public:
         return isOpenShop;
     }
 
-    void ChangeSelectedItem();
+    void Change
+    ();
 
 
 	Pierre();
@@ -47,6 +48,8 @@ protected:
 private:
     static std::map<std::string, Button*> ShopItemList;
     static bool isOpenShop;
+
+    Inventory* PierreInventory = nullptr;
 
     GameEngineRender* PierreRender = nullptr;
     GameEngineCollision* PierreCollision = nullptr;

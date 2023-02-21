@@ -148,7 +148,10 @@ void globalValue::ChangeAllQuickSlot()
 
     for (int i = 0; i < size; i++)
     {
+        if (InventoryList[i]->IsPierreInventory() == false)
+        {
         InventoryList[i]->ChangeQuickSlot();
+        }
     }
 }
 
@@ -158,7 +161,10 @@ void globalValue::ChangeAllQuickSlotItem(int _Num)
 
     for (int i = 0; i < size; i++)
     {
-        InventoryList[i]->ChangeSelectedItem(_Num);
+        if (InventoryList[i]->IsPierreInventory() == false)
+        {
+            InventoryList[i]->ChangeSelectedItem(_Num);
+        }
     }
 }
 

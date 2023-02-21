@@ -189,19 +189,19 @@ bool GameEngineTileMap::IsValidIndex(int _Z, int _Y, int _X)
 {
     if (TileRenders.size() <= _Z)
     {
-        MsgAssert("Z인덱스가 오버했습니다.");
+        //MsgAssert("Z인덱스가 오버했습니다.");
         return false;
     }
 
     if (TileRenders[_Z].size() <= _Y)
     {
-        MsgAssert("Y인덱스가 오버했습니다.");
+        //MsgAssert("Y인덱스가 오버했습니다.");
         return false;
     }
 
     if (TileRenders[_Z][_Y].size() <= _X)
     {
-        MsgAssert("X인덱스가 오버했습니다.");
+        //MsgAssert("X인덱스가 오버했습니다.");
         return false;
     }
 

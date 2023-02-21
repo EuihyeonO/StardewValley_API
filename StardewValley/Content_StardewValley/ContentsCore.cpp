@@ -37,9 +37,9 @@ void ContentsCore::Start()
 	CreateLevel<Level_Road>("Road");
 	CreateLevel<Level_House>("House");
 
-	ChangeLevel("House");
+	ChangeLevel("Title");
 
-    CurLevel = "House";
+    CurLevel = "Title";
    
 }
 
@@ -55,10 +55,11 @@ void ContentsCore::Update()
 
         SoundContoller.SoundInit();
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
             globalValue::CreateItemToAllInventory("SeedGarlic.bmp", static_cast<int>(ItemType::Seed));
+            globalValue::CreateItemToAllInventory("SeedBean.bmp", static_cast<int>(ItemType::Seed));
         }
 
         isSet = 1;

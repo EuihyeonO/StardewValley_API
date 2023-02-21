@@ -7,6 +7,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineTileMap.h>
 
@@ -24,9 +25,15 @@
 void Level_Farm::InitTile()
 {
     TileMap->CreateTileMap(2560 / 64, 1024 / 64, 10, 0, float4{ 64, 64 });
-    TileMap->CreateTileMapCollision(2560 / 64, 1024 / 64, 5, static_cast<int>(ActorType::Tile), float4{ 64, 64 });
-    TileMap->SetFloorSetting(0, "HoeDirt.bmp");
 
+    TileMap->CreateTileMapCollision(2560 / 64, 1024 / 64, 5, static_cast<int>(ActorType::Tile), float4{ 64, 64 });
+    
+    ValidCollisionTileOn();
+
+    ColllidedTile;
+
+    TileMap->SetFloorSetting(0, "HoeDirt.bmp");
+    
     TileMap->SetFloorSetting(SeedName::Parsnip, "Parsnip.bmp");
     TileMap->SetFloorSetting(SeedName::Cauliflower, "Cauliflower.bmp");
     TileMap->SetFloorSetting(SeedName::Garlic , "Garlic.bmp");
@@ -90,12 +97,69 @@ bool Level_Farm::IsMaxGrow(float4 _pos, int _SeedType)
 
 void Level_Farm::SetSeedPos(float4 _pos, int _SeedType)
 {
+    float4 TilePos = TileMap->GetTile(0, _pos)->GetPosition();
+    float4 SeedPos = TileMap->GetTile(_SeedType, _pos)->GetPosition();
+
     if (_SeedType == SeedName::Parsnip)
     {
-        TileMap->GetTile(_SeedType, _pos)->SetMove({ 0, -16 });
+        if(TilePos.y - SeedPos.y != 16)
+        {
+            TileMap->GetTile(_SeedType, _pos)->SetMove({ 0, -16 });
+        }
     }
     else if (_SeedType == SeedName::Garlic || _SeedType == SeedName::Bean)
     {
-        TileMap->GetTile(_SeedType, _pos)->SetMove({ 0, -24 });
+        if (TilePos.y - SeedPos.y != 24)
+        {
+            TileMap->GetTile(_SeedType, _pos)->SetMove({ 0, -24 });
+        }
+    }
+}
+
+void Level_Farm::isCollisionToPlayer()
+{
+    for (int i = 0; i < ColllidedTile.size(); i++)
+    { 
+        if (true == ColllidedTile[i]->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+        {
+            float4 Pos = ColllidedTile[i]->GetPosition();
+            int Zindex = CheckUpdateTile(Pos);
+
+            if (Zindex != -1) 
+            {
+                ColllidedTileRender.push_back(TileMap->GetTile(Zindex, Pos));
+                ColllidedTileRender[ColllidedTileRender.size()-1]->SetAlpha(100);
+            }
+        }
+    }
+    
+}
+
+void Level_Farm::SetTileAlphaMax()
+{
+    for (int i = 0; i < ColllidedTileRender.size(); i++)
+    {
+        ColllidedTileRender[i]->SetAlpha(255);
+    }
+}
+
+void Level_Farm::ValidCollisionTileOn()
+{
+    GameEngineImage* ColMap = ColMap = GameEngineResources::GetInst().ImageFind("FarmC.bmp");
+    
+    float X = 0;
+    float Y = 0;
+    for (X = 0; X < 2560;)
+    {
+        for (Y = 0; Y < 1024;)
+        {
+            if (ColMap->GetPixelColor(float4(X, Y), RGB(255, 0, 255)) == RGB(255, 0, 255))
+            {
+                TileMap->GetTileCollision(0, float4(X, Y))->On();
+                ColllidedTile.push_back(TileMap->GetTileCollision(0, float4(X, Y)));
+            }
+            Y += 64;
+        }    
+        X += 64;
     }
 }

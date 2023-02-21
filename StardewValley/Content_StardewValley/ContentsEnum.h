@@ -15,7 +15,8 @@ enum Act
 
 enum class ActorType
 {
-    Player,
+    Player = 10,
+    FullPlayer,
     Crops,
     Tool,
     Portal,

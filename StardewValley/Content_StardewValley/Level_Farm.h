@@ -49,8 +49,12 @@ public:
 
     static void DeathCrops(Crops* _Crop); 
 
+    void ValidCollisionTileOn();
+    void SetTileAlphaMax();
+    void isCollisionToPlayer();
     void CreateCrops(std::string _CropName);    
     void InitTile();
+
     static int CheckUpdateTile(float4 _pos);
     static int GetLastIndexCrops(int _SeedType);
     static bool IsMaxGrow(float4 _pos, int _SeedType);
@@ -70,6 +74,9 @@ private:
 
     static GameEngineTileMap* TileMap;
     Player* FarmPlayer = nullptr;
+
+    std::vector<GameEngineCollision*> ColllidedTile;
+    std::vector<GameEngineRender*> ColllidedTileRender;
     
 };
 

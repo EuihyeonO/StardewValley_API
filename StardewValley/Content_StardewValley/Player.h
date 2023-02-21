@@ -118,6 +118,7 @@ private:
     GameEngineRender* CurTool = nullptr;
 
     GameEngineCollision* ColBody = nullptr;
+    GameEngineCollision* ColFullBody = nullptr;
 
     GameEngineRender* Pick = nullptr;
     GameEngineRender* Axe = nullptr;

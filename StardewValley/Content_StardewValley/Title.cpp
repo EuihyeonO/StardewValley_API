@@ -51,6 +51,7 @@ void Title::Update(float _DeltaTime)
     Bird1->SetAlpha(Alpha);
     Bird2->SetAlpha(Alpha);
 
+
     Bird1->SetMove({ float4::Left * _DeltaTime * 15.0f });
     Bird2->SetMove({ float4::Left * _DeltaTime * 15.0f });
 
@@ -143,6 +144,10 @@ void Title::ObjectInit()
     intro1->SetAlpha(0);
     IntroScale = intro1->GetImage()->GetImageScale();
 
+    TitleName = CreateRender("TitleName.BMP", 5);
+    TitleName->SetScaleToImage();
+    TitleName->SetPosition({ 0, -480 });
+
     TitleMountain2 = CreateRender("TitleMountain2.bmp", 3);
     TitleMountain2->SetScaleToImage();
     TitleMountain2->SetPosition({ -100,IntroScale.hy() - 238.0f });
@@ -196,3 +201,4 @@ void Title::ButtonInit()
     NewGame->GetButtonRender()->Off();
     //NewGame->SetClickCallBack();
 }
+

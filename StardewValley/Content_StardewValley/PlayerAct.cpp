@@ -27,6 +27,10 @@ void Player::InitPlayer()
     PlayerRender = CreateRender(50);
     PlayerRender->SetScale({ 64, 128 });
 
+    ColFullBody = CreateCollision(ActorType::FullPlayer);
+    ColFullBody->SetScale({ 64, 128 });
+    ColFullBody->SetPosition({ 0,0 });
+
     ColBody = CreateCollision(ActorType::Player);
     ColBody->SetScale({ 64,64 });
     ColBody->SetPosition({ 0,32 });
@@ -434,6 +438,7 @@ void Player::InteractToTile()
  
             Level_Farm::SetSeedPos(MousePos, Floor);
             Level_Farm::GetTileMap()->SetTileFrame(Floor, MousePos, 0);
+            Level_Farm::GetTileMap()->GetTile(Floor, MousePos)->SetOrder(200);
         }
     }
 }
