@@ -163,3 +163,41 @@ void Level_Farm::ValidCollisionTileOn()
         X += 64;
     }
 }
+
+void Level_Farm::Grow_Up()
+{
+    size_t Size = OnTileList.size();
+
+    for (int i = 0; i < Size; i++)
+    {
+        float4 TilePos = OnTileList[i]->GetPosition();
+        int SeedName = CheckUpdateTile(TilePos);
+
+        if (TileMap->GetTile(0, TilePos)->GetFrame() == 1)
+        {
+            TileMap->SetTileFrame(0, TilePos, 0);
+
+            int frame = OnTileList[i]->GetFrame();
+
+            if (frame >= GetLastIndexCrops(SeedName))
+            {
+                return;
+            }
+            OnTileList[i]->SetFrame(frame + 1);
+        }
+    }
+}
+
+void Level_Farm::DeleteTileToList(int _SeedName, float4 _pos)
+{
+    size_t Size = OnTileList.size();
+
+    for(int i = 0; i < Size; i++)
+    {
+        if (OnTileList[i] == TileMap->GetTile(_SeedName, _pos))
+        {
+            OnTileList[i]->Off();
+            OnTileList.erase(OnTileList.begin() + i);
+        }
+    }
+}

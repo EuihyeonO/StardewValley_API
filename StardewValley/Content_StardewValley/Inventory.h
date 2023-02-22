@@ -49,18 +49,20 @@ public:
     }
 
     int IsExistInInventory(std::string_view& _Name);
-
-    int QuickSlotOrder = 1;
+   
 
     void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
     void CreateItem(int Seedtype);
-   
+    void SellItem();
 
     void ChangeQuickSlot();
 
     std::string GetSelectedItemName();
+
     void ChangeSelectedItem(int _InputKey);
+    void ChangeSelectedItem();
+
     Item* GetSelectedItem();
 
     static void SetGlobalInventory(Inventory* _Inventory)
@@ -69,7 +71,11 @@ public:
     }
 
     static void ChangeGlobalInventory(Inventory* _Inventory);
-
+    std::vector<Item*> GetItemList()
+    {
+        return ItemList;
+    }
+    
     bool IsPierreInventory()
     {
         return isPierreInventory;
@@ -81,6 +87,7 @@ public:
     void SetItemPos();
     void CameraPosUpdate();
     void QuickSlotUpdate();
+    void SelectedItemUpdate();
 
 	Inventory(const Inventory& _Other) = delete;
 	Inventory(Inventory&& _Other) noexcept = delete;
@@ -108,6 +115,7 @@ private:
     float4 Screensize = { 0,0 };
 
     bool isPierreInventory = false;
+    int QuickSlotOrder = 0;
 };
 
 

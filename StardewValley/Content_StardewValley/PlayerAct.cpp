@@ -402,7 +402,8 @@ void Player::InteractToTile()
     {
         isHarvesting = true;
         globalValue::CreateItemToAllInventory(SeedIndex);
-        Level_Farm::GetTileMap()->GetTile(SeedIndex, MousePos)->Off();
+        //Level_Farm::GetTileMap()->GetTile(SeedIndex, MousePos)->Off();
+        Level_Farm::DeleteTileToList(SeedIndex, MousePos);
         Harvesting();
         return;
     }
@@ -435,10 +436,15 @@ void Player::InteractToTile()
             //Name = Name.substr(4, NameSize - 4);
 
             globalValue::AllInventoryDelete();
- 
+            
+            GameEngineRender* Tile = Level_Farm::GetTileMap()->GetTile(Floor, MousePos);
+
             Level_Farm::SetSeedPos(MousePos, Floor);
             Level_Farm::GetTileMap()->SetTileFrame(Floor, MousePos, 0);
-            Level_Farm::GetTileMap()->GetTile(Floor, MousePos)->SetOrder(200);
+
+            Tile->SetOrder(200);
+
+            Level_Farm::PlusOnTileToList(Tile);
         }
     }
 }

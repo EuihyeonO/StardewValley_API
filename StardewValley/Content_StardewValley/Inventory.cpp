@@ -36,6 +36,7 @@ void Inventory::Update(float _DeltaTime)
     ItemUpdate();
     QuickSlotUpdate();
     SetItemPos(); 
+    SellItem();
 }
 
 void Inventory::Render(float _Time)
@@ -128,6 +129,13 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
         return;
     }
 
+    if (SelectedItemIndex< 0)
+    {
+        SelectedItemIndex = 0;
+    }
+
+    size_t size = ItemList.size();
+
     ItemList.push_back(GetLevel()->CreateActor<Item>());
     ItemList[ItemList.size() - 1]->ItemInit(_Name, _ItemType);
 
@@ -135,6 +143,7 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
     {
         SelectedItem = ItemList[0];
         SetItemPos();
+        SelectedItemIndex = 0;
         SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
     }
 }
@@ -143,22 +152,22 @@ void Inventory::CreateItem(int Seedtype)
 {
     if (Seedtype == SeedName::Parsnip)
     {
-        CreateItem("IconParsnip.BMP", static_cast<int>(ItemType::Seed));
+        CreateItem("IconParsnip.BMP", static_cast<int>(ItemType::Crops));
         return;
     }
     else if (Seedtype == SeedName::Cauliflower)
     {
-        CreateItem("IconCauliflower.BMP", static_cast<int>(ItemType::Seed));
+        CreateItem("IconCauliflower.BMP", static_cast<int>(ItemType::Crops));
         return;
     }
     else if (Seedtype == SeedName::Garlic)
     {
-        CreateItem("IconGarlic.BMP", static_cast<int>(ItemType::Seed));
+        CreateItem("IconGarlic.BMP", static_cast<int>(ItemType::Crops));
         return;
     }
     else if (Seedtype == SeedName::Bean)
     {
-        CreateItem("IconBean.BMP", static_cast<int>(ItemType::Seed));
+        CreateItem("IconBean.BMP", static_cast<int>(ItemType::Crops));
         return;
     }
 
@@ -178,7 +187,13 @@ void Inventory::QuickSlotUpdate()
    
     if (ItemList.size() >= 1)
     {
+        SelectedLine->On();
         SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
+    }
+    else
+    {
+        SelectedItem = nullptr;
+        SelectedLine->Off();
     }
 }
 
@@ -234,7 +249,7 @@ void Inventory::SetItemPos()
     {
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
-            AllItemOn();
+                AllItemOn();
 
             if (ItemList[ItemOrder]->GetIsHarvesting() == true)
             {
@@ -265,7 +280,7 @@ void Inventory::SetItemPos()
     else if (QuickSlotRender->IsUpdate() == true)
     {
         size_t Num = GetNumOfItem();
-        int StartNum = (QuickSlotOrder - 1) * 10;
+        int StartNum = (QuickSlotOrder) * 10;
 
         AllItemOff();
 
@@ -312,13 +327,25 @@ Item* Inventory::GetSelectedItem()
 
 void Inventory::ChangeSelectedItem(int _InputKey)
 {
-    if (_InputKey > (QuickSlotOrder - 1) * 10 + ItemList.size())
+    if (_InputKey > ItemList.size() - (QuickSlotOrder) * 10)
     {
         return;
     }
 
-    SelectedItemIndex = (QuickSlotOrder - 1) * 10 + _InputKey;
-    SelectedItem = ItemList[SelectedItemIndex - 1];
+    SelectedItemIndex = (QuickSlotOrder) * 10 + _InputKey- 1;
+    SelectedItem = ItemList[SelectedItemIndex];
+}
+
+void Inventory::ChangeSelectedItem()
+{
+    --SelectedItemIndex;
+
+    if (SelectedItemIndex <= 0)
+    {
+        SelectedItemIndex = 0;
+    }
+
+    SelectedItem = ItemList[SelectedItemIndex];
 }
 
 /*이미있는 아이템이라면 인덱스를 반환, 없다면 -1을 반환*/
@@ -346,13 +373,14 @@ void Inventory::ItemUpdate()
 {
     size_t size = ItemList.size();
 
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 0; i < size; i++)
     {
         if (0 >= ItemList[i]->GetQuantity())
         {
-            ChangeSelectedItem(--SelectedItemIndex);
             ItemList[i]->Death();
             ItemList.erase(ItemList.begin() + i);
+
+            ChangeSelectedItem();
         }
     }
 }
@@ -381,5 +409,27 @@ void Inventory::ChangeQuickSlot()
     if (QuickSlotOrder >= 3)
     {
         QuickSlotOrder = 0;
+    }
+}
+
+void Inventory::SellItem()
+{
+    if (isPierreInventory == false)
+    {
+        return;
+    }
+
+    size_t Size = ItemList.size();
+
+    for (int i = 0; i < Size; i++)
+    {
+        if (ItemList[i]->isAbleToSell() == true && ItemList[i]->isCollisionToMouse() == true && GameEngineInput::IsDown("EngineMouseLeft") == true)
+        {
+            globalValue::AllInventoryDelete(i);
+            int num = globalValue::GetMoney();
+            num += ItemList[i]->GetPrice();
+            globalValue::SetMoney(num);
+            globalValue::AllInventoryUpdate();
+        }
     }
 }

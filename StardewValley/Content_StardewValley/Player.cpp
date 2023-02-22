@@ -63,23 +63,17 @@ void Player::Render(float _Time)
     {
         HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
-        //Rectangle(DoubleDC,
-        //    ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
-        //    ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
-        //    ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
-        //    ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
-
-        //Rectangle(DoubleDC,
-        //    ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
-        //    ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 32,
-        //    ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 32,
-        //    ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 32  );
+        Rectangle(DoubleDC,
+            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
+            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
+            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
+            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
 
         Rectangle(DoubleDC,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 96,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 128,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 96,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 128  );
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 32,
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 32,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 32  );
     }
 
 }

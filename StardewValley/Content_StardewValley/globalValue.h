@@ -53,6 +53,8 @@ public:
     static void CreateItemToAllInventory(int _SeedName);
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
+    static void AllInventoryDelete(int Index);
+    static void AllInventoryUpdate();
     static void SetMoney(int Num)
     {
         money = Num;

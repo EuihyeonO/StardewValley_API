@@ -116,6 +116,7 @@ void CreateItem(Button* _button)
 {
     std::string ItemName = Pierre::GetNameShopItem(_button);
     globalValue::CreateItemToAllInventory(ItemName, static_cast<int>(ItemType::Seed));
+
 }
 
 void Pierre::AddItemToShop(std::string _Name)
@@ -176,4 +177,9 @@ std::string Pierre::GetNameShopItem(Button* _Item)
     }
 
     return "";
+}
+
+void Pierre::ShopOff()
+{
+    PierreInventory->AllItemOff();
 }

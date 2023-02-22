@@ -27,6 +27,7 @@ std::vector<Crops*> Level_Farm::CropList;
 GameEngineTileMap* Level_Farm::TileMap;
 Inventory* Level_Farm::FarmInventory;
 UI* Level_Farm::FarmUI;
+std::vector<GameEngineRender*> Level_Farm::OnTileList;
 
 Level_Farm::Level_Farm()
 {  

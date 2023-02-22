@@ -24,6 +24,7 @@ enum class ActorType
     Mouse,
     Tile,
     Item,
+    Bed,
 };
 
 enum class ItemType

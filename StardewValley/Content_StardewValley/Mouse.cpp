@@ -37,6 +37,8 @@ void Mouse::Start()
 
     collision->SetScale({ 5, 5 });
 
+
+
 }
 
 void Mouse::Update(float _DeltaTime)

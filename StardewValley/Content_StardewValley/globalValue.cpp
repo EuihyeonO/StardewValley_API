@@ -63,6 +63,16 @@ void globalValue::AllInventoryDelete()
     }
 }
 
+void globalValue::AllInventoryDelete(int Index)
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->GetItemList()[Index]->MinusQuntity();
+    }
+}
+
 Item* globalValue::GetSelectedItem()
 {
     return InventoryList[0]->GetSelectedItem();
@@ -149,10 +159,7 @@ void globalValue::ChangeAllQuickSlot()
 
     for (int i = 0; i < size; i++)
     {
-        if (InventoryList[i]->IsPierreInventory() == false)
-        {
         InventoryList[i]->ChangeQuickSlot();
-        }
     }
 }
 
@@ -162,10 +169,7 @@ void globalValue::ChangeAllQuickSlotItem(int _Num)
 
     for (int i = 0; i < size; i++)
     {
-        if (InventoryList[i]->IsPierreInventory() == false)
-        {
-            InventoryList[i]->ChangeSelectedItem(_Num);
-        }
+        InventoryList[i]->ChangeSelectedItem(_Num);
     }
 }
 
@@ -205,3 +209,13 @@ int globalValue::GetKeyInput()
     }
 }
 
+
+void globalValue::AllInventoryUpdate()
+{
+    size_t Size = InventoryList.size();
+
+    for (int i = 0; i < Size; i++)
+    {
+        InventoryList[i]->ItemUpdate();
+    }
+}

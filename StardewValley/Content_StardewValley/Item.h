@@ -61,10 +61,18 @@ public:
         return isHarvesting;
     }
 
+    bool isAbleToSell();
+
     void SetItemisHarvesting();
     void UpdatePos();
     void InfoBoxOnOff();
     void InitPrice();
+    bool isCollisionToMouse();
+
+    int GetPrice()
+    {
+        return Price;
+    }
 
 	Item(const Item& _Other) = delete;
 	Item(Item&& _Other) noexcept = delete;

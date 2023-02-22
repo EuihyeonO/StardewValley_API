@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <map>
+#include <list>
 
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
@@ -59,6 +60,14 @@ public:
     static int GetLastIndexCrops(int _SeedType);
     static bool IsMaxGrow(float4 _pos, int _SeedType);
 
+    static void Grow_Up();
+    static void DeleteTileToList(int _SeedName, float4 _pos);
+
+    static void PlusOnTileToList(GameEngineRender* _Render)
+    {
+        OnTileList.push_back(_Render);
+    }
+
     static Inventory* FarmInventory;
     static UI* FarmUI;
 
@@ -73,10 +82,13 @@ private:
     static std::vector<Crops*> CropList;   
 
     static GameEngineTileMap* TileMap;
+    static std::vector<GameEngineRender*> OnTileList;
+
     Player* FarmPlayer = nullptr;
 
     std::vector<GameEngineCollision*> ColllidedTile;
     std::vector<GameEngineRender*> ColllidedTileRender;
+
     
 };
 

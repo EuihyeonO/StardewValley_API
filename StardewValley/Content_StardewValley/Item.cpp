@@ -24,42 +24,6 @@ void Item::Start()
 
 void Item::Update(float _DeltaTime)
 {
-    if (Player::GetPlayer()->GetPlayerAnimationFrame() == 56 || 
-        Player::GetPlayer()->GetPlayerAnimationFrame() == 60 || 
-        Player::GetPlayer()->GetPlayerAnimationFrame() == 64 || 
-        Player::GetPlayer()->GetPlayerAnimationFrame() == 65)
-    {
-        if (CopyImage != nullptr)
-        {
-            if (Player::GetPlayer()->GetDir() == "U")
-            {
-                CopyImage->SetOrder(1);
-            }
-
-            CopyImage->On();         
-        }
-
-        if (Player::GetPlayer()->GetDir() == "U")
-        {
-            RenderImage->SetOrder(1);
-        }
-        RenderImage->On();
-    }
-
-    if (Player::GetPlayer()->isPlayerAnimationEnd() == true)
-    {
-        if (CopyImage != nullptr)
-        {
-            CopyImage->Off();
-            CopyImage = nullptr;          
-        }
-
-        isHarvesting = false;
-
-        RenderImage->SetScaleToImage();
-        RenderImage->SetOrder(200);       
-    }
-
     UpdateQuantity();
     UpdatePos();
     InfoBoxOnOff();
@@ -136,19 +100,9 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     QuantityRender.SetCameraEffect(true);
 
     SetItemRender(_ItemName);
-
+    InitPrice();
     ItemCollision = CreateCollision(ActorType::Item);
     ItemCollision->SetScale(RenderImage->GetScale());
-
-    if (Itemtype == static_cast<int>(ItemType::Crops))
-    {
-        RenderImage->SetPosition(Player::GetPlayer()->GetPos() + float4{ 0, -50 });
-        RenderImage->Off();
-
-        SetItemisHarvesting();
-
-        return;
-    }
 
     RenderImage->SetScaleToImage();
 }
@@ -192,10 +146,43 @@ void Item::InfoBoxOnOff()
     }
 }
 
+bool Item::isCollisionToMouse()
+{
+    return ItemCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Mouse) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
+}
+
 void Item::InitPrice()
 {
-    if (ItemName == "IconBean.bmp")
+    if (ItemName == "IconBean.BMP")
     {
-       // Price = 
+        Price = 120;
+    }
+    else if (ItemName == "IconCauliflower.BMP")
+    {
+        Price = 175;
+    }
+    else if (ItemName == "IconParsnip.BMP")
+    {
+        Price = 35;
+    }
+    else if (ItemName == "IconGarlic.BMP")
+    {
+        Price = 60;
+    }
+    else
+    {
+        Price = 0;
+    }
+}
+
+bool Item::isAbleToSell()
+{
+    if (Itemtype == static_cast<int>(ItemType::Crops))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

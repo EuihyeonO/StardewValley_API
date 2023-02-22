@@ -1,6 +1,8 @@
 #include "House.h"
 #include "ContentsEnum.h"
 #include "ContentsCore.h"
+#include "Player.h"
+#include "Level_Farm.h"
 
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -20,10 +22,19 @@ void House::Start()
 {
     SetPos({ 640,384 });
 
-    GameEngineRender* House = CreateRender("House.bmp", 0);
-    House->SetScaleToImage();
-    GameEngineRender* HouseLayer = CreateRender("HouseLayer.bmp", 100);
-    HouseLayer->SetScaleToImage();
+    house = CreateRender("House.bmp", 0);
+    house->SetScaleToImage();
+
+    BedCollision = CreateCollision(ActorType::Bed);
+    BedCollision->SetScale({ 10, 128 });
+    BedCollision->SetPosition({ 290,200 });
+
+    houseLayer = CreateRender("HouseLayer.bmp", 100);
+    houseLayer->SetScaleToImage();
+
+    BlackMap = CreateRender("BlackMap.bmp", 1000);
+    BlackMap->SetScaleToImage();
+    BlackMap->SetAlpha(0);
 
     PortalToFarm = CreateCollision(ActorType::Portal);
     PortalToFarm->SetScale({ 60, 20 });
@@ -32,7 +43,9 @@ void House::Start()
 
 void House::Update(float _DeltaTime) 
 {
-    ContentsCore::SetNextMap(isCollision_PortalToPlayer());
+    ContentsCore::SetNextMap(isCollision_PortalToPlayer());  
+    DoSleep(_DeltaTime);
+    Sleep(_DeltaTime);
 }
 
 void House::Render(float _Time) 
@@ -54,11 +67,17 @@ void House::Render(float _Time)
     {
         HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
-        Rectangle(_hdc, PortalToFarm->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 30,
-            PortalToFarm->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 10,
-            PortalToFarm->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 30,
-            PortalToFarm->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 10);
+        Rectangle(_hdc, BedCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 5,
+            BedCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 64,
+            BedCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 5,
+            BedCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 64);
+
+        Rectangle(_hdc, BedCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 5,
+            BedCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 64,
+            BedCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 5,
+            BedCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 64);
     }
+   
 }
 
 std::string House::isCollision_PortalToPlayer()
@@ -76,4 +95,44 @@ std::string House::isCollision_PortalToPlayer()
         }
     }
     return "Default";
+}
+
+
+void House::Sleep(float _DeltaTime)
+{
+    if (isSleep == true)
+    {
+        if (alphacount == 1 && alpha > 0)
+        {
+            alpha -= _DeltaTime * 100;
+            BlackMap->SetAlpha(alpha);
+        }
+        else if (alphacount == 1 && alpha <= 0)
+        {
+            isSleep = false;
+            alphacount = 0;
+            alpha = 0;
+        }
+        else if (alpha < 255) {
+
+            alpha += _DeltaTime * 50;
+            BlackMap->SetAlpha(alpha);
+        }
+        else if (alpha >= 255)
+        {
+            alphacount = 1;
+        }
+    }
+}
+
+void House::DoSleep(float _DeltaTime)
+{
+    if (true == BedCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    {
+        if (GameEngineInput::IsDown("KeyInteract") == true)
+        {     
+            isSleep = true;
+            Level_Farm::Grow_Up();
+        }
+    }
 }

@@ -28,8 +28,9 @@ public:
         return isOpenShop;
     }
 
-    void Change
-    ();
+    void ShopOff();
+
+    void Change();
 
 
 	Pierre();

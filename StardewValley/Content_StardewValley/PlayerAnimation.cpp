@@ -153,3 +153,8 @@ void Player::ChangePlayerAnimation(std::string_view _Act)
 {
     PlayerRender->ChangeAnimation(_Act);
 }
+
+void Player::SetPlayerAlpha(int _Alpha)
+{
+    MyPlayer->PlayerRender->SetAlpha(_Alpha);
+}

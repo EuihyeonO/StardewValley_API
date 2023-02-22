@@ -6,6 +6,9 @@ class House : public GameEngineActor
 
 public:
     std::string isCollision_PortalToPlayer();
+    void Sleep(float _DeltaTime);
+    void DoSleep(float _DeltaTime);
+
 	House();
 	~House();
 
@@ -19,8 +22,18 @@ protected:
     void Update(float _DeltaTime) override;
     void Render(float _Time) override;
 private:
+    GameEngineRender* house = nullptr;
+    GameEngineRender* houseLayer = nullptr;
+    GameEngineRender* BlackMap = nullptr;
 
     GameEngineCollision* PortalToFarm = nullptr;
+    GameEngineCollision* BedCollision = nullptr;
+
     bool isDebug = false;
+
+    bool isSleep = false;
+
+    float alpha = 0;
+    int alphacount = 0;
 };
 

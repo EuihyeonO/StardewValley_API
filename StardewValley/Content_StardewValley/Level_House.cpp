@@ -71,6 +71,7 @@ void Level_House::Loading()
         GameEngineImage* House = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("House.BMP"));
         GameEngineImage* HouseLayer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HouseLayer.BMP"));
         GameEngineImage* HouseC = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HouseC.BMP"));
+        GameEngineImage* BlackMap = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BlackMap.BMP"));
 
         Dir.MoveParent();
     }

@@ -76,7 +76,8 @@ public:
     static void ChangePlayerIdle();
 
     static bool IsSameCurTool(std::string _ToolName);
-
+    static void SetPlayerAlpha(int _Alpha);
+ 
     int GetKeyInput();
 
     void Move(float _DeltaTime);

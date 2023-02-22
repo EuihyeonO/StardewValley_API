@@ -70,6 +70,7 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     SetCameraPos(CameraPos);
     Inventory::ChangeGlobalInventory(RoadInventory);
     globalValue::SetCurLevelName(GetName());
+    NPCPierre->ShopOff();
 }
 
 void Level_Road::Loading()
