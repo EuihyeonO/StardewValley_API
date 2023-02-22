@@ -23,6 +23,7 @@ enum class ActorType
     NPC,
     Mouse,
     Tile,
+    Item,
 };
 
 enum class ItemType

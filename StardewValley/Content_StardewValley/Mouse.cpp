@@ -20,7 +20,7 @@ Mouse::~Mouse()
 
 void Mouse::Start()
 {
-    GameEngineRender* render = CreateRender("Cursor.bmp", 205);
+    GameEngineRender* render = CreateRender("Cursor.bmp", 300);
     render->SetScaleToImage();
     CursorScale = render->GetScale();
     render->SetPosition(CursorScale.half());

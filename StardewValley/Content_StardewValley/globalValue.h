@@ -53,6 +53,15 @@ public:
     static void CreateItemToAllInventory(int _SeedName);
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
+    static void SetMoney(int Num)
+    {
+        money = Num;
+    }
+
+    static int GetMoney()
+    {
+        return money;
+    }
 
     static void SetCurLevelName(std::string_view _name)
     {
@@ -79,4 +88,6 @@ private:
 
     static float4 cameraLimitPos;
     static std::string_view CurLevelName;
+
+    static int money;
 };

@@ -12,6 +12,7 @@ float4 globalValue::cameraLimitPos = {0,0};
 std::vector<Inventory*> globalValue::InventoryList;
 std::string_view globalValue::CurLevelName;
 std::vector<UI*> globalValue::UIList;
+int globalValue::money = 200;
 
 globalValue::globalValue()
 {
@@ -203,3 +204,4 @@ int globalValue::GetKeyInput()
         }
     }
 }
+

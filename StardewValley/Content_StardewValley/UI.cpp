@@ -34,11 +34,16 @@ void UI::Start()
     StatusBar->SetScaleToImage();
 
     Screensize = GameEngineWindow::GetScreenSize();
+
+    MoneyRender.SetOwner(this);
+    MoneyRender.SetImage("Number2.bmp", { 18,24 }, 250, RGB(255, 255, 255), "Number2.bmp");
+    MoneyRender.SetValue(0);
+    MoneyRender.SetAlign(Align::Right);
+    MoneyRender.SetCameraEffect(true);
 }
 
 void UI::Update(float _DeltaTime)
 {
-
     //UI위치의 기준이 될 값들(카메라위치, 스크린의 크기 등) 기초설정  
     CameraPos = GetLevel()->GetCameraPos();
 
@@ -46,7 +51,12 @@ void UI::Update(float _DeltaTime)
     TimeBar->SetPosition({ CameraPos.x + Screensize.x - 108.0f , CameraPos.y + 85.0f });
 
     //화면 우측하단 체력바
-    StatusBar->SetPosition({ CameraPos.x + Screensize.x - 36.5f, CameraPos.y + Screensize.y - 87.5f });        
+    StatusBar->SetPosition({ CameraPos.x + Screensize.x - 36.5f, CameraPos.y + Screensize.y - 87.5f });
+
+    //
+    MoneyRender.SetRenderPos({ CameraPos.x + Screensize.x - 32.0f, CameraPos.y + 150.0f });
+    
+    MoneyRender.SetValue(globalValue::GetMoney());
 }
 
 void UI::Render(float _Time)
@@ -65,4 +75,9 @@ void UI::UI_ONOFF()
         TimeBar->On();
         StatusBar->On();
     }
+}
+
+void UI::RenderMoney(int _Money)
+{
+    
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 class Inventory;
 class UI : public GameEngineActor
@@ -18,6 +19,7 @@ public:
     }
 
     void UI_ONOFF();
+    void RenderMoney(int _Money);
 
 	UI(const UI& _Other) = delete;
 	UI(UI&& _Other) noexcept = delete;
@@ -36,6 +38,8 @@ private:
     float4 Screensize = { 0 ,0 };
     GameEngineRender* TimeBar = nullptr;
     GameEngineRender* StatusBar = nullptr;
+
+    NumberRenderObject MoneyRender;
 
     std::string time;
 

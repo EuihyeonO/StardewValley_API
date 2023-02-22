@@ -1,11 +1,13 @@
 #pragma once
 
 #include <string_view>
+#include <string>
 
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/NumberRenderObject.h>
 
+class GameEngineCollision;
 class Item : public GameEngineActor
 {
 
@@ -60,6 +62,9 @@ public:
     }
 
     void SetItemisHarvesting();
+    void UpdatePos();
+    void InfoBoxOnOff();
+    void InitPrice();
 
 	Item(const Item& _Other) = delete;
 	Item(Item&& _Other) noexcept = delete;
@@ -74,8 +79,12 @@ protected:
     void Render(float _Time) override;
 private:
     GameEngineRender* RenderImage =  nullptr;
+    GameEngineRender* InfoRenderImage =  nullptr;
     GameEngineRender* SelectedLine =  nullptr;
     GameEngineRender* QuantityText = nullptr;
+
+    GameEngineCollision* ItemCollision = nullptr;
+
     
     std::string ItemName;    
 
@@ -83,6 +92,7 @@ private:
 
     int Itemtype = 0;
     int Quantity = 1;
+    int Price = 0;
 
     bool isHarvesting = false;
 

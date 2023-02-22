@@ -70,15 +70,15 @@ void Farm::Render(float _Time)
         float4 Vscale = PortalToVillage->GetScale().half();
         float4 Hscale = PortalToHouse->GetScale().half();
 
-        Rectangle(_hdc, PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Vscale.x,
-                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Vscale.y,
-                        PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Vscale.x,
-                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Vscale.y);
+        Rectangle(_hdc, PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Vscale.ix(),
+                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Vscale.iy(),
+                        PortalToVillage->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Vscale.ix(),
+                        PortalToVillage->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Vscale.iy());
 
-        Rectangle(_hdc, PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Hscale.x,
-                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Hscale.y,
-                        PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Hscale.x,
-                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Hscale.y);
+        Rectangle(_hdc, PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - Hscale.ix(),
+                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - Hscale.iy(),
+                        PortalToHouse->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + Hscale.ix(),
+                        PortalToHouse->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + Hscale.iy());
     }
 }
 

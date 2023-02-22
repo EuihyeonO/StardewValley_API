@@ -149,6 +149,25 @@ void Level_Farm::Loading()
 
         Dir.MoveParent();
     }
+    {
+        Dir.Move("InfoBox");
+        GameEngineImage*  InfoAxe = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoAxeIcon.BMP"));
+        GameEngineImage*  InfoHoe = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoHoeIcon.BMP"));
+        GameEngineImage*  InfoWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoWateringIcon.BMP"));
+        GameEngineImage*  InfoPick = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoPickIcon.BMP"));
+
+        GameEngineImage*  InfoSeedParsnip  = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedParsnip.BMP"));
+        GameEngineImage*  InfoSeedBean  = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedBean.BMP"));
+        GameEngineImage*  InfoSeedGarlic  = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedGarlic.BMP"));
+        GameEngineImage*  InfoSeedCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedCauliflower.BMP"));
+
+        GameEngineImage*  InfoIconParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconParsnip.BMP"));
+        GameEngineImage*  InfoIconBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconBean.BMP"));
+        GameEngineImage*  InfoIconGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconGarlic.BMP"));
+        GameEngineImage*  InfoIconCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconCauliflower.BMP"));
+
+        Dir.MoveParent();
+    }
     //µµ±¸
     {
        

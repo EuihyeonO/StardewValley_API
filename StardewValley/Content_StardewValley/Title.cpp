@@ -78,7 +78,7 @@ void Title::Update(float _DeltaTime)
 
                 TitleMountain1->SetMove(float4::Up * _DeltaTime * 20.0f);
                 TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
-                Tree->SetMove(float4::Down * Accel1 * 0.3);
+                Tree->SetMove(float4::Down * Accel1 * 0.3f);
             }
             else if (mytime >= 10 && mytime < 11.5)
             {
@@ -88,17 +88,17 @@ void Title::Update(float _DeltaTime)
 
                 TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
 
-                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3);
-                Tree->SetMove(float4::Down * Accel1 * 0.3);
+                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3f);
+                Tree->SetMove(float4::Down * Accel1 * 0.3f);
             }
             else if (mytime >= 11.5)
             {
                 Accel3 += _DeltaTime;
 
                 GetLevel()->SetCameraMove(float4::Up * _DeltaTime * 40.0f);
-
-                TitleMountain2->SetMove(float4::Down * Accel3 * 0.3);
-                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3);
+                
+                TitleMountain2->SetMove(float4::Down * Accel3 * 0.3f);
+                TitleMountain1->SetMove(float4::Down * Accel2 * 0.3f);
             }
         }
 

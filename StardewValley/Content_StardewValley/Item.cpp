@@ -1,4 +1,5 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "Item.h"
 #include "ContentsEnum.h"
@@ -7,6 +8,7 @@
 #include "globalValue.h"
 
 #include <string_view>
+#include <string>
 
 Item::Item()
 {
@@ -59,6 +61,8 @@ void Item::Update(float _DeltaTime)
     }
 
     UpdateQuantity();
+    UpdatePos();
+    InfoBoxOnOff();
 }
 
 void Item::Render(float _Time)
@@ -122,7 +126,7 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
 {
     Itemtype = _ItemType;
     ItemName = _ItemName;
-
+    
     //QuantityText = CreateRender(202); 
 
     QuantityRender.SetOwner(this);
@@ -132,6 +136,9 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     QuantityRender.SetCameraEffect(true);
 
     SetItemRender(_ItemName);
+
+    ItemCollision = CreateCollision(ActorType::Item);
+    ItemCollision->SetScale(RenderImage->GetScale());
 
     if (Itemtype == static_cast<int>(ItemType::Crops))
     {
@@ -148,6 +155,47 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
 
 void Item::SetItemRender(std::string_view& _ItemName)
 {
+
+    std::string ItemName = _ItemName.data();
+
+    std::string InfoItemName = "Info" + ItemName;
+
+
     RenderImage = CreateRender(_ItemName, 201);
+    InfoRenderImage = CreateRender(InfoItemName, 250);
     RenderImage->SetScaleToImage();
+    InfoRenderImage->SetScaleToImage();
+    InfoRenderImage->SetPosition(RenderImage->GetScale().half());
+    InfoRenderImage->Off();
+}
+
+void Item::UpdatePos()
+{
+    float4 RenderPos = RenderImage->GetPosition();
+
+    ItemCollision->SetPosition(RenderPos - float4{22.5f, 22.5f});
+    InfoRenderImage->SetPosition(RenderImage->GetPosition() + InfoRenderImage->GetScale().half());
+}
+
+void Item::InfoBoxOnOff()
+{
+    if (true == ItemCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Mouse) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    {
+        if(globalValue::isUpdate_CurLevelInventory(GetLevel()->GetName()) == true)
+        {
+            InfoRenderImage->On();
+        }
+    }
+    else
+    {
+        InfoRenderImage->Off();
+    }
+}
+
+void Item::InitPrice()
+{
+    if (ItemName == "IconBean.bmp")
+    {
+       // Price = 
+    }
 }
