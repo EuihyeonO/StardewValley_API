@@ -35,7 +35,7 @@ void Inventory::Update(float _DeltaTime)
     CameraPosUpdate();
     ItemUpdate();
     QuickSlotUpdate();
-    SetItemPos(); 
+    //SetItemPos(); 
     SellItem();
 }
 
@@ -47,10 +47,10 @@ void Inventory::OpenInventory()
 {
     if(InventoryRender->IsUpdate() == false)
     {
-        InventoryRender->SetPosition(GetLevel()->GetCameraPos() + (GameEngineWindow::GetScreenSize().half()));
+        InventoryRender->SetPosition((GameEngineWindow::GetScreenSize().half()));
         InventoryRender->On();
-
         QuickSlotRender->Off();
+        SetItemPos();
 
         UI::GetUI()->UI_ONOFF();
     }
@@ -60,7 +60,7 @@ void Inventory::OpenInventory()
         InventoryRender->Off();
 
         QuickSlotRender->On();
-
+        SetItemPos();
 
         UI::GetUI()->UI_ONOFF();
     }
@@ -95,13 +95,17 @@ void Inventory::InitInventory()
     InventoryRender->SetPosition(CameraPos+(GameEngineWindow::GetScreenSize().half()));
     InventoryRender->SetScaleToImage();
     InventoryRender->Off();
+    InventoryRender->EffectCameraOff();
 
     QuickSlotRender = CreateRender("QuickSlot.bmp", 150);
     QuickSlotRender->SetScaleToImage();
-    QuickSlotRender->SetPosition({ CameraPos.x + (Screensize.x / 2.0f) , CameraPos.y + Screensize.y - 45.0f });
+    QuickSlotRender->SetPosition({ (Screensize.x / 2.0f) , Screensize.y - 45.0f });
+    QuickSlotRender->EffectCameraOff();
+
 
     SelectedLine = CreateRender("SelectedLine.BMP", 150);
     SelectedLine->SetScaleToImage();
+    SelectedLine->EffectCameraOff();
 
     ItemList.reserve(30);
 
@@ -123,7 +127,7 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 
         if (ItemList[ItemIndex]->GetItemType() == static_cast<int>(ItemType::Crops))
         {
-            ItemList[ItemIndex]->SetItemisHarvesting();
+            //ItemList[ItemIndex]->SetItemisHarvesting();
         }
 
         return;
@@ -146,6 +150,9 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
         SelectedItemIndex = 0;
         SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
     }
+
+    CameraPosUpdate();
+    SetItemPos();
 }
 
 void Inventory::CreateItem(int Seedtype)
@@ -173,8 +180,6 @@ void Inventory::CreateItem(int Seedtype)
 
 }
 
-
-
 void Inventory::CameraPosUpdate()
 {
     CameraPos = GetLevel()->GetCameraPos();
@@ -182,13 +187,11 @@ void Inventory::CameraPosUpdate()
 
 void Inventory::QuickSlotUpdate()
 {   
+    SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
 
-    QuickSlotRender->SetPosition(CameraPos + float4((Screensize.x / 2) , Screensize.y - 45.0f));
-   
     if (ItemList.size() >= 1)
     {
         SelectedLine->On();
-        SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
     }
     else
     {
@@ -197,10 +200,20 @@ void Inventory::QuickSlotUpdate()
     }
 }
 
+void Inventory::SetQuickSlotPos(float4 _Pos)
+{
+    float4 ScreenSize = GameEngineWindow::GetScreenSize();
+
+    GlobalInventory->QuickSlotRender->SetPosition(_Pos + float4((ScreenSize.hx()), ScreenSize.y - 45.0f));
+    GlobalInventory->SelectedLine->SetPosition(GlobalInventory->SelectedItem->GetItemRenderPos());
+}
+
+
 void Inventory::SetItemPos()
 {
 
     HDC hdc = GameEngineWindow::GetWindowBackBufferHdc();
+    CameraPos = GetLevel()->GetCameraPos();
 
     // 핸들  X좌표 Y좌표 문자열 문자열길이
     std::string Quantity;
@@ -224,15 +237,15 @@ void Inventory::SetItemPos()
 
                 if (ItemOrder < 10)
                 {
-                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 560.0f + (ItemOrder) * 64, 480.0f });
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 560.0f + (ItemOrder) * 64, 480.0f });
                 }
                 else if (ItemOrder < 20)
                 {
-                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
                 }
                 else if (ItemOrder < 30)
                 {
-                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
                 }
 
                 //아이템 개수출력
@@ -258,15 +271,15 @@ void Inventory::SetItemPos()
 
             if (ItemOrder < 10)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder) * 64, 172.0f });            
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder) * 64, 172.0f });            
             }
             else if (ItemOrder < 20)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
             }
             else if (ItemOrder < 30)
             {
-                ItemList[ItemOrder]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
             }  
 
             //아이템 개수출력
@@ -298,14 +311,8 @@ void Inventory::SetItemPos()
                 return;
             }
 
-            ItemList[StartNum]->GetRenderImage()->SetPosition(CameraPos + float4{ 352.0f + (StartNum%10) * 64, 723.0f });
+            ItemList[StartNum]->GetRenderImage()->SetPosition(float4{ 352.0f + (StartNum%10) * 64, 723.0f });
             ItemList[StartNum]->On();
-
-            //아이템 개수출력
-            if (ItemList[StartNum]->GetQuantity() > 1)
-            {
-                float4 ItemPos = ItemList[StartNum]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
-            }  
 
             ++count;
         }
@@ -379,8 +386,9 @@ void Inventory::ItemUpdate()
         {
             ItemList[i]->Death();
             ItemList.erase(ItemList.begin() + i);
-
             ChangeSelectedItem();
+            SetItemPos();
+            break;
         }
     }
 }

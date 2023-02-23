@@ -17,9 +17,19 @@ public:
     {
         return GlobalUI;
     }
+    static void SetglobalUI(UI* _UI)
+    {
+        GlobalUI = _UI;
+    }
 
     void UI_ONOFF();
-    void RenderMoney(int _Money);
+    void UIPosUpdate();
+
+    void RenderMoney();
+    void RenderDay();
+    
+    static void SetUIpos(float4 _Pos);
+
 
 	UI(const UI& _Other) = delete;
 	UI(UI&& _Other) noexcept = delete;
@@ -40,6 +50,7 @@ private:
     GameEngineRender* StatusBar = nullptr;
 
     NumberRenderObject MoneyRender;
+    NumberRenderObject DayRender;
 
     std::string time;
 

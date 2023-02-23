@@ -38,6 +38,8 @@ public:
     {
         --Quantity;
     }
+    
+    static int GetSeedPrice(std::string& _ItemName);
 
     int GetQuantity()
     {

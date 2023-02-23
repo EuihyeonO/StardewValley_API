@@ -52,6 +52,7 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::AllInventoryItemOn();
     Player::ChangePlayerIdle();
     Inventory::ChangeGlobalInventory(FarmInventory);
+    UI::SetglobalUI(FarmUI);
 
     float4 PlayerPos = Player::GetPlayer()->GetPos();
     float4 HalfSize = GameEngineWindow::GetScreenSize().half();

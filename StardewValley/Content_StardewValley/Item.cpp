@@ -1,5 +1,6 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineBase/GameEngineString.h>
 
 #include "Item.h"
 #include "ContentsEnum.h"
@@ -99,12 +100,15 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     QuantityRender.SetAlign(Align::Right);
     QuantityRender.SetCameraEffect(true);
 
+    QuantityRender.SetCameraEffect(false);
+
     SetItemRender(_ItemName);
     InitPrice();
     ItemCollision = CreateCollision(ActorType::Item);
     ItemCollision->SetScale(RenderImage->GetScale());
 
     RenderImage->SetScaleToImage();
+    RenderImage->EffectCameraOff();
 }
 
 void Item::SetItemRender(std::string_view& _ItemName)
@@ -118,17 +122,25 @@ void Item::SetItemRender(std::string_view& _ItemName)
     RenderImage = CreateRender(_ItemName, 201);
     InfoRenderImage = CreateRender(InfoItemName, 250);
     RenderImage->SetScaleToImage();
+
     InfoRenderImage->SetScaleToImage();
-    InfoRenderImage->SetPosition(RenderImage->GetScale().half());
+    InfoRenderImage->SetPosition(RenderImage->GetPosition());
     InfoRenderImage->Off();
+    InfoRenderImage->EffectCameraOff();
 }
 
 void Item::UpdatePos()
 {
     float4 RenderPos = RenderImage->GetPosition();
+    float4 CameraPos = GetLevel()->GetCameraPos();
 
-    ItemCollision->SetPosition(RenderPos - float4{22.5f, 22.5f});
-    InfoRenderImage->SetPosition(RenderImage->GetPosition() + InfoRenderImage->GetScale().half());
+    ItemCollision->SetPosition(CameraPos + RenderPos - float4(22.5, 22.5));
+    InfoRenderImage->SetPosition(RenderPos + InfoRenderImage->GetScale().half());
+   
+    float4 pos = ItemCollision->GetPosition();
+    HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+
+    Rectangle(_hdc, pos.x - 22.5, pos.y - 22.5, pos.x + 22.5, pos.y + 22.5);
 }
 
 void Item::InfoBoxOnOff()
@@ -184,5 +196,30 @@ bool Item::isAbleToSell()
     else
     {
         return false;
+    }
+}
+
+int Item::GetSeedPrice(std::string& _ItemName)
+{
+    std::string Name = GameEngineString::ToUpper(_ItemName);
+
+    if (Name == "SEEDBEAN.BMP")
+    {
+        return 60;
+    }
+
+    else if (Name == "SEEDCAULIFLOWER.BMP")
+    {
+        return 80;
+    }
+
+    else if (Name == "SEEDPARSNIP.BMP")
+    {
+        return 20;
+    }
+
+    else if (Name == "SEEDGARLIC.BMP")
+    {
+        return 40;
     }
 }

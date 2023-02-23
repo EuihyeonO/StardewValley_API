@@ -56,8 +56,10 @@ void Level_Title::Loading()
         GameEngineImage* Buttonnum = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Number.BMP"));
         Buttonnum->Cut(10, 1);
 
-        GameEngineImage* number2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Number2.BMP"));
+        GameEngineImage* number2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NumberBIG.BMP"));
         number2->Cut(10, 1);
+        GameEngineImage* number3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Numbersmall.BMP"));
+        number3->Cut(10, 1);
 
     }
 

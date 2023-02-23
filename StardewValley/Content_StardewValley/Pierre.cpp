@@ -96,18 +96,24 @@ void Pierre::OpenPierreShop()
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
             ShopRender->On();
             AllShopItemOnOff();
+
+            isOpenShop = true;
+
+            PierreInventory->SetItemPos();
             PierreInventory->On();
             PierreInventory->AllItemOn();
-            isOpenShop = true;
+            
+
         }
         else if (isOpenShop = true)
         {
+            isOpenShop = false;
+
             Player::ChangePlayerIdle();
             PierreInventory->AllItemOff();
             PierreInventory->Off();
             ShopRender->Off();
             AllShopItemOnOff();
-            isOpenShop = false;
         }
     }
 }
@@ -115,6 +121,16 @@ void Pierre::OpenPierreShop()
 void CreateItem(Button* _button)
 {
     std::string ItemName = Pierre::GetNameShopItem(_button);
+       
+    int Price = Item::GetSeedPrice(ItemName);
+    int Money = globalValue::GetMoney();
+    
+    if(Money < Price)
+    {
+        return;
+    }
+    
+    globalValue::SetMoney(Money - Price);
     globalValue::CreateItemToAllInventory(ItemName, static_cast<int>(ItemType::Seed));
 
 }

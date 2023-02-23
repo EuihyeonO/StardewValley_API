@@ -71,6 +71,9 @@ public:
     }
 
     static void ChangeGlobalInventory(Inventory* _Inventory);
+
+    static void SetQuickSlotPos(float4 _pos);
+
     std::vector<Item*> GetItemList()
     {
         return ItemList;

@@ -13,6 +13,7 @@ std::vector<Inventory*> globalValue::InventoryList;
 std::string_view globalValue::CurLevelName;
 std::vector<UI*> globalValue::UIList;
 int globalValue::money = 200;
+int globalValue::Day = 1;
 
 globalValue::globalValue()
 {
@@ -75,7 +76,7 @@ void globalValue::AllInventoryDelete(int Index)
 
 Item* globalValue::GetSelectedItem()
 {
-    return InventoryList[0]->GetSelectedItem();
+   return InventoryList[0]->GetSelectedItem();
 }
 
 std::string globalValue::GetSelectedItemName()

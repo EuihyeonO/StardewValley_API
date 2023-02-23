@@ -3,6 +3,7 @@
 #include "ContentsCore.h"
 #include "Player.h"
 #include "Level_Farm.h"
+#include "globalValue.h"
 
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -121,6 +122,7 @@ void House::Sleep(float _DeltaTime)
         else if (alpha >= 255)
         {
             alphacount = 1;
+            globalValue::DayPlus();
         }
     }
 }
@@ -135,4 +137,5 @@ void House::DoSleep(float _DeltaTime)
             Level_Farm::Grow_Up();
         }
     }
+
 }

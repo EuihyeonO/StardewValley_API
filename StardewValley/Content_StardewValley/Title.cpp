@@ -80,7 +80,7 @@ void Title::Update(float _DeltaTime)
                 TitleMountain2->SetMove(float4::Up * _DeltaTime * 20.0f);
                 Tree->SetMove(float4::Down * Accel1 * 0.3f);
             }
-            else if (mytime >= 10 && mytime < 11.5)
+            else if (mytime >= 10 && mytime < 12.5)
             {
                 Accel2 += _DeltaTime;
 
@@ -91,7 +91,7 @@ void Title::Update(float _DeltaTime)
                 TitleMountain1->SetMove(float4::Down * Accel2 * 0.3f);
                 Tree->SetMove(float4::Down * Accel1 * 0.3f);
             }
-            else if (mytime >= 11.5)
+            else if (mytime >= 12.5)
             {
                 Accel3 += _DeltaTime;
 

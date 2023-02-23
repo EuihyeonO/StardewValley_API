@@ -54,15 +54,25 @@ public:
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
     static void AllInventoryDelete(int Index);
-    static void AllInventoryUpdate();
+    static void AllInventoryUpdate(); 
+
     static void SetMoney(int Num)
     {
         money = Num;
     }
-
+    
+    static void DayPlus()
+    {
+        ++Day;
+    }
     static int GetMoney()
     {
         return money;
+    }
+
+    static int GetDay()
+    {
+        return Day;
     }
 
     static void SetCurLevelName(std::string_view _name)
@@ -92,4 +102,5 @@ private:
     static std::string_view CurLevelName;
 
     static int money;
+    static int Day;
 };

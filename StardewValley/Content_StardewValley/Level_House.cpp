@@ -48,6 +48,7 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
     globalValue::SetCurLevelName(GetName());
 
     Inventory::ChangeGlobalInventory(HouseInventory);
+    UI::SetglobalUI(HouseUI);
     globalValue::AllInventoryItemOn();
 
     if (Player::GetIsCollision() == true)

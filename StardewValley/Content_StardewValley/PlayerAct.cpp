@@ -20,6 +20,7 @@
 #include "Pierre.h"
 #include "Crops.h"
 #include "SelectedLine.h"
+#include "UI.h"
 
 
 void Player::InitPlayer()
@@ -176,15 +177,13 @@ void Player::Move(float _DeltaTime)
         ChangePlayerAnimation("LMove");
     }
 
-    //벽에 닿지 않는다면 이동하게 될 값
     NextPos += MoveDir * MoveSpeed * _DeltaTime;
     NextCameraPos += MoveDir * MoveSpeed * _DeltaTime;
 
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
     if (nullptr != ColMap && RGB(0, 0, 0) != ColMap->GetPixelColor({NextPos.x, NextPos.y}, RGB(0, 0, 0)))
     {
-        SetPos(NextPos);  
-
+       
         if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
         {
             NextCameraPos.x = globalValue::GetcameraLimitPos().x;
@@ -203,6 +202,7 @@ void Player::Move(float _DeltaTime)
         }        
 
          GetLevel()->SetCameraPos(NextCameraPos);
+         SetPos(NextPos);
     }
 
     SetDir();
@@ -402,7 +402,6 @@ void Player::InteractToTile()
     {
         isHarvesting = true;
         globalValue::CreateItemToAllInventory(SeedIndex);
-        //Level_Farm::GetTileMap()->GetTile(SeedIndex, MousePos)->Off();
         Level_Farm::DeleteTileToList(SeedIndex, MousePos);
         Harvesting();
         return;
@@ -429,11 +428,6 @@ void Player::InteractToTile()
         if (globalValue::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
         {
             int Floor = globalValue::GetSelectedItem()->GetSeedFloor();
-
-            //들고 있는 아이템은 앞에 Seed가 붙어있고, 심어질 아이템은 앞에 Seed가 없으므로 이름에서 Seed를 제거하는 과정이 필요
-            //std::string Name = globalValue::GetSelectedItem()->GetItemName();
-            //size_t NameSize = Name.size();
-            //Name = Name.substr(4, NameSize - 4);
 
             globalValue::AllInventoryDelete();
             

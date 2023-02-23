@@ -44,6 +44,8 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
     globalValue::SetcameraLimitPos(float4{ 1920, 1646 } - GameEngineWindow::GetScreenSize());
     Player::SetMyPlayer(RoadPlayer);
+    UI::SetglobalUI(RoadUI);
+
     RoadPlayer->SetPos({ 80, 1280 });
     float4 PlayerPos = Player::GetPlayer()->GetPos();
     float4 HalfSize = GameEngineWindow::GetScreenSize().half();
