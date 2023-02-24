@@ -106,7 +106,7 @@ void House::Sleep(float _DeltaTime)
         if (alphacount == 1 && alpha > 0)
         {
             alpha -= _DeltaTime * 100;
-            BlackMap->SetAlpha(alpha);
+            BlackMap->SetAlpha(static_cast<int>(alpha));
         }
         else if (alphacount == 1 && alpha <= 0)
         {
@@ -117,7 +117,7 @@ void House::Sleep(float _DeltaTime)
         else if (alpha < 255) {
 
             alpha += _DeltaTime * 50;
-            BlackMap->SetAlpha(alpha);
+            BlackMap->SetAlpha(static_cast<int>(alpha));
         }
         else if (alpha >= 255)
         {

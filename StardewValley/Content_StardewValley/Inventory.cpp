@@ -1,6 +1,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 #include "Inventory.h"
 #include "Player.h"
@@ -50,6 +51,12 @@ void Inventory::OpenInventory()
         InventoryRender->SetPosition((GameEngineWindow::GetScreenSize().half()));
         InventoryRender->On();
         QuickSlotRender->Off();
+        
+        CurGold.SetValue(globalValue::GetMoney());
+        CurGold.On();
+
+        TotalGold.SetValue(globalValue::GetTotalRevenue());
+        TotalGold.On();
         SetItemPos();
 
         UI::GetUI()->UI_ONOFF();
@@ -58,8 +65,10 @@ void Inventory::OpenInventory()
     else
     {
         InventoryRender->Off();
-
+        CurGold.Off();
+        TotalGold.Off();
         QuickSlotRender->On();
+
         SetItemPos();
 
         UI::GetUI()->UI_ONOFF();
@@ -108,6 +117,22 @@ void Inventory::InitInventory()
     SelectedLine->EffectCameraOff();
 
     ItemList.reserve(30);
+
+    CurGold.SetOwner(this);
+    CurGold.SetImage("NumberSmall.bmp", { 16, 24 }, 202, RGB( 134, 134, 134 ), "NumberSmall.bmp");
+    CurGold.SetValue(0);
+    CurGold.SetAlign(Align::Right);
+    CurGold.SetCameraEffect(false);
+    CurGold.SetRenderPos({ 810, 507 });
+    CurGold.Off();
+
+    TotalGold.SetOwner(this);
+    TotalGold.SetImage("NumberSmall.bmp", { 16, 24 }, 202, RGB(134, 134, 134), "NumberSmall.bmp");
+    TotalGold.SetValue(0);
+    TotalGold.SetAlign(Align::Right);
+    TotalGold.SetCameraEffect(false);
+    TotalGold.SetRenderPos({ 810, 567 });
+    TotalGold.Off();
 
     if (GameEngineInput::IsKey("ChangeQuickSlot") == false)
     {
@@ -434,9 +459,8 @@ void Inventory::SellItem()
         if (ItemList[i]->isAbleToSell() == true && ItemList[i]->isCollisionToMouse() == true && GameEngineInput::IsDown("EngineMouseLeft") == true)
         {
             globalValue::AllInventoryDelete(i);
-            int num = globalValue::GetMoney();
-            num += ItemList[i]->GetPrice();
-            globalValue::SetMoney(num);
+            globalValue::PlusToMoney(ItemList[i]->GetPrice());
+            globalValue::PlusToTotalRevenue(ItemList[i]->GetPrice());
             globalValue::AllInventoryUpdate();
         }
     }

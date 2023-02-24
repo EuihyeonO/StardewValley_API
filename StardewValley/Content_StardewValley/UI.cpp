@@ -40,7 +40,7 @@ void UI::Start()
     TimeBar->EffectCameraOff();
 
     MoneyRender.SetOwner(this);
-    MoneyRender.SetImage("NumberBig.bmp", { 18,24 }, 250, RGB(255, 255, 255), "NumberBig.bmp");
+    MoneyRender.SetImage("NumberBig.bmp", { 18,24 }, 250, RGB(134, 134, 134), "NumberBig.bmp");
     MoneyRender.SetValue(0);
     MoneyRender.SetAlign(Align::Right);
     MoneyRender.SetCameraEffect(false);

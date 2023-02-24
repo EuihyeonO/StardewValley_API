@@ -98,8 +98,6 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");
     QuantityRender.SetValue(1);
     QuantityRender.SetAlign(Align::Right);
-    QuantityRender.SetCameraEffect(true);
-
     QuantityRender.SetCameraEffect(false);
 
     SetItemRender(_ItemName);
@@ -140,7 +138,6 @@ void Item::UpdatePos()
     float4 pos = ItemCollision->GetPosition();
     HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
-    Rectangle(_hdc, pos.x - 22.5, pos.y - 22.5, pos.x + 22.5, pos.y + 22.5);
 }
 
 void Item::InfoBoxOnOff()
@@ -221,5 +218,9 @@ int Item::GetSeedPrice(std::string& _ItemName)
     else if (Name == "SEEDGARLIC.BMP")
     {
         return 40;
+    }
+    else
+    {
+        return 0;
     }
 }

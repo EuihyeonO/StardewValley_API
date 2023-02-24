@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/Button.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 #include <vector>
 
@@ -46,11 +47,20 @@ void Pierre::Start()
     AddItemToShop("ItemCauliflower.bmp");
     AddItemToShop("ItemGarlic.bmp");
     AddItemToShop("ItemBean.bmp");
+
+    MoneyRender.SetOwner(this);
+    MoneyRender.SetImage("NumberBig.bmp", { 18,24 }, 250, RGB(134, 134, 134), "NumberBig.bmp");
+    MoneyRender.SetValue(globalValue::GetMoney());
+    MoneyRender.SetAlign(Align::Right);
+    MoneyRender.SetCameraEffect(false);
+    MoneyRender.SetRenderPos({ 476, 457 });
+    MoneyRender.Off();
 }
 
 void Pierre::Update(float _DeltaTime)
 {   
     SortToShopItem();
+    MoneyRender.SetValue(globalValue::GetMoney());
 }
 
 void Pierre::Render(float _Time)
@@ -101,10 +111,10 @@ void Pierre::OpenPierreShop()
 
             PierreInventory->SetItemPos();
             PierreInventory->On();
-            PierreInventory->AllItemOn();
-            
-
+            PierreInventory->AllItemOn();  
+            MoneyRender.On();            
         }
+
         else if (isOpenShop = true)
         {
             isOpenShop = false;
@@ -112,6 +122,7 @@ void Pierre::OpenPierreShop()
             Player::ChangePlayerIdle();
             PierreInventory->AllItemOff();
             PierreInventory->Off();
+            MoneyRender.Off();
             ShopRender->Off();
             AllShopItemOnOff();
         }
@@ -130,7 +141,7 @@ void CreateItem(Button* _button)
         return;
     }
     
-    globalValue::SetMoney(Money - Price);
+    globalValue::PlusToMoney(-Price);
     globalValue::CreateItemToAllInventory(ItemName, static_cast<int>(ItemType::Seed));
 
 }

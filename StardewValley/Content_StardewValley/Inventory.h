@@ -8,7 +8,7 @@
 
 //class Item;
 class Player;
-
+class NumberRenderObject;
 class Inventory : public GameEngineActor
 {
 
@@ -113,6 +113,9 @@ private:
     GameEngineRender* InventoryRender = nullptr;
     GameEngineRender* QuickSlotRender = nullptr;
     GameEngineRender* SelectedLine = nullptr;
+
+    NumberRenderObject CurGold;
+    NumberRenderObject TotalGold;
 
     float4 CameraPos = { 0,0 };
     float4 Screensize = { 0,0 };

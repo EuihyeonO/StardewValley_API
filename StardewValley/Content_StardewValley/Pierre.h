@@ -1,16 +1,12 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/NumberRenderObject.h>
 #include <map>
 #include <string>
 
 class Button;
 class GameEngineCollision;
 class Inventory;
-struct shopItem
-{
-    std::string ShopItemName;
-    GameEngineRender* ShopItemRender;
-};
 
 class Pierre : public GameEngineActor
 {
@@ -56,11 +52,10 @@ private:
     GameEngineCollision* PierreCollision = nullptr;
 
     GameEngineRender* ShopRender = nullptr;
-
-
+    GameEngineRender* SelectedLine = nullptr;
     Button* SelectedItem = nullptr;
 
-    GameEngineRender* SelectedLine = nullptr;
+    NumberRenderObject MoneyRender;
 
     float4 ShopTopPos = { 119, -271 };
 

@@ -13,6 +13,7 @@ std::vector<Inventory*> globalValue::InventoryList;
 std::string_view globalValue::CurLevelName;
 std::vector<UI*> globalValue::UIList;
 int globalValue::money = 200;
+int globalValue::TotalRevenue = 0;
 int globalValue::Day = 1;
 
 globalValue::globalValue()

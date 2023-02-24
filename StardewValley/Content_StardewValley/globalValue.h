@@ -60,7 +60,12 @@ public:
     {
         money = Num;
     }
-    
+
+    static void PlusToMoney(int Num)
+    {
+        money += Num;
+    }
+
     static void DayPlus()
     {
         ++Day;
@@ -78,6 +83,16 @@ public:
     static void SetCurLevelName(std::string_view _name)
     {
         CurLevelName = _name;
+    }
+
+    static int GetTotalRevenue()
+    {
+        return TotalRevenue;
+    }
+
+    static void PlusToTotalRevenue(int _money)
+    {
+        TotalRevenue += _money;
     }
 
     static Item* GetSelectedItem();
@@ -102,5 +117,6 @@ private:
     static std::string_view CurLevelName;
 
     static int money;
+    static int TotalRevenue;
     static int Day;
 };
