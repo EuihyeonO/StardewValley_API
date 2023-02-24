@@ -254,20 +254,25 @@ void Level_Farm::CreateCrops(std::string _CropName)
 {
     if (GameEngineInput::IsDown("MakeCrop"))
     {            
-        float4 Pos = FarmPlayer->GetInteractPos();
+        float4 Pos = GetCameraPos() + GetMousePos();
         int Zindex = CheckUpdateTile(Pos);
+        int frame = 0;
 
-        if (TileMap->GetTile(0, Pos)->GetFrame() == 1 && Zindex != -1)
+        while (1)
         {
-            TileMap->SetTileFrame(0, Pos, 0);
-
-            int frame = TileMap->GetTile(Zindex, Pos)->GetFrame();
-
-            if (frame >= GetLastIndexCrops(Zindex))
+            if (Zindex != -1)
             {
-                return;
+                TileMap->SetTileFrame(0, Pos, 0);
+
+                frame = TileMap->GetTile(Zindex, Pos)->GetFrame();
+
+                if (frame >= GetLastIndexCrops(Zindex))
+                {
+                    return;
+                }
+
+                TileMap->SetTileFrame(Zindex, Pos, frame + 1);
             }
-            TileMap->SetTileFrame(Zindex, Pos, frame + 1);
         }
     }
 }
