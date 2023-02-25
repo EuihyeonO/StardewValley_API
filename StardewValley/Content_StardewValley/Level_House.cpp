@@ -27,37 +27,63 @@ Level_House::~Level_House()
 
 void Level_House::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-    HousePlayer->ChangePlayerIdle();
+    HousePlayer->ChangePlayerIdle("D");
 }
 
 void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-    globalValue::SetcameraLimitPos(float4{ 1280, 768 } - GameEngineWindow::GetScreenSize());
-
-    Player::SetMyPlayer(HousePlayer);
-    Player::GetPlayer()->SetPos({ 475, 600 });
-   
-
-    SetCameraPos({0,0});
-
-    if (_PrevLevel!=nullptr &&_PrevLevel->GetName() == "Farm")
-    {
-        Player::GetPlayer()->SetPos({ 490, 600 });
-    }
 
     globalValue::SetCurLevelName(GetName());
 
-    Inventory::ChangeGlobalInventory(HouseInventory);
-    UI::SetglobalUI(HouseUI);
-    globalValue::AllInventoryItemOn();
+    //플레이어 설정
+    Player::SetMyPlayer(HousePlayer);
+    Player::GetPlayer()->SetPos({ 475, 600 });
+
+    if (_PrevLevel != nullptr && _PrevLevel->GetName() == "Farm")
+    {
+        Player::GetPlayer()->SetPos({ 490, 600 });
+        Player::GetPlayer()->PlayerStop();
+        HouseController->SetIsFading(2);
+        HouseController->PortalFarmOn();
+    }
 
     if (Player::GetIsCollision() == true)
     {
         Player::SetIsCollision(false);
     }
+
+    //카메라 위치설정
+    globalValue::SetcameraLimitPos(float4{ 1280, 768 } - GameEngineWindow::GetScreenSize());
+    SetCameraPos({0,0});
+   
+    //인벤토리 설정
+    Inventory::ChangeGlobalInventory(HouseInventory);
+    UI::SetglobalUI(HouseUI);
+    globalValue::AllInventoryItemOn();
+ 
+    HouseInventory->SetItemPos();
+
 }
 
 void Level_House::Loading()
+{
+    ImageRoad();
+
+    CreateActor<Mouse>();
+
+    HouseController = CreateActor<House>();
+    HousePlayer = CreateActor<Player>();   
+
+    Player::GetPlayer()->SetPos({ 475, 600 });
+    SetCameraPos({ 0,0 });
+}
+
+void Level_House::Update(float _DeltaTime)
+{
+
+}
+
+void Level_House::ImageRoad()
 {
     GameEngineDirectory Dir;
 
@@ -72,24 +98,7 @@ void Level_House::Loading()
         GameEngineImage* House = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("House.BMP"));
         GameEngineImage* HouseLayer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HouseLayer.BMP"));
         GameEngineImage* HouseC = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HouseC.BMP"));
-        GameEngineImage* BlackMap = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BlackMap.BMP"));
 
         Dir.MoveParent();
     }
-
-    //사운드
-    {
-       
-    }
-    CreateActor<House>();
-    CreateActor<Mouse>();
-
-    HousePlayer = CreateActor<Player>();   
-
-    Player::GetPlayer()->SetPos({ 475, 600 });
-    SetCameraPos({ 0,0 });
-}
-
-void Level_House::Update(float _DeltaTime)
-{
 }

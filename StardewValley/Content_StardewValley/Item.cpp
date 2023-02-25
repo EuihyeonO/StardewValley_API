@@ -28,30 +28,13 @@ void Item::Update(float _DeltaTime)
     UpdateQuantity();
     UpdatePos();
     InfoBoxOnOff();
+    RenderHarvesting();
 }
 
 void Item::Render(float _Time)
 {
 }
 
-void Item::SetItemisHarvesting()
-{
-    isHarvesting = true;
-    
-    if (Quantity > 1)
-    {
-        CopyImage = CreateRender(ItemName, 2);
-        CopyImage->SetScale({ 64, 64 });
-        CopyImage->SetPosition(Player::GetPlayer()->GetPos() + float4{ 0, -50 });
-        CopyImage->Off();
-    }
-
-    else
-    {
-        RenderImage->SetPosition(Player::GetPlayer()->GetPos() + float4{ 0, -50 });
-        RenderImage->SetScale({ 64, 64 });
-    }
-}
 
 void Item::UpdateQuantity()
 {
@@ -93,6 +76,10 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     ItemName = _ItemName;
     
     //QuantityText = CreateRender(202); 
+    if (Itemtype == static_cast<int>(ItemType::Crops))
+    {
+        isHarvested = true;
+    }
 
     QuantityRender.SetOwner(this);
     QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");
@@ -101,6 +88,7 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     QuantityRender.SetCameraEffect(false);
 
     SetItemRender(_ItemName);
+
     InitPrice();
     ItemCollision = CreateCollision(ActorType::Item);
     ItemCollision->SetScale(RenderImage->GetScale());
@@ -115,11 +103,30 @@ void Item::SetItemRender(std::string_view& _ItemName)
     std::string ItemName = _ItemName.data();
 
     std::string InfoItemName = "Info" + ItemName;
+    std::string CopyItemName = "H" + ItemName;
 
 
     RenderImage = CreateRender(_ItemName, 201);
-    InfoRenderImage = CreateRender(InfoItemName, 250);
     RenderImage->SetScaleToImage();
+    InfoRenderImage = CreateRender(InfoItemName, 250);
+
+    if (isHarvested == true)
+    {
+        Player::GetPlayer()->SetIsHarvesting();
+
+        CopyImage = CreateRender(CopyItemName, 201);
+
+        std::vector<int> DHarvesting(5);
+        DHarvesting = { 0, 1, 2, 3, 3 };
+        std::vector<float> DHarvestingFrame(5);
+        DHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+
+        CopyImage->CreateAnimation({ .AnimationName = "Harvested", .ImageName = CopyItemName,.FrameIndex = DHarvesting,.FrameTime = DHarvestingFrame });
+        CopyImage->CreateAnimation({ .AnimationName = "None", .ImageName = CopyItemName,.FrameIndex = {0},.FrameTime = {0} });
+
+        CopyImage->SetScale({ 64,200 });
+        CopyImage->Off();
+    }
 
     InfoRenderImage->SetScaleToImage();
     InfoRenderImage->SetPosition(RenderImage->GetPosition());
@@ -222,5 +229,57 @@ int Item::GetSeedPrice(std::string& _ItemName)
     else
     {
         return 0;
+    }
+}
+
+void Item::RenderHarvesting()
+{
+    if (CopyImage == nullptr)
+    {
+        return;
+    }
+
+    if (GetLevel()->GetName() != "Farm")
+    {
+        return;
+    }
+
+    if (isHarvested == true)
+    {
+        std::string PlayerDir = Player::GetPlayer()->GetDir();
+        float4 PlayerPos = Player::GetPlayer()->GetPos();
+
+        if (PlayerDir == "D") 
+        {
+            CopyImage->SetPosition(PlayerPos);
+        }
+        else if (PlayerDir == "L")
+        {
+            CopyImage->SetPosition(PlayerPos + float4(-32, 0));
+        }
+        else if (PlayerDir == "R")
+        {
+            CopyImage->SetPosition(PlayerPos + float4(32, 0));
+        }
+        if (PlayerDir == "U")
+        {
+            CopyImage->SetPosition(PlayerPos);
+            CopyImage->SetOrder(49);
+        }
+
+        CopyImage->On();
+        CopyImage->ChangeAnimation("Harvested");
+
+        if (Player::GetPlayer()->isPlayerAnimationEnd() == true)
+        {
+            isHarvested = false;
+        }
+
+    }
+    else
+    {
+        isHarvested = false;
+        CopyImage->ChangeAnimation("None");
+        CopyImage->Off();
     }
 }

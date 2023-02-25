@@ -6,6 +6,11 @@ class House : public GameEngineActor
 
 public:
     std::string isCollision_PortalToPlayer();
+
+    void PortalFarmOn();
+    void SetIsFading(int num);
+
+    void FadeInAndOut(float _DeltaTime);
     void Sleep(float _DeltaTime);
     void DoSleep(float _DeltaTime);
 
@@ -35,5 +40,6 @@ private:
 
     float alpha = 0;
     int alphacount = 0;
+    int isFading = 0;
 };
 

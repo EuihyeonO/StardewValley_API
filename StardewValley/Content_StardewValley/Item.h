@@ -58,18 +58,25 @@ public:
         return RenderImage;
     }
 
-    bool GetIsHarvesting()
+    bool GetIsHarvested()
     {
-        return isHarvesting;
+        return isHarvested;
     }
+
+    void RenderHarvesting();
 
     bool isAbleToSell();
 
-    void SetItemisHarvesting();
     void UpdatePos();
     void InfoBoxOnOff();
     void InitPrice();
     bool isCollisionToMouse();
+
+    void SetIsHarvestied()
+    {
+        isHarvested = true;
+    }
+
 
     int GetPrice()
     {
@@ -104,7 +111,7 @@ private:
     int Quantity = 1;
     int Price = 0;
 
-    bool isHarvesting = false;
+    bool isHarvested = false;
 
     GameEngineRender* CopyImage = nullptr;
 };

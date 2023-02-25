@@ -37,16 +37,21 @@ Level_Road::~Level_Road()
 
 void Level_Road::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-    RoadPlayer->ChangePlayerIdle();
+    RoadPlayer->ChangePlayerIdle("L");
 }
 
 void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-    globalValue::SetcameraLimitPos(float4{ 1920, 1646 } - GameEngineWindow::GetScreenSize());
-    Player::SetMyPlayer(RoadPlayer);
-    UI::SetglobalUI(RoadUI);
+    globalValue::SetCurLevelName(GetName());
 
+
+    //플레이어 설정
     RoadPlayer->SetPos({ 80, 1280 });
+    Player::SetMyPlayer(RoadPlayer);
+
+    //카메라 기초설정
+    globalValue::SetcameraLimitPos(float4{ 1920, 1646 } - GameEngineWindow::GetScreenSize());
+
     float4 PlayerPos = Player::GetPlayer()->GetPos();
     float4 HalfSize = GameEngineWindow::GetScreenSize().half();
     float4 CameraPos = PlayerPos - HalfSize;
@@ -70,19 +75,39 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     }
 
     SetCameraPos(CameraPos);
+
+    //인벤토리 설정
     Inventory::ChangeGlobalInventory(RoadInventory);
-    globalValue::SetCurLevelName(GetName());
+    UI::SetglobalUI(RoadUI);
+    RoadInventory->SetItemPos();
+
+    //엔피씨 설정
     NPCPierre->ShopOff();
 }
 
 void Level_Road::Loading()
 {
+    ImageRoad();
+
+    CreateActor<Road>();
+    CreateActor<Mouse>();
+
+    RoadPlayer = CreateActor<Player>();   
+    NPCPierre = CreateActor<Pierre>();
+}
+
+void Level_Road::Update(float _DeltaTime)
+{
+}
+
+void Level_Road::ImageRoad()
+{
+
     GameEngineDirectory Dir;
 
     Dir.MoveParentToDirectory("ContentsResources");
     Dir.Move("ContentsResources");
     Dir.Move("Image");
-
     //
     {
         Dir.Move("Map");
@@ -118,15 +143,4 @@ void Level_Road::Loading()
         GameEngineImage* hBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HoverItemBean.BMP"));
 
     }
-    CreateActor<Road>();
-    CreateActor<Mouse>();
-    RoadPlayer = CreateActor<Player>();
-    RoadPlayer->SetPos({ 80, 1280 });     
-
-    NPCPierre = CreateActor<Pierre>();
 }
-
-void Level_Road::Update(float _DeltaTime)
-{
-}
-

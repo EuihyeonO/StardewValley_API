@@ -59,6 +59,12 @@
     <ClInclude Include="globalSound.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Level_Mine.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -134,13 +140,16 @@
     <ClCompile Include="globalSound.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Level_Mine.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Actor\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
       <UniqueIdentifier>{028aed64-9aa8-4ffb-a80c-22b8d8712897}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level">
-      <UniqueIdentifier>{6ae4987d-b606-4bf3-951b-423f5d7bb853}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{66ff0db3-9a43-42d5-b26c-795c014e84a7}</UniqueIdentifier>
@@ -165,6 +174,9 @@
     </Filter>
     <Filter Include="Actor\Mouse">
       <UniqueIdentifier>{58830c71-deb3-406f-b572-f160e8f38070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{6ae4987d-b606-4bf3-951b-423f5d7bb853}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -102,7 +102,7 @@ void Pierre::OpenPierreShop()
     {
         if (isOpenShop ==false)
         {
-            Player::ChangePlayerIdle();
+            Player::ChangePlayerIdle(Player::GetPlayer()->GetDir());
             ShopRender->SetPosition(GetLevel()->GetCameraPos() + GameEngineWindow::GetScreenSize().half());
             ShopRender->On();
             AllShopItemOnOff();
@@ -119,7 +119,7 @@ void Pierre::OpenPierreShop()
         {
             isOpenShop = false;
 
-            Player::ChangePlayerIdle();
+            Player::ChangePlayerIdle(Player::GetPlayer()->GetDir());
             PierreInventory->AllItemOff();
             PierreInventory->Off();
             MoneyRender.Off();

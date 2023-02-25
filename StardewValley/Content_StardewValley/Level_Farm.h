@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+class Farm;
 class UI;
 class Crops;
 class GameEngineTileMap;
@@ -17,14 +18,10 @@ class Level_Farm : public GameEngineLevel
 
 public:
 
-
-	Level_Farm();
-	~Level_Farm();
-
-	Level_Farm(const Level_Farm& _Other) = delete;
-	Level_Farm(Level_Farm&& _Other) noexcept = delete;
-	Level_Farm& operator=(const Level_Farm& _Other) = delete;
-	Level_Farm& operator=(Level_Farm&& _Other) noexcept = delete;
+    void ImageRoad();
+    void CropImageRoad();
+    void ToolImageRoad();
+    void UIImageRoad();
 
     static std::vector<Crops*> GetCropList()
     {
@@ -71,6 +68,14 @@ public:
     static Inventory* FarmInventory;
     static UI* FarmUI;
 
+	Level_Farm();
+	~Level_Farm();
+
+	Level_Farm(const Level_Farm& _Other) = delete;
+	Level_Farm(Level_Farm&& _Other) noexcept = delete;
+	Level_Farm& operator=(const Level_Farm& _Other) = delete;
+	Level_Farm& operator=(Level_Farm&& _Other) noexcept = delete;
+
 protected:
     void Loading() override;
     void Update(float _DeltaTime) override;
@@ -84,7 +89,10 @@ private:
     static GameEngineTileMap* TileMap;
     static std::vector<GameEngineRender*> OnTileList;
 
+    float myDeltaTime = 0;
+
     Player* FarmPlayer = nullptr;
+    Farm* FarmController = nullptr;
 
     std::vector<GameEngineCollision*> ColllidedTile;
     std::vector<GameEngineRender*> ColllidedTileRender;

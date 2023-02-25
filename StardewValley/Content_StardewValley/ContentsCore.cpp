@@ -5,6 +5,7 @@
 #include "Level_Farm.h"
 #include "Level_Road.h"
 #include "Level_House.h"
+#include "Level_Mine.h"
 #include "globalValue.h"
 #include "ContentsEnum.h"
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -36,10 +37,11 @@ void ContentsCore::Start()
 	CreateLevel<Level_Farm>("Farm");
 	CreateLevel<Level_Road>("Road");
 	CreateLevel<Level_House>("House");
+	CreateLevel<Level_Mine>("Mine");
 
-	ChangeLevel("House");
+	ChangeLevel("Mine");
 
-    CurLevel = "House";
+    CurLevel = "Mine";
    
 }
 
@@ -94,6 +96,12 @@ void ContentsCore::MapChange()
     {
         ChangeLevel("Road");
         CurLevel = "Road";
+    }
+
+    if (NextMap == "Mine")
+    {
+        ChangeLevel("Mine");
+        CurLevel = "Mine";
     }
 
     NextMap = "Default";

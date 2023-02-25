@@ -2,6 +2,7 @@
 #include "Level_Farm.h"
 #include "Level_House.h"
 #include "Level_Road.h"
+#include "Level_Mine.h"
 #include "UI.h"
 #include "ContentsEnum.h"
 #include "Pierre.h"
@@ -132,6 +133,10 @@ void globalValue::OpenInventory(const std::string_view& _Name)
     else if (_Name == "Road")
     {
         Level_Road::RoadInventory->OpenInventory();
+    }
+    else if (_Name == "Mine")
+    {
+        Level_Mine::MineInventory->OpenInventory();
     }
     else
     {

@@ -47,6 +47,8 @@ void House::Update(float _DeltaTime)
     ContentsCore::SetNextMap(isCollision_PortalToPlayer());  
     DoSleep(_DeltaTime);
     Sleep(_DeltaTime);
+
+    FadeInAndOut(_DeltaTime);
 }
 
 void House::Render(float _Time) 
@@ -91,7 +93,12 @@ std::string House::isCollision_PortalToPlayer()
         {
             for (size_t i = 0; i < Collisions.size(); i++)
             {
-                return "Farm";
+                BlackMap->SetPosition(-GetPos() + BlackMap->GetScale().half() + GetLevel()->GetCameraPos());
+                isFading = 1;
+                alpha = 0;
+                Player::GetPlayer()->PlayerStop();
+                Player::ChangePlayerIdle("D");
+                PortalToFarm->Off();
             }
         }
     }
@@ -137,5 +144,43 @@ void House::DoSleep(float _DeltaTime)
             Level_Farm::Grow_Up();
         }
     }
+}
 
+
+void House::FadeInAndOut(float _DeltaTime)
+{
+    if (isFading == 1 && alpha < 255)
+    {
+        BlackMap->SetAlpha(alpha);
+        alpha += _DeltaTime * 250;
+    }
+    else if (isFading == 1 && alpha >= 255)
+    {
+        isFading = 0;
+        Player::GetPlayer()->PlayerStopOff();
+        ContentsCore::SetNextMap("Farm");
+    }
+    else if (isFading == 2 && alpha > 0)
+    {
+        Player::ChangePlayerIdle("U");
+        BlackMap->SetAlpha(alpha);
+        alpha -= _DeltaTime * 250;
+    }
+    else if (alpha <= 0)
+    {
+        alpha = 0;
+        isFading = 0;
+        Player::GetPlayer()->PlayerStopOff();
+    }
+}
+
+void House::PortalFarmOn()
+{
+    PortalToFarm->On();
+}
+
+void House::SetIsFading(int _num)
+{
+    isFading = _num;
+    alpha = 255;
 }

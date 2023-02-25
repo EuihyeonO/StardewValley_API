@@ -15,6 +15,7 @@ class Level_Road : public GameEngineLevel
 public:
     static Inventory* RoadInventory;
     
+    void ImageRoad();
 
 	Level_Road();
 	~Level_Road();

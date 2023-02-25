@@ -27,6 +27,20 @@ void Level_Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 void Level_Title::Loading()
 {
+    ImageRoad();
+
+    CreateActor<Title>();
+    CreateActor<Mouse>();
+}
+
+void Level_Title::Update(float _DeltaTime)
+{
+
+}
+
+
+void Level_Title::ImageRoad()
+{
     GameEngineDirectory Dir;
 
     Dir.MoveParentToDirectory("ContentsResources");
@@ -75,7 +89,7 @@ void Level_Title::Loading()
         GameEngineImage* Cursor = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cursor.BMP"));
         Dir.MoveParent();
     }
-        //Å¸ÀÌÆ² »ê¸Æ
+    //Å¸ÀÌÆ² »ê¸Æ
     {
         GameEngineImage* Mountain1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain1.BMP"));
         GameEngineImage* Mountain2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain2.BMP"));
@@ -86,6 +100,12 @@ void Level_Title::Loading()
 
         GameEngineImage* Bird = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bird.BMP"));
         Bird->Cut(6, 1);
+    }
+
+    {
+        Dir.Move("Map");
+        GameEngineImage* BlackMap = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BlackMap.BMP"));
+        Dir.MoveParent();
     }
 
     {
@@ -100,11 +120,5 @@ void Level_Title::Loading()
             GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
         }
     }
-
-    CreateActor<Title>();
-    CreateActor<Mouse>();
-}
-void Level_Title::Update(float _DeltaTime)
-{
 
 }

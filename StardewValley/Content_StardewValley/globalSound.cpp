@@ -32,8 +32,9 @@ void globalSound::SoundInit()
 
 void globalSound::WalkSoundOn(const std::string_view _LevelName)
 {
-    if (globalValue::isUpdate_CurLevelInventory(_LevelName))
+    if (globalValue::isUpdate_CurLevelInventory(_LevelName) || Player::GetIsAbleAct() == false)
     {
+        WalkSound.PauseOn();
         return;
     }
 

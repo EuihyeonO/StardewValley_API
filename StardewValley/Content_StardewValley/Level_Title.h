@@ -6,6 +6,8 @@ class Level_Title : public GameEngineLevel
 {
 
 public:
+    
+    void ImageRoad();
 
 	Level_Title();
 	~Level_Title();

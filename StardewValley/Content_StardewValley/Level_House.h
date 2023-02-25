@@ -5,11 +5,13 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 class UI;
+class House;
 class Level_House : public GameEngineLevel
 {
 
 public:
 
+    void ImageRoad();
 	Level_House();
 	~Level_House();
 
@@ -30,5 +32,6 @@ protected:
 private:
 
     Player* HousePlayer = nullptr;  
+    House* HouseController = nullptr;
 };
 

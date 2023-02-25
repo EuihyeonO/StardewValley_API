@@ -73,7 +73,7 @@ public:
     {
         MyPlayer = _player;
     }
-    static void ChangePlayerIdle();
+    static void ChangePlayerIdle(const std::string& _Dir);
 
     static bool IsSameCurTool(std::string _ToolName);
     static void SetPlayerAlpha(int _Alpha);
@@ -88,6 +88,26 @@ public:
     void SetIsHarvesting()
     {
         isHarvesting = true;
+    }
+
+    bool GetisHarvesting()
+    {
+        return isHarvesting;
+    }
+
+    void PlayerStop()
+    {
+        isAbleAct = false;
+    }
+
+    void PlayerStopOff()
+    {
+        isAbleAct = true;
+    }
+
+    static bool GetIsAbleAct()
+    {
+        return MyPlayer->isAbleAct;
     }
 
     void InteractToCrops();
@@ -140,9 +160,13 @@ private:
     bool isCollision = false;
     bool isHarvesting = false;
 
+    bool isAbleAct = true;
+
     static Player* MyPlayer;
 
     std::string Dir = "D";
     int inputNumberKey = -1;
+
+
 };
 

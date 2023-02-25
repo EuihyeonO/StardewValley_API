@@ -48,7 +48,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Level_Mine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Level_Road.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -124,7 +132,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Level_Mine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Level_Road.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

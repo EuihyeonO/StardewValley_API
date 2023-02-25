@@ -25,6 +25,7 @@
 
 void Player::InitPlayer()
 {
+
     PlayerRender = CreateRender(50);
     PlayerRender->SetScale({ 64, 128 });
 
@@ -67,6 +68,11 @@ void Player::ActingUpdate(float _DeltaTime)
         return;
     }
 
+    if (isAbleAct == false)
+    {
+        return;
+    }
+
     int Act = GetKeyInput();
 
     switch (Act)
@@ -103,7 +109,6 @@ void Player::Idle()
 void Player::OpenInventory()
 {
     globalValue::OpenInventory(GetLevel()->GetName());
-    globalValue::UI_OnOff(GetLevel()->GetName());
 }
 
 
@@ -157,33 +162,33 @@ void Player::Move(float _DeltaTime)
 
         else
         {
-            ChangePlayerAnimation("UMove");
+        ChangePlayerAnimation("UMove");
         }
 
-        MoveDir += float4::Up;   
+        MoveDir += float4::Up;
     }
 
     //우측이동
     else if (true == GameEngineInput::IsPress("RMove"))
     {
-        MoveDir += float4::Right;
-        ChangePlayerAnimation("RMove");
-    }  
+    MoveDir += float4::Right;
+    ChangePlayerAnimation("RMove");
+    }
 
     //좌측이동
     else if (true == GameEngineInput::IsPress("LMove"))
     {
-        MoveDir += float4::Left;
-        ChangePlayerAnimation("LMove");
+    MoveDir += float4::Left;
+    ChangePlayerAnimation("LMove");
     }
 
     NextPos += MoveDir * MoveSpeed * _DeltaTime;
     NextCameraPos += MoveDir * MoveSpeed * _DeltaTime;
 
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
-    if (nullptr != ColMap && RGB(0, 0, 0) != ColMap->GetPixelColor({NextPos.x, NextPos.y}, RGB(0, 0, 0)))
+    if (nullptr != ColMap && RGB(0, 0, 0) != ColMap->GetPixelColor({ NextPos.x, NextPos.y }, RGB(0, 0, 0)))
     {
-       
+
         if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
         {
             NextCameraPos.x = globalValue::GetcameraLimitPos().x;
@@ -199,17 +204,17 @@ void Player::Move(float _DeltaTime)
         if (NextPos.y <= GameEngineWindow::GetScreenSize().half().y)
         {
             NextCameraPos.y = 0;
-        }        
+        }
 
-         GetLevel()->SetCameraPos(NextCameraPos);
-         SetPos(NextPos);
+        GetLevel()->SetCameraPos(NextCameraPos);
+        SetPos(NextPos);
     }
 
     SetDir();
 }
 
 void Player::Interact()
-{   
+{
 
     if (Dir[0] == 'R' || Dir[0] == 'L')
     {
@@ -218,7 +223,7 @@ void Player::Interact()
     else if (Dir[0] == 'D' || Dir[0] == 'U')
     {
         CurTool->SetScale({ 64, 250 });
-    }   
+    }
 
     CurTool->On();
 
@@ -226,29 +231,28 @@ void Player::Interact()
 
     if (isHarvesting == true || CurTool == Tool["Default"])
     {
-        isHarvesting = false;
         return;
     }
 
-    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"] )
+    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"])
     {
         CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "HeavyTool");
         ChangePlayerAnimation(Dir + "HeavyTool");
     }
-    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"] )
+    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
     {
         CurTool->ChangeAnimation("DIdle");
-        CurTool->ChangeAnimation(Dir + "Watering");  
+        CurTool->ChangeAnimation(Dir + "Watering");
 
         ChangePlayerAnimation(Dir + "Watering");
-    }   
+    }
 }
 
 
 bool Player::isInteract()
-{
-    if (CurTool == Tool["Default"] || CurTool->IsUpdate() == false)
+{   
+    if (CurTool->IsUpdate() == false)
     {
         return false;
     }
@@ -256,12 +260,19 @@ bool Player::isInteract()
     if (PlayerRender->IsAnimationEnd() == true)
     {
         CurTool->Off();
-        isHarvesting = false;
+
+        if(isHarvesting == true)
+        {
+            isHarvesting = false;
+        }
+
         return false;
     }
 
-    return true;
-
+    else 
+    {
+        return true;
+    }
 }
 
 
@@ -309,9 +320,10 @@ void Player::InteractToCrops()
     }
 }
 
-void Player::ChangePlayerIdle()
+void Player::ChangePlayerIdle(const std::string& _Dir)
 {
-    MyPlayer->ChangePlayerAnimation(MyPlayer->Dir + "Idle");
+    MyPlayer->ChangePlayerAnimation(_Dir + "Idle");
+    MyPlayer->Dir = _Dir;
 }
 
 
@@ -388,7 +400,6 @@ void Player::InteractToTile()
         return;
     }
 
-    //float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));
     
     if (SelectedLine::IsLineOn() == false)
     {

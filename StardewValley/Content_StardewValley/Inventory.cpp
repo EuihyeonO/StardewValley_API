@@ -36,7 +36,6 @@ void Inventory::Update(float _DeltaTime)
     CameraPosUpdate();
     ItemUpdate();
     QuickSlotUpdate();
-    //SetItemPos(); 
     SellItem();
 }
 
@@ -58,8 +57,6 @@ void Inventory::OpenInventory()
         TotalGold.SetValue(globalValue::GetTotalRevenue());
         TotalGold.On();
         SetItemPos();
-
-        UI::GetUI()->UI_ONOFF();
     }
 
     else
@@ -71,7 +68,6 @@ void Inventory::OpenInventory()
 
         SetItemPos();
 
-        UI::GetUI()->UI_ONOFF();
     }
 }
 
@@ -152,7 +148,7 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 
         if (ItemList[ItemIndex]->GetItemType() == static_cast<int>(ItemType::Crops))
         {
-            //ItemList[ItemIndex]->SetItemisHarvesting();
+            ItemList[ItemIndex]->SetIsHarvestied();
         }
 
         return;
@@ -255,10 +251,6 @@ void Inventory::SetItemPos()
 
             for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
             {
-                if (ItemList[ItemOrder]->GetIsHarvesting() == true)
-                {
-                    return;
-                }
 
                 if (ItemOrder < 10)
                 {
@@ -288,11 +280,6 @@ void Inventory::SetItemPos()
         for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
         {
                 AllItemOn();
-
-            if (ItemList[ItemOrder]->GetIsHarvesting() == true)
-            {
-                return;
-            }
 
             if (ItemOrder < 10)
             {
@@ -331,10 +318,6 @@ void Inventory::SetItemPos()
                 return;
             }
 
-            if (ItemList[StartNum]->GetIsHarvesting() == true)
-            {
-                return;
-            }
 
             ItemList[StartNum]->GetRenderImage()->SetPosition(float4{ 352.0f + (StartNum%10) * 64, 723.0f });
             ItemList[StartNum]->On();
@@ -443,6 +426,8 @@ void Inventory::ChangeQuickSlot()
     {
         QuickSlotOrder = 0;
     }
+
+    SetItemPos();
 }
 
 void Inventory::SellItem()
