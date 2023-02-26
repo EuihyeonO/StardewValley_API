@@ -1,18 +1,21 @@
-#include "Level_Mine.h"
-#include "Inventory.h"
 #include "UI.h"
 #include "Mine.h"
 #include "Player.h"
-#include "globalValue.h"
 #include "Mouse.h"
+#include "Inventory.h"
 
-#include <GameEngineCore/GameEngineActor.h>
+#include "Level_Mine.h"
+
+#include "globalValue.h"
+
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatForm/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineTileMap.h>
 
 
@@ -56,12 +59,6 @@ void Level_Mine::LevelChangeStart(GameEngineLevel* _PrevLevel)
     MineController->PortalFarmOn();
     MineController->SetIsFading(2);
 
-    //MineTileMap = CreateActor<GameEngineTileMap>();
-    //MineTileMap->CreateTileMap(1280 / 64, 768 / 64, 10, 250, { 64,64});
-    //MineTileMap->SetFloorSetting(0, "stoneDebris.bmp");
-
-    //MineTileMap->SetTileFrame(0, { 500, 500 }, 0);
-
     //MineTileMap->GetTile(0, { 500, 500 })->CreateAnimation({ .AnimationName = "Break",.ImageName = "stoneDebris.bmp",.FrameIndex = {1,2,3,4} ,.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f} });
     //MineTileMap->GetTile(0, { 500, 500 })->CreateAnimation({ .AnimationName = "Idle",.ImageName = "stoneDebris.bmp",.FrameIndex = {0} ,.FrameTime = {0.1f} });
     //MineTileMap->GetTile(0, { 500, 500 })->ChangeAnimation("Idle");
@@ -74,18 +71,26 @@ void Level_Mine::Loading()
     MineController = CreateActor<Mine>();
     MinePlayer = CreateActor<Player>();
     CreateActor<Mouse>();
+
+    GameEngineRandom::MainRandom.SetSeed(time(NULL));
+
+    MineTileMap = CreateActor<GameEngineTileMap>();
+    MineTileMap->CreateTileMap(1280 / 64, 768 / 64, 10, 30, { 64,64 });
+    MineTileMap->SetFloorSetting(0, "stoneDebris.bmp");
+
+    SetTileObject();
 }
 void Level_Mine::Update(float _DeltaTime)
 {
-    //if (GameEngineInput::IsDown("Debug") == true)
-    //{
-    //    MineTileMap->GetTile(0, { 500, 500 })->ChangeAnimation("Break");
-    //}
+    if (GameEngineInput::IsDown("Debug") == true)
+    {
+        MineTileMap->GetTile(0, { 500, 500 })->ChangeAnimation("Break");
+    }
 
-    //if (MineTileMap->GetTile(0, { 500, 500 })->GetFrame() == 4)
-    //{
-    //    MineTileMap->GetTile(0, { 500, 500 })->Off();
-    //}
+    if (MineTileMap->GetTile(0, { 500, 500 })->GetFrame() == 4)
+    {
+        MineTileMap->GetTile(0, { 500, 500 })->Off();
+    }
 }
 
 void Level_Mine::ImageRoad()
@@ -114,5 +119,30 @@ void Level_Mine::ImageRoad()
 
 void Level_Mine::SetTileObject()
 {
+    float X = GameEngineRandom::MainRandom.RandomInt(0, 19);
+    float Y = GameEngineRandom::MainRandom.RandomInt(0, 11);
 
+    X *= 64;
+    Y *= 64;
+
+    GameEngineImage* ColMine = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+
+    for (int i = 0; i < 10; i++)
+    {
+        //이미 그 인덱스의 타일이 세팅되어 있거나 마젠타컬러로 제한해둔 위치를 벗어났다면, 다시 추출한다.
+        while (MineTileMap->GetTile(0, { X, Y })->IsUpdate() == true ||
+            RGB(255, 0, 255) != ColMine->GetPixelColor(float4(X, Y), RGB(255, 0, 255)))
+        {
+            X = GameEngineRandom::MainRandom.RandomInt(0, 19);
+            Y = GameEngineRandom::MainRandom.RandomInt(0, 11);
+
+            X *= 64;
+            Y *= 64;
+        }
+
+        MineTileMap->SetTileFrame(0, { X, Y }, 0);
+        MineTileMap->GetTile(0, { X, Y })->CreateAnimation({ .AnimationName = "Break",.ImageName = "stoneDebris.bmp",.FrameIndex = {1,2,3,4} ,.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f} });
+        MineTileMap->GetTile(0, { X, Y })->CreateAnimation({ .AnimationName = "Idle",.ImageName = "stoneDebris.bmp",.FrameIndex = {0} ,.FrameTime = {0.1f} });
+        MineTileMap->GetTile(0, { X, Y })->ChangeAnimation("Idle");
+    }
 }
