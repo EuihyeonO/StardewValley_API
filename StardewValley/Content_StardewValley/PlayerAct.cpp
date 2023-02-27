@@ -8,6 +8,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineCore/GameEngineTileMap.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "Player.h"
 #include "ContentsEnum.h"
@@ -16,11 +17,13 @@
 #include "Level_Farm.h"
 #include "Level_Road.h"
 #include "Level_House.h"
+#include "Level_Mine.h"
 #include "globalValue.h"
 #include "Pierre.h"
 #include "Crops.h"
 #include "SelectedLine.h"
 #include "UI.h"
+#include "Level_Mine.h"
 
 
 void Player::InitPlayer()
@@ -34,7 +37,7 @@ void Player::InitPlayer()
     ColFullBody->SetPosition({ 0,0 });
 
     ColBody = CreateCollision(ActorType::Player);
-    ColBody->SetScale({ 64,64 });
+    ColBody->SetScale({ 48,48 });
     ColBody->SetPosition({ 0,32 });
 }
 
@@ -185,8 +188,12 @@ void Player::Move(float _DeltaTime)
     NextPos += MoveDir * MoveSpeed * _DeltaTime;
     NextCameraPos += MoveDir * MoveSpeed * _DeltaTime;
 
+    ColBody->SetMove(MoveDir * MoveSpeed * _DeltaTime);
+
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
-    if (nullptr != ColMap && RGB(0, 0, 0) != ColMap->GetPixelColor({ NextPos.x, NextPos.y }, RGB(0, 0, 0)))
+    if (nullptr != ColMap && 
+        RGB(0, 0, 0) != ColMap->GetPixelColor({ NextPos.x, NextPos.y }, RGB(0, 0, 0)) && 
+        false == Level_Mine::isCollisionToTile(NextPos))
     {
 
         if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
@@ -211,6 +218,7 @@ void Player::Move(float _DeltaTime)
     }
 
     SetDir();
+    ColBody->SetPosition({ 0, 32 });
 }
 
 void Player::Interact()
@@ -260,6 +268,7 @@ bool Player::isInteract()
     if (PlayerRender->IsAnimationEnd() == true)
     {
         CurTool->Off();
+        ColTool->On();
 
         if(isHarvesting == true)
         {
@@ -382,7 +391,9 @@ const float4 Player::GetDirPos()
 
 void Player::InteractToTile()
 {
-    if (GetLevel()->GetName() != "Farm")
+    std::string name = GetLevel()->GetName();
+
+    if (GetLevel()->GetName() != "Farm" && GetLevel()->GetName() != "Mine")
     {
         return;
     }
@@ -390,12 +401,21 @@ void Player::InteractToTile()
     float4 MousePos = GetLevel()->GetMousePosToCamera();
     float4 PlayerPos = GetPos();
 
-    if (nullptr != ColMap && RGB(255, 0, 255) != ColMap->GetPixelColor(MousePos, RGB(255, 0, 255)))
+    if (CurTool == Tool["Pick"] && CurTool->IsUpdate() == true)
+    {
+        if (Level_Mine::isToolCollisionToTile() == true)
+        {
+            Level_Mine::SubToStoneLife(ColTool->GetActorPlusPos());
+        }
+    }
+
+    if (isFront(MousePos) != true)
     {
         return;
     }
 
-    if (isFront(MousePos) != true)
+
+    if (nullptr != ColMap && RGB(255, 0, 255) != ColMap->GetPixelColor(MousePos, RGB(255, 0, 255)))
     {
         return;
     }
@@ -447,7 +467,7 @@ void Player::InteractToTile()
             Level_Farm::SetSeedPos(MousePos, Floor);
             Level_Farm::GetTileMap()->SetTileFrame(Floor, MousePos, 0);
 
-            Tile->SetOrder(200);
+            Tile->SetOrder(150);
 
             Level_Farm::PlusOnTileToList(Tile);
         }

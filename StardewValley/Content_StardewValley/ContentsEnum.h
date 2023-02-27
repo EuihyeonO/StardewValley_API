@@ -25,6 +25,7 @@ enum class ActorType
     Tile,
     Item,
     Bed,
+    Stone,
 };
 
 enum class ItemType

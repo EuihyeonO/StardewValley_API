@@ -70,10 +70,10 @@ void Player::Render(float _Time)
             ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
 
         Rectangle(DoubleDC,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 32,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 32,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 32,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 32  );
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 24,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 24,
+            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 24,
+            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 24  );
     }
 
 }

@@ -7,10 +7,10 @@
 class UI;
 class House;
 class Level_House : public GameEngineLevel
+
 {
 
 public:
-
     void ImageRoad();
 	Level_House();
 	~Level_House();

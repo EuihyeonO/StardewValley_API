@@ -258,11 +258,11 @@ void Inventory::SetItemPos()
                 }
                 else if (ItemOrder < 20)
                 {
-                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 10) * 64, 172.0f + 64 });
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 560.0f + (ItemOrder - 10) * 64, 480.0f + 64 });
                 }
                 else if (ItemOrder < 30)
                 {
-                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 20) * 64, 172.0f + 128 });
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 560.0f + (ItemOrder - 20) * 64, 480.0f + 128 });
                 }
 
                 //아이템 개수출력

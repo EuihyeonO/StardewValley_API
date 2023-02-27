@@ -63,6 +63,7 @@ void Player::InitTool()
     //Dir이 R인지 L인지에 따라 다르게 만들어야함
     ColTool = CreateCollision(ActorType::Tool);
     ColTool->SetScale({ 64,64 });
+    ColTool->SetDebugRenderType(CT_Rect);
 
     CurTool = Tool["Pick"];
 
