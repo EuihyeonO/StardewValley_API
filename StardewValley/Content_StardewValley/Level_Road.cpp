@@ -20,6 +20,8 @@
 #include "globalValue.h"
 #include "Pierre.h"
 #include "Mouse.h"
+#include "MenuButton.h"
+#include "AffectionBox.h"
 
 Inventory* Level_Road::RoadInventory;
 UI* Level_Road::RoadUI;
@@ -79,6 +81,8 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     //인벤토리 설정
     Inventory::ChangeGlobalInventory(RoadInventory);
     UI::SetglobalUI(RoadUI);
+    MenuButton::SetGlobalMenuButton(RoadMenuButton);
+    AffectionBox::SetGlobalAffectionBox(RoadAffectionBox);
     RoadInventory->SetItemPos();
 
     //엔피씨 설정
@@ -94,6 +98,10 @@ void Level_Road::Loading()
 
     RoadPlayer = CreateActor<Player>();   
     NPCPierre = CreateActor<Pierre>();
+
+    RoadMenuButton = CreateActor<MenuButton>();
+    RoadAffectionBox = CreateActor<AffectionBox>();
+
 }
 
 void Level_Road::Update(float _DeltaTime)

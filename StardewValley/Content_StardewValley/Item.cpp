@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 
 #include <string_view>
 #include <string>
@@ -151,7 +152,7 @@ void Item::InfoBoxOnOff()
 {
     if (true == ItemCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Mouse) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
-        if(globalValue::isUpdate_CurLevelInventory(GetLevel()->GetName()) == true)
+        if(globalInterface::isUpdate_CurLevelInventory() == true)
         {
             InfoRenderImage->On();
         }

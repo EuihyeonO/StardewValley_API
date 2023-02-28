@@ -13,6 +13,7 @@
 #include "Inventory.h"
 #include "Level_Farm.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "Pierre.h"
 
 
@@ -76,7 +77,7 @@ int Player::GetKeyInput()
         return Act::Idle;
     }
 
-    if (globalValue::isUpdate_CurLevelInventory(GetLevel()->GetName()) == true)
+    if (globalInterface::isMenuOpen() == true)
     {
 
         if (true == GameEngineInput::IsDown("Menu"))

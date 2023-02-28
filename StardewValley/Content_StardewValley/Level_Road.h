@@ -4,6 +4,8 @@
 
 #include <GameEngineCore/GameEngineLevel.h>
 
+class AffectionBox;
+class MenuButton;
 class Pierre;
 class GameEngineCollision;
 class Inventory;
@@ -36,5 +38,7 @@ protected:
 
 private:  
     Player* RoadPlayer = nullptr;
+    MenuButton* RoadMenuButton = nullptr;
+    AffectionBox* RoadAffectionBox = nullptr;
 };
 

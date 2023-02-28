@@ -9,6 +9,8 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+class AffectionBox;
+class MenuButton;
 class Farm;
 class UI;
 class Crops;
@@ -88,6 +90,9 @@ private:
 
     static GameEngineTileMap* TileMap;
     static std::vector<GameEngineRender*> OnTileList;
+
+    MenuButton* FarmMenuButton = nullptr;
+    AffectionBox* FarmAffectionBox = nullptr;
 
     float myDeltaTime = 0;
 

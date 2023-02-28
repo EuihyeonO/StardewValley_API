@@ -2,6 +2,7 @@
 #include "Inventory.h"
 #include "Pierre.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "Player.h"
 #include "ContentsEnum.h"
 
@@ -32,7 +33,7 @@ void globalSound::SoundInit()
 
 void globalSound::WalkSoundOn(const std::string_view _LevelName)
 {
-    if (globalValue::isUpdate_CurLevelInventory(_LevelName) || Player::GetIsAbleAct() == false)
+    if (globalInterface::isMenuOpen() == true || Player::GetIsAbleAct() == false)
     {
         WalkSound.PauseOn();
         return;

@@ -19,6 +19,7 @@
 #include "Level_House.h"
 #include "Level_Mine.h"
 #include "globalValue.h"
+#include "globalInterFace.h"
 #include "Pierre.h"
 #include "Crops.h"
 #include "SelectedLine.h"
@@ -93,13 +94,13 @@ void Player::ActingUpdate(float _DeltaTime)
         InteractToNPC();
         break;
     case Act::Menu:
-        OpenInventory();
+        OpenMenu();
         break;
     case Act::ChangeQuickSlotItem:
-        globalValue::ChangeAllQuickSlotItem(inputNumberKey);
+        globalInterface::ChangeAllQuickSlotItem(inputNumberKey);
         break;
     case Act::ChangeQuickSlot:
-        globalValue::ChangeAllQuickSlot();
+        globalInterface::ChangeAllQuickSlot();
         break;
     }
 }
@@ -109,9 +110,9 @@ void Player::Idle()
     ChangePlayerAnimation(Dir + "Idle");
 }
 
-void Player::OpenInventory()
+void Player::OpenMenu()
 {
-    globalValue::OpenInventory(GetLevel()->GetName());
+    globalInterface::MenuOnOff();
 }
 
 
@@ -284,72 +285,12 @@ bool Player::isInteract()
     }
 }
 
-
-void Player::InteractToCrops()
-{
-    ColTool->SetPosition(SetToolPos());
-
-    if (CurTool->IsUpdate() == true)
-    {
-        std::vector<GameEngineCollision*> Collisions;
-        if (true == ColTool->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
-        {
-            for (size_t i = 0; i < Collisions.size(); i++)
-            {
-                Crops* ColActor = dynamic_cast<Crops*>(Collisions[i]->GetActor());
-               
-                if (ColActor->GetLife() > 0 && CurTool == Tool["Watering"])
-                {
-                    ColActor->GrowUp();
-                }
-
-                else if (ColActor->GetLife() <= 0)
-                {
-                    SetIsHarvesting();
-                    ColActor->Death();
-                    Level_Farm::DeathCrops(ColActor);
-
-                    globalValue::CreateItemToAllInventory(ColActor->GetName(), static_cast<int>(ItemType::Crops));
-                }
-
-                ColActor->CollisionOff();
-
-            }
-        }
-    }
-    else
-    {
-        for (int i = 0; i < Level_Farm::GetCropList().size(); i++)
-        {
-            if (Level_Farm::GetCropList()[i]->IsCollisionUpdate() == false && Level_Farm::GetCropList()[i]->isSet() == true)
-            {
-                Level_Farm::GetCropList()[i]->CollisionOn();
-            }
-        }
-    }
-}
-
 void Player::ChangePlayerIdle(const std::string& _Dir)
 {
     MyPlayer->ChangePlayerAnimation(_Dir + "Idle");
     MyPlayer->Dir = _Dir;
 }
 
-
-bool Player::isCollisionCrops()
-{
-    std::vector<GameEngineCollision*> Collisions;
-
-    if (true == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::Crops) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }, Collisions))
-    {
-        if (Collisions.size() >= 1)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 void Player::Harvesting()
 {
@@ -432,7 +373,7 @@ void Player::InteractToTile()
     if (SeedIndex != -1 && Level_Farm::IsMaxGrow(MousePos, SeedIndex) == true)
     {
         isHarvesting = true;
-        globalValue::CreateItemToAllInventory(SeedIndex);
+        globalInterface::CreateItemToAllInventory(SeedIndex);
         Level_Farm::DeleteTileToList(SeedIndex, MousePos);
         Harvesting();
         return;
@@ -456,11 +397,11 @@ void Player::InteractToTile()
 
     else if (TileFrame == 1 && SeedIndex == -1)
     {
-        if (globalValue::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
+        if (globalInterface::GetSelectedItem()->GetItemType() == static_cast<int>(ItemType::Seed))
         {
-            int Floor = globalValue::GetSelectedItem()->GetSeedFloor();
+            int Floor = globalInterface::GetSelectedItem()->GetSeedFloor();
 
-            globalValue::AllInventoryDelete();
+            globalInterface::AllInventoryDelete();
             
             GameEngineRender* Tile = Level_Farm::GetTileMap()->GetTile(Floor, MousePos);
 
@@ -519,4 +460,9 @@ bool Player::isFront(float4 _pos)
     }
 
     return false;
+}
+
+int Player::GetToolFrame()
+{
+    return MyPlayer->CurTool->GetFrame();
 }

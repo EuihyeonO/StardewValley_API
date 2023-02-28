@@ -23,38 +23,9 @@ public:
         cameraLimitPos = _pos;
     }
 
-    static void AddItemListToList(Inventory* _inventory)
-    {
-        InventoryList.push_back(_inventory);
-    }
 
-    static std::vector<Inventory*> GetInventoryList()
-    {
-        return InventoryList;
-    }
-
-    static void AddUIToList(UI* _UI)
-    {
-        UIList.push_back(_UI);
-    }
-
-    static std::vector<UI*> GetUIList()
-    {
-        return UIList;
-    }
     static int GetKeyInput();
-    static void ChangeAllQuickSlot();
-    static void ChangeAllQuickSlotItem(int _Num);
 
-    static void UI_OnOff(const std::string_view& _Name);
-    static void OpenInventory(const std::string_view& _Name);
-
-    static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
-    static void CreateItemToAllInventory(int _SeedName);
-    static void AllInventoryItemOn();
-    static void AllInventoryDelete();
-    static void AllInventoryDelete(int Index);
-    static void AllInventoryUpdate(); 
 
     static void SetMoney(int Num)
     {
@@ -95,9 +66,7 @@ public:
         TotalRevenue += _money;
     }
 
-    static Item* GetSelectedItem();
-    static std::string GetSelectedItemName();
-    static bool isUpdate_CurLevelInventory(const std::string_view& _Name);
+
 
     globalValue();
 	~globalValue();
@@ -110,8 +79,6 @@ public:
 protected:
 
 private:
-    static std::vector<Inventory*> InventoryList;
-    static std::vector<UI*> UIList;
 
     static float4 cameraLimitPos;
     static std::string_view CurLevelName;

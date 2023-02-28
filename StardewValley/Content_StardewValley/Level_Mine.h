@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
-
+class AffectionBox;
+class MenuButton;
 class UI;
 class Inventory;
 class Player;
@@ -14,14 +15,16 @@ public:
     static Inventory* MineInventory;
 
     static void SubToStoneLife(float4 _pos);
-    void SetTileObject();
-
-    void ImageRoad();
-
+    static void SetTileObject();
+    static void SetMineralToTile(int _Num, const std::string_view& _ImageName);
+    static int CheckUpdateTile(float4 _pos);
     static bool isCollisionToTile(float4 _pos);
     static bool isToolCollisionToTile();
-    int CheckUpdateTile(float4 _pos);
+    static void DeleteTile();
+
+    void CreateTileAnimation(int _MinaralName, const std::string_view& _ImageName);
     void BreakStone(int _floor, float4 _pos);
+    void ImageRoad();
     void TileUpdate();
 
     Level_Mine();
@@ -43,9 +46,14 @@ private:
     static UI* MineUI;
     static GameEngineTileMap* MineTileMap;
     static std::vector<GameEngineCollision*> OnCollisionList;
-    static std::vector<std::vector<int>> StoneLife;    
+    static std::vector<std::vector<int>> StoneLife; 
+    static int isFirst;
+
+    AffectionBox* MineAffectionBox = nullptr;
     Player* MinePlayer = nullptr;
     Mine* MineController = nullptr;
+    MenuButton* MineMenuButton = nullptr;
 
 };
+
 

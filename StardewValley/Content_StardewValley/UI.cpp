@@ -8,6 +8,7 @@
 
 #include "UI.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "Player.h"
 
 UI* UI::GlobalUI = nullptr;
@@ -15,7 +16,7 @@ UI* UI::GlobalUI = nullptr;
 UI::UI()
 {
     GlobalUI = this;
-    globalValue::AddUIToList(this);
+    globalInterface::AddUIToList(this);
 }
 
 UI::~UI()

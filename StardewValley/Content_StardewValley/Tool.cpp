@@ -13,6 +13,7 @@
 #include "Inventory.h"
 #include "Level_Farm.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 
 void Player::ToolChange()
 {
@@ -110,8 +111,8 @@ bool Player::IsSameCurTool(std::string _ToolName)
 
 void Player::CurToolTypeUpdate()
 {
-    if (globalValue::GetSelectedItem() != nullptr)
+    if (globalInterface::GetSelectedItem() != nullptr)
     {
-        CurToolType = globalValue::GetSelectedItem()->GetItemType();
+        CurToolType = globalInterface::GetSelectedItem()->GetItemType();
     }
 }

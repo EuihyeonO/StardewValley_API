@@ -19,11 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AffectionBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Crops.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Farm.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="globalInterface.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -53,6 +61,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Level_Road.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -103,11 +115,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AffectionBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Crops.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Farm.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="globalInterface.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -137,6 +157,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Level_Road.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -20,7 +20,10 @@
 #include "Crops.h"
 #include "Mouse.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "SelectedLine.h"
+#include "AffectionBox.h"
+#include "MenuButton.h"
 
 
 std::vector<Crops*> Level_Farm::CropList;
@@ -100,10 +103,12 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
     SetCameraPos(CameraPos);
   
-    //인벤토리 설정
+    //인터페이스 설정
     Inventory::ChangeGlobalInventory(FarmInventory);
     UI::SetglobalUI(FarmUI);
-    globalValue::AllInventoryItemOn();
+    globalInterface::AllInventoryItemOn();
+    MenuButton::SetGlobalMenuButton(FarmMenuButton);
+    AffectionBox::SetGlobalAffectionBox(FarmAffectionBox);
 
     FarmInventory->SetItemPos();
 
@@ -123,8 +128,8 @@ void Level_Farm::Loading()
     FarmController = CreateActor<Farm>();
     CreateActor<Mouse>();
     CreateActor<SelectedLine>();
-
-    //FarmInventory = CreateActor<Inventory>();
+    FarmAffectionBox = CreateActor <AffectionBox>();
+    FarmMenuButton = CreateActor <MenuButton>();
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });

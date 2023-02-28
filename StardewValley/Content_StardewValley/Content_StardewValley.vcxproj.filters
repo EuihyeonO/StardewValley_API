@@ -65,6 +65,15 @@
     <ClInclude Include="Mine.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="AffectionBox.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="globalInterface.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>Actor\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -145,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="Mine.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="AffectionBox.cpp">
+      <Filter>Actor\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="globalInterface.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>Actor\Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 #include "Level_House.h"
 #include "Level_Mine.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "ContentsEnum.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 
@@ -39,9 +40,9 @@ void ContentsCore::Start()
 	CreateLevel<Level_House>("House");
 	CreateLevel<Level_Mine>("Mine");
 
-	ChangeLevel("Mine");
+	ChangeLevel("Farm");
 
-    CurLevel = "Mine";
+    CurLevel = "Farm";
    
 }
 
@@ -50,18 +51,18 @@ void ContentsCore::Update()
 
     if (isSet == 0)
     {
-        globalValue::CreateItemToAllInventory("PickIcon.bmp", static_cast<int>(ItemType::Pick));
-        globalValue::CreateItemToAllInventory("AxeIcon.bmp", static_cast<int>(ItemType::Axe));
-        globalValue::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
-        globalValue::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
+        globalInterface::CreateItemToAllInventory("PickIcon.bmp", static_cast<int>(ItemType::Pick));
+        globalInterface::CreateItemToAllInventory("AxeIcon.bmp", static_cast<int>(ItemType::Axe));
+        globalInterface::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
+        globalInterface::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
 
         SoundContoller.SoundInit();
 
         for (int i = 0; i < 2; i++)
         {
-            globalValue::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
-            globalValue::CreateItemToAllInventory("SeedGarlic.bmp", static_cast<int>(ItemType::Seed));
-            globalValue::CreateItemToAllInventory("SeedBean.bmp", static_cast<int>(ItemType::Seed));
+            globalInterface::CreateItemToAllInventory("SeedParsnip.bmp", static_cast<int>(ItemType::Seed));
+            globalInterface::CreateItemToAllInventory("SeedGarlic.bmp", static_cast<int>(ItemType::Seed));
+            globalInterface::CreateItemToAllInventory("SeedBean.bmp", static_cast<int>(ItemType::Seed));
         }
 
         isSet = 1;

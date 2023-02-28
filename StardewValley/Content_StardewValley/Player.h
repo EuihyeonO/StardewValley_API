@@ -83,7 +83,7 @@ public:
     void Move(float _DeltaTime);
     void Idle();
     void Interact();
-    void OpenInventory();
+    void OpenMenu();
 
     void SetIsHarvesting()
     {
@@ -109,6 +109,9 @@ public:
     {
         return MyPlayer->isAbleAct;
     }
+
+    static int GetToolFrame();
+
 
     void InteractToCrops();
     void InteractToTile();

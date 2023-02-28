@@ -4,6 +4,8 @@
 
 #include <GameEngineCore/GameEngineLevel.h>
 
+class AffectionBox;
+class MenuButton;
 class UI;
 class House;
 class Level_House : public GameEngineLevel
@@ -31,6 +33,8 @@ protected:
 
 private:
 
+    AffectionBox* HouseAffectionBox = nullptr;
+    MenuButton* HouseMenuButton = nullptr;
     Player* HousePlayer = nullptr;  
     House* HouseController = nullptr;
 };

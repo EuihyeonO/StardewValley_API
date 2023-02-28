@@ -87,6 +87,9 @@ public:
     void AllItemOn();
     void AllItemOff();
 
+    void InventoryOn();
+    void InventoryOff();
+
     void SetItemPos();
     void CameraPosUpdate();
     void QuickSlotUpdate();

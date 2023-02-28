@@ -3,6 +3,7 @@
 #include "ContentsCore.h"
 #include "Player.h"
 #include "Level_Farm.h"
+#include "Level_Mine.h"
 #include "globalValue.h"
 
 #include <GameEngineCore/GameEngineRender.h>
@@ -142,6 +143,9 @@ void House::DoSleep(float _DeltaTime)
         {     
             isSleep = true;
             Level_Farm::Grow_Up();
+            Level_Mine::DeleteTile();
+            Level_Mine::SetTileObject();
+            Player::GetPlayer()->PlayerStop();
         }
     }
 }
@@ -153,6 +157,7 @@ void House::FadeInAndOut(float _DeltaTime)
     {
         BlackMap->SetAlpha(alpha);
         alpha += _DeltaTime * 250;
+        Player::GetPlayer()->PlayerStop();
     }
     else if (isFading == 1 && alpha >= 255)
     {

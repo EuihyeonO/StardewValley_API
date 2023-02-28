@@ -55,3 +55,10 @@ enum SeedName
     Garlic,
     Bean,
 };
+
+
+enum class MineralName
+{
+    Stone,
+    Topaz,
+};

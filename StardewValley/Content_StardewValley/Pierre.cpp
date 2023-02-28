@@ -1,6 +1,7 @@
 #include "Pierre.h"
 #include "ContentsEnum.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "Player.h"
 #include "Inventory.h"
 
@@ -142,7 +143,7 @@ void CreateItem(Button* _button)
     }
     
     globalValue::PlusToMoney(-Price);
-    globalValue::CreateItemToAllInventory(ItemName, static_cast<int>(ItemType::Seed));
+    globalInterface::CreateItemToAllInventory(ItemName, static_cast<int>(ItemType::Seed));
 
 }
 

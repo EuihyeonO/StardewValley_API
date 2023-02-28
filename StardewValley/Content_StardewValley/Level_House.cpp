@@ -4,7 +4,10 @@
 #include "Inventory.h"
 #include "UI.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "Mouse.h"
+#include "MenuButton.h"
+#include "AffectionBox.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineImage.h>
@@ -59,7 +62,9 @@ void Level_House::LevelChangeStart(GameEngineLevel* _PrevLevel)
     //인벤토리 설정
     Inventory::ChangeGlobalInventory(HouseInventory);
     UI::SetglobalUI(HouseUI);
-    globalValue::AllInventoryItemOn();
+    globalInterface::AllInventoryItemOn();
+    MenuButton::SetGlobalMenuButton(HouseMenuButton);
+    AffectionBox::SetGlobalAffectionBox(HouseAffectionBox);
  
     HouseInventory->SetItemPos();
 
@@ -70,9 +75,10 @@ void Level_House::Loading()
     ImageRoad();
 
     CreateActor<Mouse>();
-
     HouseController = CreateActor<House>();
     HousePlayer = CreateActor<Player>();   
+    HouseAffectionBox = CreateActor<AffectionBox>();
+    HouseMenuButton = CreateActor<MenuButton>();
 
     Player::GetPlayer()->SetPos({ 475, 600 });
     SetCameraPos({ 0,0 });

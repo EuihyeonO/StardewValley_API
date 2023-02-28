@@ -9,6 +9,7 @@
 #include "Level_Farm.h"
 #include "Level_House.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 #include "ContentsEnum.h"
 #include "Pierre.h"
 
@@ -19,7 +20,7 @@ Inventory* Inventory::GlobalInventory = nullptr;
 Inventory::Inventory()
 {   
     GlobalInventory = this;
-    globalValue::AddItemListToList(this);
+    globalInterface::AddItemListToList(this);
 }
 
 Inventory::~Inventory()
@@ -69,6 +70,30 @@ void Inventory::OpenInventory()
         SetItemPos();
 
     }
+}
+
+void Inventory::InventoryOn()
+{
+    InventoryRender->SetPosition((GameEngineWindow::GetScreenSize().half()));
+    InventoryRender->On();
+    QuickSlotRender->Off();
+
+    CurGold.SetValue(globalValue::GetMoney());
+    CurGold.On();
+
+    TotalGold.SetValue(globalValue::GetTotalRevenue());
+    TotalGold.On();
+    SetItemPos();
+}
+
+void Inventory::InventoryOff()
+{
+    InventoryRender->Off();
+    CurGold.Off();
+    TotalGold.Off();
+    QuickSlotRender->On();
+
+    SetItemPos();
 }
 
 void Inventory::AllItemOn()
@@ -443,10 +468,10 @@ void Inventory::SellItem()
     {
         if (ItemList[i]->isAbleToSell() == true && ItemList[i]->isCollisionToMouse() == true && GameEngineInput::IsDown("EngineMouseLeft") == true)
         {
-            globalValue::AllInventoryDelete(i);
+            globalInterface::AllInventoryDelete(i);
             globalValue::PlusToMoney(ItemList[i]->GetPrice());
             globalValue::PlusToTotalRevenue(ItemList[i]->GetPrice());
-            globalValue::AllInventoryUpdate();
+            globalInterface::AllInventoryUpdate();
         }
     }
 }
