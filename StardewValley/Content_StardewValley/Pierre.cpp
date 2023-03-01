@@ -92,7 +92,7 @@ void Pierre::Render(float _Time)
 void Pierre::OpenPierreShop()
 {
 
-    bool isCollision = PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
+    bool isCollision = PierreCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::PlayerInteract) , .TargetColType = CT_Rect, .ThisColType = CT_Rect });
    
     if (false == isCollision)
     {

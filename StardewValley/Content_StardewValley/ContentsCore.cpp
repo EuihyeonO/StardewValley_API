@@ -55,7 +55,7 @@ void ContentsCore::Update()
         globalInterface::CreateItemToAllInventory("AxeIcon.bmp", static_cast<int>(ItemType::Axe));
         globalInterface::CreateItemToAllInventory("HoeIcon.bmp", static_cast<int>(ItemType::Hoe));
         globalInterface::CreateItemToAllInventory("WateringIcon.bmp", static_cast<int>(ItemType::Watering));
-
+        
         SoundContoller.SoundInit();
 
         for (int i = 0; i < 2; i++)

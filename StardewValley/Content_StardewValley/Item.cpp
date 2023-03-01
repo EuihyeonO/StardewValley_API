@@ -42,7 +42,8 @@ void Item::UpdateQuantity()
     if (Itemtype == static_cast<int>(ItemType::Axe) ||
         Itemtype == static_cast<int>(ItemType::Watering) ||
         Itemtype == static_cast<int>(ItemType::Hoe) ||
-        Itemtype == static_cast<int>(ItemType::Pick))
+        Itemtype == static_cast<int>(ItemType::Pick) ||
+        Itemtype == static_cast<int>(ItemType::Hammer))
     {
         QuantityRender.Off();
     }
@@ -140,12 +141,10 @@ void Item::UpdatePos()
     float4 RenderPos = RenderImage->GetPosition();
     float4 CameraPos = GetLevel()->GetCameraPos();
 
-    ItemCollision->SetPosition(CameraPos + RenderPos - float4(22.5, 22.5));
+    ItemCollision->SetPosition(CameraPos + RenderPos);
     InfoRenderImage->SetPosition(RenderPos + InfoRenderImage->GetScale().half());
    
     float4 pos = ItemCollision->GetPosition();
-    HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-
 }
 
 void Item::InfoBoxOnOff()

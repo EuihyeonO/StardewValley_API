@@ -92,7 +92,12 @@ void Level_Title::ImageRoad()
         Heart->Cut(1, 11);
         GameEngineImage* InventoryButton = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InventoryButton.BMP"));
         GameEngineImage* AffectionButton = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AffectionButton.BMP"));
+
+        GameEngineImage* SelectedButton = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SelectedButton.BMP"));
+        GameEngineImage* SelectedButtonRelease = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SelectedButtonRelease.BMP"));
+       
         Dir.MoveParent();
+
     }
     //≈∏¿Ã∆≤ ªÍ∏∆
     {

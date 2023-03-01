@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "Inventory.h"
-#include "Crops.h"
 #include "Level_Farm.h"
 #include "globalValue.h"
 
@@ -33,6 +32,7 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+    isCollidedToNPC();
     CurToolTypeUpdate();
     ToolChange();
     ToolPosUpdate();
@@ -74,5 +74,4 @@ void Player::Render(float _Time)
             ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 24,
             ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 24  );
     }
-
 }

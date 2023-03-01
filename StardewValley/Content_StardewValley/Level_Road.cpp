@@ -16,12 +16,15 @@
 #include "Item.h"
 #include "Road.h"
 #include "ContentsEnum.h"
-#include "Crops.h"
 #include "globalValue.h"
 #include "Pierre.h"
 #include "Mouse.h"
 #include "MenuButton.h"
 #include "AffectionBox.h"
+#include "Lewis.h"
+#include "Sam.h"
+#include "Penny.h"
+#include "Haley.h"
 
 Inventory* Level_Road::RoadInventory;
 UI* Level_Road::RoadUI;
@@ -98,6 +101,10 @@ void Level_Road::Loading()
 
     RoadPlayer = CreateActor<Player>();   
     NPCPierre = CreateActor<Pierre>();
+    CreateActor<Haley>();
+    CreateActor<Lewis>();
+    CreateActor<Sam>();
+    CreateActor<Penny>();
 
     RoadMenuButton = CreateActor<MenuButton>();
     RoadAffectionBox = CreateActor<AffectionBox>();
@@ -128,6 +135,10 @@ void Level_Road::ImageRoad()
     {
         Dir.Move("NPC");
         GameEngineImage* PierreRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Pierre.BMP"));
+        GameEngineImage* HaleyRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Haley.BMP"));
+        GameEngineImage* SamRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Sam.BMP"));
+        GameEngineImage* PennyRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Penny.BMP"));
+        GameEngineImage* LewisRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Lewis.BMP"));
         Dir.MoveParent();
     }
 

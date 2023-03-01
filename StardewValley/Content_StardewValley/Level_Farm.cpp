@@ -17,16 +17,15 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "ContentsEnum.h"
-#include "Crops.h"
 #include "Mouse.h"
 #include "globalValue.h"
 #include "globalInterface.h"
 #include "SelectedLine.h"
 #include "AffectionBox.h"
 #include "MenuButton.h"
+#include "Marlon.h"
 
 
-std::vector<Crops*> Level_Farm::CropList;
 GameEngineTileMap* Level_Farm::TileMap;
 Inventory* Level_Farm::FarmInventory;
 UI* Level_Farm::FarmUI;
@@ -131,6 +130,8 @@ void Level_Farm::Loading()
     FarmAffectionBox = CreateActor <AffectionBox>();
     FarmMenuButton = CreateActor <MenuButton>();
 
+    CreateActor<Marlon>();
+
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
 
@@ -172,17 +173,6 @@ void Level_Farm::CreateCrops(std::string _CropName)
     }
 }
 
-void Level_Farm::DeathCrops(Crops* _Crop)
-{
-    for (int i = 0; i < CropList.size(); i++)
-    {
-        if (CropList[i] == _Crop)
-        {
-            CropList.erase(CropList.begin() + i);
-            return;
-        }
-    }
-}
 
 
 void Level_Farm::ImageRoad()
@@ -211,6 +201,18 @@ void Level_Farm::ImageRoad()
         Dir.MoveParent();
     }
 
+    {
+        Dir.Move("NPC");
+        GameEngineImage* MarlonRender = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Marlon.BMP"));
+        Dir.MoveParent();
+    }
+    {
+        Dir.Move("UI");
+        GameEngineImage* MarlonText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox.BMP"));
+        GameEngineImage* TextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TextBoxShodow.BMP"));
+        Dir.MoveParent();
+    }
+
     //플레이어
     {
         GameEngineImage* Player = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Player.BMP"));
@@ -218,6 +220,7 @@ void Level_Farm::ImageRoad()
 
         GameEngineImage* Playerleft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Playerleft.BMP"));
         Playerleft->Cut(6, 21);
+        GameEngineImage* Shadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Shadow.BMP"));
     }
 
     CropImageRoad();
@@ -323,6 +326,17 @@ void Level_Farm::ToolImageRoad()
         UWatering->Cut(3, 1);
 
         GameEngineImage* WateringIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WateringIcon.BMP"));
+       
+        
+        GameEngineImage* DHammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DHammer.BMP"));
+        DHammer->Cut(6, 1);
+        GameEngineImage* RHammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RHammer.BMP"));
+        RHammer->Cut(6, 1);
+        GameEngineImage* LHammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LHammer.BMP"));
+        LHammer->Cut(6, 1);
+        GameEngineImage* UHammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UHammer.BMP"));
+        UHammer->Cut(6, 1);
+        GameEngineImage* Hammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HammerIcon.BMP"));
 
         GameEngineImage* Default = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Default.BMP"));
     }
@@ -341,6 +355,7 @@ void Level_Farm::UIImageRoad()
         GameEngineImage* InfoHoe = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoHoeIcon.BMP"));
         GameEngineImage* InfoWatering = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoWateringIcon.BMP"));
         GameEngineImage* InfoPick = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoPickIcon.BMP"));
+        GameEngineImage* InfoHammer = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoHammerIcon.BMP"));
 
         GameEngineImage* InfoSeedParsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedParsnip.BMP"));
         GameEngineImage* InfoSeedBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoSeedBean.BMP"));

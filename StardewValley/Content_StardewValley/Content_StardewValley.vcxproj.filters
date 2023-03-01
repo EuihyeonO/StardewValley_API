@@ -17,9 +17,6 @@
     <ClInclude Include="Inventory.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Crops.h">
-      <Filter>Actor\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
@@ -74,6 +71,21 @@
     <ClInclude Include="MenuButton.h">
       <Filter>Actor\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Haley.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Penny.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Sam.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Lewis.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Marlon.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -97,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Actor\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Crops.cpp">
-      <Filter>Actor\Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAnimation.cpp">
       <Filter>Actor\Player</Filter>
@@ -163,6 +172,21 @@
     </ClCompile>
     <ClCompile Include="MenuButton.cpp">
       <Filter>Actor\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Haley.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Penny.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Sam.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Lewis.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Marlon.cpp">
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

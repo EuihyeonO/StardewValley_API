@@ -13,7 +13,6 @@ class AffectionBox;
 class MenuButton;
 class Farm;
 class UI;
-class Crops;
 class GameEngineTileMap;
 class Level_Farm : public GameEngineLevel
 {
@@ -24,11 +23,6 @@ public:
     void CropImageRoad();
     void ToolImageRoad();
     void UIImageRoad();
-
-    static std::vector<Crops*> GetCropList()
-    {
-        return CropList;
-    }
 
     static void SetSeedPos(float4 _pos, int _SeedType);
 
@@ -47,7 +41,6 @@ public:
         return FarmInventory;
     }
 
-    static void DeathCrops(Crops* _Crop); 
 
     void ValidCollisionTileOn();
     void SetTileAlphaMax();
@@ -85,8 +78,6 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
-
-    static std::vector<Crops*> CropList;   
 
     static GameEngineTileMap* TileMap;
     static std::vector<GameEngineRender*> OnTileList;

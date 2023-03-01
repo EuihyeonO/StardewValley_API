@@ -21,7 +21,6 @@
 #include "globalValue.h"
 #include "globalInterFace.h"
 #include "Pierre.h"
-#include "Crops.h"
 #include "SelectedLine.h"
 #include "UI.h"
 #include "Level_Mine.h"
@@ -33,6 +32,11 @@ void Player::InitPlayer()
     PlayerRender = CreateRender(50);
     PlayerRender->SetScale({ 64, 128 });
 
+    Shadow = CreateRender("Shadow.bmp", 49);
+    Shadow->SetScaleToImage();
+    Shadow->SetPosition({ 0, 60 });
+    Shadow->SetAlpha(100);
+
     ColFullBody = CreateCollision(ActorType::FullPlayer);
     ColFullBody->SetScale({ 64, 128 });
     ColFullBody->SetPosition({ 0,0 });
@@ -40,6 +44,10 @@ void Player::InitPlayer()
     ColBody = CreateCollision(ActorType::Player);
     ColBody->SetScale({ 48,48 });
     ColBody->SetPosition({ 0,32 });
+
+    ColInteract = CreateCollision(ActorType::PlayerInteract);
+    ColInteract->SetScale({ 64, 64 });
+    ColInteract->SetPosition({ 0,32 });
 }
 
 
@@ -194,7 +202,8 @@ void Player::Move(float _DeltaTime)
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
     if (nullptr != ColMap && 
         RGB(0, 0, 0) != ColMap->GetPixelColor({ NextPos.x, NextPos.y }, RGB(0, 0, 0)) && 
-        false == Level_Mine::isCollisionToTile(NextPos))
+        false == Level_Mine::isCollisionToTile(NextPos) &&
+        false == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::NPC), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
 
         if (NextPos.x >= globalValue::GetcameraLimitPos().x + GameEngineWindow::GetScreenSize().half().x)
@@ -224,7 +233,7 @@ void Player::Move(float _DeltaTime)
 
 void Player::Interact()
 {
-
+    
     if (Dir[0] == 'R' || Dir[0] == 'L')
     {
         CurTool->SetScale({ 250, 250 });
@@ -234,8 +243,13 @@ void Player::Interact()
         CurTool->SetScale({ 64, 250 });
     }
 
-    CurTool->On();
+    if (CurTool == Tool["Hammer"])
+    {
+        CurTool->SetScale({ 250, 250 });
+    }
 
+    CurTool->On();
+    
     InteractToTile();
 
     if (isHarvesting == true || CurTool == Tool["Default"])
@@ -243,18 +257,26 @@ void Player::Interact()
         return;
     }
 
-    if (CurTool->IsUpdate() == true && CurTool != Tool["Watering"])
-    {
-        CurTool->ChangeAnimation("DIdle");
-        CurTool->ChangeAnimation(Dir + "HeavyTool");
-        ChangePlayerAnimation(Dir + "HeavyTool");
-    }
-    else if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
+    if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
     {
         CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "Watering");
 
         ChangePlayerAnimation(Dir + "Watering");
+    }
+    else if (CurTool->IsUpdate() == true && CurTool == Tool["Hammer"])
+    {
+        CurTool->ChangeAnimation("DIdle");
+        CurTool->ChangeAnimation(Dir + "Hammer");
+
+
+        ChangePlayerAnimation(Dir + "Attack");
+    }
+    else if (CurTool->IsUpdate() == true)
+    {
+        CurTool->ChangeAnimation("DIdle");
+        CurTool->ChangeAnimation(Dir + "HeavyTool");
+        ChangePlayerAnimation(Dir + "HeavyTool");
     }
 }
 
@@ -465,4 +487,16 @@ bool Player::isFront(float4 _pos)
 int Player::GetToolFrame()
 {
     return MyPlayer->CurTool->GetFrame();
+}
+
+void Player::isCollidedToNPC()
+{
+    if (true == ColInteract->Collision({ .TargetGroup = static_cast<int>(ActorType::NPC), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    {
+        isColToNPC = true;
+    }
+    else
+    {
+        isColToNPC = false;
+    }
 }

@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineTileMap.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 Mouse::Mouse()
 {
@@ -20,7 +21,7 @@ Mouse::~Mouse()
 
 void Mouse::Start()
 {
-    GameEngineRender* render = CreateRender("Cursor.bmp", 300);
+    GameEngineRender* render = CreateRender("Cursor.bmp", 500);
     render->SetScaleToImage();
     CursorScale = render->GetScale();
     render->SetPosition(CursorScale.half());
@@ -32,7 +33,6 @@ void Mouse::Start()
 
     GameEngineCollision* collision = CreateCollision(static_cast<int>(ActorType::Mouse));
     SetPos(GetLevel()->GetMousePosToCamera());
-    collision->SetPosition(float4{-20,-20 });
     ShowCursor(false);
 
     collision->SetScale({ 5, 5 });
@@ -49,7 +49,6 @@ void Mouse::Update(float _DeltaTime)
 
 void Mouse::Render(float _Time)
 {
-
 }
 
 

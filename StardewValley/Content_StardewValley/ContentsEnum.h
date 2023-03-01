@@ -17,6 +17,7 @@ enum class ActorType
 {
     Player = 10,
     FullPlayer,
+    PlayerInteract,
     Crops,
     Tool,
     Portal,
@@ -35,6 +36,7 @@ enum class ItemType
     Hoe,
     Watering,
     Axe,
+    Hammer,
     Seed,
 };
 

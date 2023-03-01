@@ -38,6 +38,10 @@ void Player::ToolChange()
     {
         CurTool = Tool["Watering"];
     }
+    else if (CurToolType == static_cast<int>(ItemType::Hammer))
+    {
+        CurTool = Tool["Hammer"];
+    }
     else
     {
         CurTool = Tool["Default"];
@@ -51,6 +55,7 @@ void Player::InitTool()
     Axe = CreateRender(60);
     Hoe = CreateRender(60);
     Watering = CreateRender(60);
+    Hammer = CreateRender(60);
 
     Default = CreateRender("Default.bmp", 2);
     Default->Off();
@@ -59,6 +64,7 @@ void Player::InitTool()
     Tool.insert({ "Axe", Axe });
     Tool.insert({ "Hoe",  Hoe });
     Tool.insert({ "Watering", Watering });
+    Tool.insert({ "Hammer", Hammer });
     Tool.insert({ "Default", Default });
 
     //Dir이 R인지 L인지에 따라 다르게 만들어야함

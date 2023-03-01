@@ -117,6 +117,7 @@ public:
     void InteractToTile();
     const float4 GetInteractPos();
     void InteractToNPC();
+    void isCollidedToNPC();
 
     void test();
 
@@ -139,15 +140,18 @@ private:
     int CurToolType = -1;
  
     GameEngineRender* PlayerRender = nullptr;
+    GameEngineRender* Shadow = nullptr;
     GameEngineRender* CurTool = nullptr;
 
     GameEngineCollision* ColBody = nullptr;
     GameEngineCollision* ColFullBody = nullptr;
+    GameEngineCollision* ColInteract = nullptr;
 
     GameEngineRender* Pick = nullptr;
     GameEngineRender* Axe = nullptr;
     GameEngineRender* Hoe = nullptr;
     GameEngineRender* Watering = nullptr;
+    GameEngineRender* Hammer = nullptr;
     GameEngineRender* Default = nullptr;
 
     GameEngineImage* ColMap = nullptr;
@@ -170,6 +174,7 @@ private:
     std::string Dir = "D";
     int inputNumberKey = -1;
 
+    bool isColToNPC = false;
 
 };
 
