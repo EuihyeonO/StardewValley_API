@@ -60,7 +60,6 @@ void GameEngineTileMap::CreateTileMapCollision(int _X, int _Y, int _Z, int _Orde
     TileScale = _TileSize;
 
     TileCollision.resize(_Z);
-    FloorImageName.resize(_Z);
 
     X = _X;
     Y = _Y;

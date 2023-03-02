@@ -78,11 +78,9 @@ void globalSound::ToolSoundOn()
 {
     if (Player::IsSameCurTool("Pick") == true)
     {
-        //PickSound.PauseOff();
     }
     else if (Player::IsSameCurTool("Hoe") == true)
     {
-        //HoeSound.PauseOff();
     }
     else if (Player::IsSameCurTool("Axe") == true)
     {

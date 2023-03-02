@@ -156,6 +156,11 @@ void Level_Farm::CreateCrops(std::string _CropName)
 
         while (1)
         {
+            if (Zindex == -1)
+            {
+                return;
+            }
+
             if (Zindex != -1)
             {
                 TileMap->SetTileFrame(0, Pos, 0);
