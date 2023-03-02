@@ -144,7 +144,7 @@ void Farm::FadeInAndOut(float _DeltaTime)
     if (isFading == 1 && alpha<255)
     {
         BlackMap->SetPosition(-GetPos() + BlackMap->GetScale().half() + GetLevel()->GetCameraPos());
-        BlackMap->SetAlpha(alpha);
+        BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha += _DeltaTime * 250;
     }
     else if (isFading == 1 && alpha >= 255)
@@ -157,7 +157,7 @@ void Farm::FadeInAndOut(float _DeltaTime)
     {
         BlackMap->SetPosition(-GetPos() + BlackMap->GetScale().half() + GetLevel()->GetCameraPos());
         Player::ChangePlayerIdle("D");
-        BlackMap->SetAlpha(alpha);
+        BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha -= _DeltaTime * 250;
     }
     else if (alpha <= 0)

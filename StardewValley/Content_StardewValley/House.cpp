@@ -155,7 +155,7 @@ void House::FadeInAndOut(float _DeltaTime)
 {
     if (isFading == 1 && alpha < 255)
     {
-        BlackMap->SetAlpha(alpha);
+        BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha += _DeltaTime * 250;
         Player::GetPlayer()->PlayerStop();
     }
@@ -168,7 +168,7 @@ void House::FadeInAndOut(float _DeltaTime)
     else if (isFading == 2 && alpha > 0)
     {
         Player::ChangePlayerIdle("U");
-        BlackMap->SetAlpha(alpha);
+        BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha -= _DeltaTime * 250;
     }
     else if (alpha <= 0)

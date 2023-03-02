@@ -193,16 +193,16 @@ int Level_Mine::CheckUpdateTile(float4 _pos)
 
 void Level_Mine::SubToStoneLife(float4 _pos)
 {
-    int X = _pos.x / 64;
-    int Y = _pos.y / 64;
+    int X = static_cast<int>(_pos.x / 64);
+    int Y = static_cast<int>(_pos.y / 64);
    
     --StoneLife[Y][X];
 }
 
 void Level_Mine::BreakStone(int _floor, float4 _pos)
 {
-    int X = _pos.x / 64;
-    int Y = _pos.y / 64;
+    int X = static_cast<int>(_pos.x / 64);
+    int Y = static_cast<int>(_pos.y / 64);
 
 
     if (StoneLife[Y][X] == 0)
@@ -224,22 +224,25 @@ void Level_Mine::TileUpdate()
 
             X = j * 64;
             Y = i * 64;
-            Floor = CheckUpdateTile(float4(X, Y));
+
+            float4 Pos = { static_cast<float>(X), static_cast<float>(Y) };
+
+            Floor = CheckUpdateTile(Pos);
 
             if (StoneLife[i][j] == 0 && Floor != -1)
             {
-                BreakStone(Floor, float4(X, Y));
+                BreakStone(Floor, Pos);
                 StoneLife[i][j] = -1;               
             }
 
-            if (Floor != -1 && MineTileMap->GetTileFrame(Floor, float4(X, Y)) != 0 && MineTileMap->GetTile(Floor, float4(X, Y))->IsAnimationEnd() == true)
+            if (Floor != -1 && MineTileMap->GetTileFrame(Floor, Pos) != 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
             {
-                MineTileMap->GetTile(Floor, float4(X, Y))->Off();
-                MineTileMap->GetTileCollision(0, float4(X, Y))->Off();
+                MineTileMap->GetTile(Floor, Pos)->Off();
+                MineTileMap->GetTileCollision(0, Pos)->Off();
                 StoneLife[i][j] = -1;
                 for (int i = 0; i < OnCollisionList.size(); i++)
                 {
-                    if (OnCollisionList[i] == MineTileMap->GetTileCollision(0, float4(X, Y)))
+                    if (OnCollisionList[i] == MineTileMap->GetTileCollision(0, Pos))
                     {
                         OnCollisionList.erase(OnCollisionList.begin()+i);
                         break;
@@ -267,8 +270,8 @@ void Level_Mine::SetMineralToTile(int _Num, const std::string_view& _ImageName)
         //이미 그 인덱스의 타일이 세팅되어 있거나 마젠타컬러로 제한해둔 위치를 벗어났다면, 다시 추출한다.
         while (
             StoneLife[Y / 64][X/ 64] != -1 ||
-            CheckUpdateTile(float4(X, Y)) != -1 ||
-            RGB(255, 0, 255) != ColMine->GetPixelColor(float4(X, Y), RGB(255, 0, 255)))
+            CheckUpdateTile(float4(static_cast<float>(X), static_cast<float>(Y))) != -1 ||
+            RGB(255, 0, 255) != ColMine->GetPixelColor(float4(static_cast<float>(X), static_cast<float>(Y)), RGB(255, 0, 255)))
         {
             X = GameEngineRandom::MainRandom.RandomInt(0, 19);
             Y = GameEngineRandom::MainRandom.RandomInt(3, 11);
@@ -277,11 +280,12 @@ void Level_Mine::SetMineralToTile(int _Num, const std::string_view& _ImageName)
             Y *= 64;
         }
 
-        MineTileMap->SetTileFrame(_Num, float4(X, Y), 0);
+        float4 Pos = { static_cast<float>(X), static_cast<float>(Y) };
+        MineTileMap->SetTileFrame(_Num, Pos, 0);
 
-        Tile = MineTileMap->GetTile(_Num, float4(X, Y));
+        Tile = MineTileMap->GetTile(_Num, Pos);
 
-        TileCollision = MineTileMap->GetTileCollision(0, float4(X, Y));
+        TileCollision = MineTileMap->GetTileCollision(0, Pos);
         TileCollision->On();
         TileCollision->SetDebugRenderType(CT_Rect);
         OnCollisionList.push_back(TileCollision);
@@ -301,12 +305,12 @@ void Level_Mine::DeleteTile()
         for (int X = 0; X < 20; X++)
         {
             StoneLife[Y][X] = -1;
-
-            int floor = CheckUpdateTile(float4(X * 64, Y * 64));
+            float4 Pos = { static_cast<float>(X * 64), static_cast<float>(Y * 64) };
+            int floor = CheckUpdateTile(Pos);
 
              if (floor != -1)
             {
-                MineTileMap->GetTile(floor, float4(X * 64, Y * 64))->Off();
+                MineTileMap->GetTile(floor, Pos)->Off();
             }
         }
     }
@@ -322,7 +326,9 @@ void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _
     {
         for (X = 0; X < 20; X++)
         {
-            GameEngineRender* Tile = MineTileMap->GetTile(_MinaralName, float4(X * 64, Y * 64));
+            float4 Pos = { static_cast<float>(X * 64), static_cast<float>(Y * 64) };
+
+            GameEngineRender* Tile = MineTileMap->GetTile(_MinaralName, Pos);
             
             Tile->CreateAnimation({ .AnimationName = "Break",.ImageName = _ImageName,.FrameIndex = {1,2,3,4,5,6} ,.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f} });
             Tile->CreateAnimation({ .AnimationName = "Vib",.ImageName = PlusName,.FrameIndex = {0,1,2} ,.FrameTime = {0.1f, 0.1f, 0.1f}});

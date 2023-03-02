@@ -41,7 +41,7 @@ void Title::Update(float _DeltaTime)
     }
     else if(Alpha<255)
     {
-        Alpha = mytime * 50;        
+        Alpha = static_cast<int>(mytime * 50);        
     }
 
     TitleMountain1->SetAlpha(Alpha);
