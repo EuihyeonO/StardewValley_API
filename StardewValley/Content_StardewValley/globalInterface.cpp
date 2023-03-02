@@ -45,6 +45,17 @@ void globalInterface::CreateItemToAllInventory(int _SeedName)
     }
 }
 
+void globalInterface::CreateItemToAllInventory_Mineral(int _MineralName)
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->CreateItem_Minaral(_MineralName);
+    }
+}
+
+
 void globalInterface::AllInventoryItemOn()
 {
     size_t size = InventoryList.size();

@@ -132,8 +132,11 @@ void Level_Mine::ImageRoad()
 
     {
         GameEngineImage* stone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Stone.BMP"));
+        GameEngineImage* stoneIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Iconstone.BMP"));
         GameEngineImage* VibStone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibStone.BMP"));
+        
         GameEngineImage* Topaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Topaz.BMP"));
+        GameEngineImage* TopazIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconTopaz.BMP"));
         GameEngineImage* VibTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibTopaz.BMP"));
         VibStone->Cut(3, 1);
         VibTopaz->Cut(3, 1);
@@ -205,6 +208,7 @@ void Level_Mine::BreakStone(int _floor, float4 _pos)
     if (StoneLife[Y][X] == 0)
     {
         MineTileMap->GetTile(_floor, _pos)->ChangeAnimation("Break");
+        GetMineral(_floor);
     } 
 }
 
@@ -326,4 +330,9 @@ void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _
             Tile->ChangeAnimation("Idle");
         }
     }
+}
+
+void Level_Mine::GetMineral(int _MineralName)
+{
+    //globalInterface::CreateItemToAllInventory_Mineral(_MineralName);
 }

@@ -15,10 +15,15 @@
 void Player::CreateAllAnimation()
 {
     // 상하좌우 기본 움직임
+    std::vector<int> GetItem(2);
+    GetItem = { 69, 69 };
+    std::vector<float> GetItemFrame(2);
+    GetItemFrame = { 1.0f, 0.1f };
+
+    //아래쪽 기반 움직임
     std::vector<int> DIdle(1);
     DIdle = { 0 };
 
-    //아래쪽 기반 움직임
     std::vector<int> DMove(8);
     DMove = { 0, 1, 2, 3, 4, 5, 6, 7 };
     std::vector<float> DMoveFrame(8);
@@ -64,7 +69,7 @@ void Player::CreateAllAnimation()
     RWateringFrame = { 0.075f, 0.1f, 0.5f, 0.1f };
 
     std::vector<int> RHarvesting(5);
-    RHarvesting = { 72, 74, 75, 76, 76 };
+    RHarvesting = { 72, 73, 74, 75, 75 };
     std::vector<float> RHarvestingFrame(5);
     RHarvestingFrame = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
 
@@ -130,6 +135,7 @@ void Player::CreateAllAnimation()
     std::vector<float> LAttackFrame(7);
     LAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f };
 
+    CreatePlayerAnimation("GetItem", GetItem, GetItemFrame);
 
     CreatePlayerAnimation("DIdle", DIdle, { 1.0f });
     CreatePlayerAnimation("DMove", DMove, DMoveFrame);
@@ -184,3 +190,4 @@ void Player::SetPlayerAlpha(int _Alpha)
 {
     MyPlayer->PlayerRender->SetAlpha(_Alpha);
 }
+

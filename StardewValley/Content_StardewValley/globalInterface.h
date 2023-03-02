@@ -60,6 +60,7 @@ public:
 
     static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
     static void CreateItemToAllInventory(int _SeedName);
+    static void CreateItemToAllInventory_Mineral(int _MineralName);
     static void AllInventoryItemOn();
     static void AllInventoryDelete();
     static void AllInventoryDelete(int Index);

@@ -161,6 +161,7 @@ void Pierre::AddItemToShop(std::string _Name)
     ShopItemList[PureName]->SetRenderOrder(201);
     ShopItemList[PureName]->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
     ShopItemList[PureName]->GetButtonRender()->OnOffSwtich();
+    ShopItemList[PureName]->GetButtonCollision()->OnOffSwtich();
     ShopItemList[PureName]->SetClickCallBack(CreateItem);
 
     if (ShopItemList.size() == 1)
@@ -188,6 +189,7 @@ void Pierre::AllShopItemOnOff()
     for (int count = 0; startiter != enditer && count<4; startiter++, count++)
     {
         startiter->second->GetButtonRender()->OnOffSwtich();
+        startiter->second->GetButtonCollision()->OnOffSwtich();
     }
 }
 

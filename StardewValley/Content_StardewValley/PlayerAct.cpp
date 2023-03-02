@@ -290,11 +290,28 @@ bool Player::isInteract()
     
     if (PlayerRender->IsAnimationEnd() == true)
     {
-        CurTool->Off();
-        ColTool->On();
+
+        if (CurTool != nullptr) 
+        {
+            //CurToo의 OnOff가 상호작용중인지를 판단하는 메인 조건 
+            CurTool->Off();
+        }
+
+        if (GetItemRender != nullptr) 
+        {
+            //아이템 획득 애니메이션이 사라지면 렌더Off
+            GetItemRender->Off();
+        }
+
+        if (ColTool != nullptr)
+        {
+            //상호작용동안 충돌검사는 단 1번만 하면 되기때문에 상호작용이 시작되면 충돌을 껐다가 끝나면 다시 충돌을 켬
+            ColTool->On();
+        }
 
         if(isHarvesting == true)
         {
+            //수확 애니메이션이 끝나면 false로 변경
             isHarvesting = false;
         }
 
@@ -499,4 +516,17 @@ void Player::isCollidedToNPC()
     {
         isColToNPC = false;
     }
+}
+
+void Player::GetItem(const std::string_view& _itemName)
+{
+    CurTool->On();
+    PlayerRender->ChangeAnimation("GetItem");
+
+    GetItemRender = CreateRender(_itemName, 200);
+    GetItemRender->SetPosition({ 0, -48 });
+    GetItemRender->SetScale({ 64, 64 });
+    GetItemRender->On();
+
+    Dir = "D";
 }

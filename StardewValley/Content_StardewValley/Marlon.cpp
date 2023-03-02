@@ -10,8 +10,11 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 
+Marlon* Marlon::GlobalMarlon = nullptr;
+
 Marlon::Marlon()
 {
+    GlobalMarlon = this;
 }
 
 Marlon::~Marlon()
@@ -21,6 +24,13 @@ Marlon::~Marlon()
 void GiveHammer(Button* _btn)
 {
     globalInterface::CreateItemToAllInventory("HammerIcon.bmp", static_cast<int>(ItemType::Hammer));
+    Marlon::GetGlobalMarlon()->TextBoxOff();
+    Player::GetPlayer()->GetItem("HammerIcon.bmp");
+}
+
+void refusing(Button* _btn)
+{
+    Marlon::GetGlobalMarlon()->TextBoxOff();
 }
 
 void Marlon::Start()
@@ -49,12 +59,26 @@ void Marlon::Start()
     OkayButton->SetHoverImage("SelectedButton.bmp");
     OkayButton->SetPressImage("SelectedButton.bmp");
     OkayButton->SetScale({ 798, 64 });
-    OkayButton->SetPos(GetLevel()->GetCameraPos() + float4{440, 650});
+    OkayButton->SetPos(GetLevel()->GetCameraPos() + float4{440, 620});
     OkayButton->SetRenderOrder(300);
     OkayButton->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
     OkayButton->GetButtonRender()->Off();
+    OkayButton->GetButtonCollision()->Off();
 
-    OkayButton->SetClickCallBack(GiveHammer);
+    OkayButton->SetClickCallBack(GiveHammer);  
+    
+    NoButton = GetLevel()->CreateActor<Button>();
+    NoButton->SetReleaseImage("SelectedButtonRelease.bmp");
+    NoButton->SetHoverImage("SelectedButton.bmp");
+    NoButton->SetPressImage("SelectedButton.bmp");
+    NoButton->SetScale({ 798, 64 });
+    NoButton->SetPos(GetLevel()->GetCameraPos() + float4{440, 694});
+    NoButton->SetRenderOrder(300);
+    NoButton->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
+    NoButton->GetButtonRender()->Off();
+    NoButton->GetButtonCollision()->Off();
+
+    NoButton->SetClickCallBack(refusing);
 }
 
 void Marlon::Update(float _DeltaTime)
@@ -113,11 +137,16 @@ void Marlon::TextBoxOn(float _DeltaTime)
     if (isButtonOn == true)
     {
         OkayButton->GetButtonRender()->On();
+        OkayButton->GetButtonCollision()->On();
         OkayButton->SetPos(GetLevel()->GetCameraPos() + float4{440, 620});
+
+        NoButton->GetButtonRender()->On();
+        NoButton->GetButtonCollision()->On();
+        NoButton->SetPos(GetLevel()->GetCameraPos() + float4{ 440, 694 });
     }
 
-    Scale.x += 1280.0f * 3 * _DeltaTime;
-    Scale.y += 400.0f * 3 * _DeltaTime;
+    Scale.x += 1280.0f * 5.0f * _DeltaTime;
+    Scale.y += 400.0f * 5.0f * _DeltaTime;
 
     if (Scale.x >= 1280)
     {
@@ -144,7 +173,13 @@ void Marlon::TextBoxOff()
     if(isButtonOn == false)
     {
         OkayButton->GetButtonRender()->Off();
+        OkayButton->GetButtonCollision()->Off();        
+            
+        NoButton->GetButtonRender()->Off();
+        NoButton->GetButtonCollision()->Off();
     }
+
+    isKeyInteract = false;
 
     Scale = { 0,0 };
 

@@ -223,6 +223,20 @@ void Inventory::CreateItem(int Seedtype)
         CreateItem("IconBean.BMP", static_cast<int>(ItemType::Crops));
         return;
     }
+}
+
+void Inventory::CreateItem_Minaral(int _MinenalName)
+{
+    if (_MinenalName == static_cast<int>(MineralName::Stone))
+    {
+        CreateItem("IconStone.BMP", static_cast<int>(ItemType::Mineral));
+        return;
+    }
+    else if (_MinenalName == static_cast<int>(MineralName::Topaz))
+    {
+        CreateItem("IconTopaz.BMP", static_cast<int>(ItemType::Mineral));
+        return;
+    }
 
 }
 

@@ -22,6 +22,7 @@ public:
     static bool isToolCollisionToTile();
     static void DeleteTile();
 
+    void GetMineral(int _MineralName);
     void CreateTileAnimation(int _MinaralName, const std::string_view& _ImageName);
     void BreakStone(int _floor, float4 _pos);
     void ImageRoad();

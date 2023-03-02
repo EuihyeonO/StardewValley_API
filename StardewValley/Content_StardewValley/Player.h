@@ -79,6 +79,7 @@ public:
     static void SetPlayerAlpha(int _Alpha);
  
     int GetKeyInput();
+    void GetItem(const std::string_view& _itemName);
 
     void Move(float _DeltaTime);
     void Idle();
@@ -176,5 +177,6 @@ private:
 
     bool isColToNPC = false;
 
+    GameEngineRender* GetItemRender = nullptr;
 };
 

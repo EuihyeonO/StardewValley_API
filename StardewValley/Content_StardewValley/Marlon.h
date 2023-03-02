@@ -24,6 +24,12 @@ public:
 	Marlon& operator=(const Marlon& _Other) = delete;
 	Marlon& operator=(Marlon&& _Other) noexcept = delete;
 
+    static Marlon* GlobalMarlon;
+    static Marlon* GetGlobalMarlon()
+    {
+        return GlobalMarlon;
+    }
+
 protected:
     void Start() override;
     void Update(float _DeltaTime) override;
