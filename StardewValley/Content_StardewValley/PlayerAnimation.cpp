@@ -47,7 +47,7 @@ void Player::CreateAllAnimation()
     std::vector<int> DAttack(7);
     DAttack = { 84, 85, 86, 87, 88, 89, 89 };
     std::vector<float> DAttackFrame(7);
-    DAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f };
+    DAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f, 0.1f };
 
     //오른쪽 기반 움직임
     std::vector<int> RIdle(1);
@@ -76,7 +76,7 @@ void Player::CreateAllAnimation()
     std::vector<int> RAttack(7);
     RAttack = { 90, 91, 92, 93, 94, 95, 95 };
     std::vector<float> RAttackFrame(7);
-    RAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f };
+    RAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f ,0.1f };
 
     //위쪽 기반 움직임
     std::vector<int> UIdle(1);
@@ -133,7 +133,7 @@ void Player::CreateAllAnimation()
     std::vector<int> LAttack(7);
     LAttack = { 24, 25, 26, 27, 28, 29, 29 };
     std::vector<float> LAttackFrame(7);
-    LAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f };
+    LAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f , 0.1f};
 
     CreatePlayerAnimation("GetItem", GetItem, GetItemFrame);
 

@@ -15,9 +15,9 @@
 void Player::CreateToolAnimation()
 {
     //도구 애니메이션
-    std::vector<int> _RHeavyTool(5);
+    std::vector<int> _RHeavyTool(6);
     _RHeavyTool = { 0, 1, 2, 3, 4, 5 };
-    std::vector<float> _RHeavyToolFrame(5);
+    std::vector<float> _RHeavyToolFrame(6);
     _RHeavyToolFrame = { 0.15f, 0.04f, 0.04f, 0.17f, 0.075f, 0.075f };
 
     std::vector<int> _RWatering(6);
@@ -30,9 +30,9 @@ void Player::CreateToolAnimation()
     std::vector<float> _RHammerFrame(7);
     _RHammerFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f, 0.025f };
 
-    std::vector<int> _LHeavyTool(5);
+    std::vector<int> _LHeavyTool(6);
     _LHeavyTool = { 5, 4, 3, 2, 1, 0 };
-    std::vector<float> _LHeavyToolFrame(5);
+    std::vector<float> _LHeavyToolFrame(6);
     _LHeavyToolFrame = { 0.15f, 0.04f, 0.04f, 0.17f, 0.075f, 0.075f };
 
     std::vector<int>  _LWatering(6);
