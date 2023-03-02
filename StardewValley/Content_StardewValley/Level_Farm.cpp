@@ -366,6 +366,9 @@ void Level_Farm::UIImageRoad()
         GameEngineImage* InfoIconBean = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconBean.BMP"));
         GameEngineImage* InfoIconGarlic = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconGarlic.BMP"));
         GameEngineImage* InfoIconCauliflower = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconCauliflower.BMP"));
+       
+        GameEngineImage* InfoIconStone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconStone.BMP"));
+        GameEngineImage* InfoIconTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconTopaz.BMP"));
 
         Dir.MoveParent();
     }

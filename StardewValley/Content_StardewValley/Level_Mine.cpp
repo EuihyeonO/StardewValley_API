@@ -334,5 +334,5 @@ void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _
 
 void Level_Mine::GetMineral(int _MineralName)
 {
-    //globalInterface::CreateItemToAllInventory_Mineral(_MineralName);
+    globalInterface::CreateItemToAllInventory_Mineral(_MineralName);
 }
