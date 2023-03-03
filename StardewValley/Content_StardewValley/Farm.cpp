@@ -109,6 +109,9 @@ std::string Farm::isCollision_PortalToPlayer()
             {
                 Player::SetIsCollision(true);
                 isFading = 1;
+                Player::GetPlayer()->PlayerStop();
+                Player::ChangePlayerIdle("U");
+                GameEngineResources::GetInst().SoundPlay("DoorOpen.wav");
                 NextMap = "House";
             }
         }
@@ -143,18 +146,21 @@ void Farm::FadeInAndOut(float _DeltaTime)
 {
     if (isFading == 1 && alpha<255)
     {
+        Player::GetPlayer()->PlayerStop();
         BlackMap->SetPosition(-GetPos() + BlackMap->GetScale().half() + GetLevel()->GetCameraPos());
         BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha += _DeltaTime * 250;
     }
     else if (isFading == 1 && alpha >= 255)
     {
-        isFading = 0;
-        Player::GetPlayer()->PlayerStopOff();
+        Player::GetPlayer()->PlayerStop();
+        isFading = 0;      
+        alpha = 255;
         ContentsCore::SetNextMap(NextMap);
     }  
     else if (isFading == 2 && alpha>0)
     {
+        Player::GetPlayer()->PlayerStop();
         BlackMap->SetPosition(-GetPos() + BlackMap->GetScale().half() + GetLevel()->GetCameraPos());
         Player::ChangePlayerIdle("D");
         BlackMap->SetAlpha(static_cast<int>(alpha));
@@ -162,9 +168,10 @@ void Farm::FadeInAndOut(float _DeltaTime)
     }
     else if (alpha <= 0)
     {
+        Player::GetPlayer()->PlayerStopOff();
+
         alpha = 0;
         isFading = 0;
-        Player::GetPlayer()->PlayerStopOff();
     }
 }
 

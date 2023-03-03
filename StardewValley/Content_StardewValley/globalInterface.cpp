@@ -11,6 +11,7 @@
 #include "AffectionBox.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 std::vector<Inventory*> globalInterface::InventoryList;
 std::vector<UI*> globalInterface::UIList;
@@ -73,6 +74,8 @@ void globalInterface::AllInventoryDelete()
     for (int i = 0; i < size; i++)
     {
         InventoryList[i]->GetSelectedItem()->MinusQuntity();
+        InventoryList[i]->ItemUpdate();
+        InventoryList[i]->SetItemPos();
     }
 }
 
@@ -88,7 +91,7 @@ void globalInterface::AllInventoryDelete(int Index)
 
 Item* globalInterface::GetSelectedItem()
 {
-    return InventoryList[0]->GetSelectedItem();
+    return Inventory::GetInventory()->GetSelectedItem();
 }
 
 std::string globalInterface::GetSelectedItemName()
@@ -124,6 +127,8 @@ void globalInterface::MenuOnOff()
         Inventory::GetInventory()->InventoryOn();
         MenuButton::GetGlobalMenuButton()->MenuButtonOn();
         MenuButton::GetGlobalMenuButton()->SetInventoryButtonToSelectedPos();
+
+        GameEngineResources::GetInst().SoundPlay("MenuOpen.wav");
     }
 
     else if (Inventory::GetInventory()->GetInventoryRender()->IsUpdate() == true ||
@@ -133,6 +138,9 @@ void globalInterface::MenuOnOff()
         Inventory::GetInventory()->InventoryOff();
         AffectionBox::GetGlobalAffectionBox()->AffectionBoxOff();
         MenuButton::GetGlobalMenuButton()->MenuButtonOff();
+
+        GameEngineResources::GetInst().SoundPlay("MenuClose.wav");
+
     }
 }
 
@@ -170,4 +178,9 @@ void globalInterface::AllInventoryUpdate()
     {
         InventoryList[i]->ItemUpdate();
     }
+}
+
+bool globalInterface::IsInInventory(const std::string_view& _ItemName)
+{
+    return InventoryList[0]->isInInventory(_ItemName);
 }

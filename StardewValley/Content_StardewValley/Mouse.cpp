@@ -71,7 +71,7 @@ void Mouse::SelectedTileOnOff()
 
         float distance = sqrt((MousePos.x - PlayerPos.x) * (MousePos.x - PlayerPos.x) + (MousePos.y - PlayerPos.y) * (MousePos.y - PlayerPos.y));      
 
-        if (distance<=112 && Player::GetPlayer()->isFront(MousePos) == true)
+        if (distance<=128 && Player::GetPlayer()->isFront(MousePos) == true)
         {
             SelectedLine::LineOn();
             SelectedLine::SetLinePos(MousePos);

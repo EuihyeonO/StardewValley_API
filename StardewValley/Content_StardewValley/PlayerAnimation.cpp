@@ -18,14 +18,14 @@ void Player::CreateAllAnimation()
     std::vector<int> GetItem(2);
     GetItem = { 69, 69 };
     std::vector<float> GetItemFrame(2);
-    GetItemFrame = { 1.0f, 0.1f };
+    GetItemFrame = { 1.5f, 0.1f };
 
     //아래쪽 기반 움직임
     std::vector<int> DIdle(1);
     DIdle = { 0 };
 
     std::vector<int> DMove(8);
-    DMove = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    DMove = { 1, 2, 3, 4, 5, 6, 7, 0 };
     std::vector<float> DMoveFrame(8);
     DMoveFrame = { 0.09f, 0.06f, 0.12f, 0.06f, 0.09f, 0.06f, 0.12f, 0.06f };
 
@@ -54,11 +54,11 @@ void Player::CreateAllAnimation()
     RIdle = { 12 };
 
     std::vector<int> RMove(6);
-    RMove = { 12, 13, 14, 15, 16, 17 };
+    RMove = { 13, 14, 15, 16, 17, 12};
     std::vector<float> RMoveFrame(6);
     RMoveFrame = { 0.09f, 0.14f, 0.1f, 0.09f, 0.14f, 0.10f };
 
-    std::vector<int> RHeavyTool(5);
+    std::vector<int> RHeavyTool(6);
     RHeavyTool = { 36, 37, 38, 39, 40, 40 };
     std::vector<float> RHeavyToolFrame(6);
     RHeavyToolFrame = { 0.1f, 0.04f, 0.04f, 0.22f, 0.075f, 0.01f };
@@ -82,7 +82,7 @@ void Player::CreateAllAnimation()
     std::vector<int> UIdle(1);
     UIdle = { 18 };
     std::vector<int> UMove(8);
-    UMove = { 18, 19, 20, 21, 22, 23, 24, 25 };
+    UMove = { 19, 20, 21, 22, 23, 24, 25, 18};
     std::vector<float> UMoveFrame(8);
     UMoveFrame = { 0.09f, 0.06f, 0.12f, 0.06f, 0.09f, 0.06f, 0.12f, 0.06f };
 
@@ -111,11 +111,11 @@ void Player::CreateAllAnimation()
     std::vector<int> LIdle(1);
     LIdle = { 0 };
     std::vector<int> LMove(6);
-    LMove = { 0, 1, 2, 3, 4, 5 };
+    LMove = { 1, 2, 3, 4, 5, 0 };
     std::vector<float> LMoveFrame(6);
     LMoveFrame = { 0.09f, 0.14f, 0.1f, 0.09f, 0.14f, 0.10f };
 
-    std::vector<int> LHeavyTool(5);
+    std::vector<int> LHeavyTool(6);
     LHeavyTool = { 6, 7, 8, 9, 10, 10 };
     std::vector<float> LHeavyToolFrame(6);
     LHeavyToolFrame = { 0.1f, 0.04f, 0.04f, 0.22f, 0.075f, 0.075f };

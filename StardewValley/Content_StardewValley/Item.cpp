@@ -193,7 +193,7 @@ void Item::InitPrice()
 
 bool Item::isAbleToSell()
 {
-    if (Itemtype == static_cast<int>(ItemType::Crops))
+    if (Quantity>=1 && Itemtype == static_cast<int>(ItemType::Crops))
     {
         return true;
     }
@@ -270,8 +270,10 @@ void Item::RenderHarvesting()
         CopyImage->On();
         CopyImage->ChangeAnimation("Harvested");
 
-        if (Player::GetPlayer()->isPlayerAnimationEnd() == true)
+        if (CopyImage->IsAnimationEnd() == true)
         {
+            CopyImage->ChangeAnimation("None");
+            CopyImage->Off();
             isHarvested = false;
         }
 

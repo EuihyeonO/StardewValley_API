@@ -27,6 +27,7 @@ enum class ActorType
     Item,
     Bed,
     Stone,
+    OrderChange,
 };
 
 enum class ItemType

@@ -86,6 +86,9 @@
     <ClInclude Include="Marlon.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="NpcCommonData.h">
+      <Filter>Actor\NPC\CommonDate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -188,6 +191,9 @@
     <ClCompile Include="Marlon.cpp">
       <Filter>Actor\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="NpcCommonData.cpp">
+      <Filter>Actor\NPC\CommonDate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -201,9 +207,6 @@
     </Filter>
     <Filter Include="Actor\Interface">
       <UniqueIdentifier>{a87f92de-72e1-450a-917b-7a88ac47b746}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Object">
-      <UniqueIdentifier>{2e6241c9-e7c8-41f2-b169-0dc5e994e776}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Title">
       <UniqueIdentifier>{26c0b2b1-379e-4679-ad82-f6d476ef660d}</UniqueIdentifier>
@@ -219,6 +222,9 @@
     </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{6ae4987d-b606-4bf3-951b-423f5d7bb853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\NPC\CommonDate">
+      <UniqueIdentifier>{8090356b-f529-40d2-88c9-b638b3223124}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

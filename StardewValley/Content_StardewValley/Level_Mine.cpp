@@ -44,7 +44,6 @@ Level_Mine::~Level_Mine()
 
 void Level_Mine::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-
 }
 void Level_Mine::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
@@ -99,16 +98,6 @@ void Level_Mine::Loading()
 }
 void Level_Mine::Update(float _DeltaTime)
 {
-    //if (GameEngineInput::IsDown("Debug") == true)
-    //{
-    //    MineTileMap->GetTile(0, { 500, 500 })->ChangeAnimation("Break");
-    //}
-
-    //if (MineTileMap->GetTile(0, { 500, 500 })->GetFrame() == 4)
-    //{
-    //    MineTileMap->GetTile(0, { 500, 500 })->Off();
-    //}
-
     TileUpdate();
     isToolCollisionToTile();
 }
@@ -138,8 +127,8 @@ void Level_Mine::ImageRoad()
         GameEngineImage* Topaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Topaz.BMP"));
         GameEngineImage* TopazIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconTopaz.BMP"));
         GameEngineImage* VibTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibTopaz.BMP"));
-        VibStone->Cut(3, 1);
-        VibTopaz->Cut(3, 1);
+        VibStone->Cut(5, 1);
+        VibTopaz->Cut(5, 1);
         stone->Cut(7, 1);
         Topaz->Cut(7, 1);
     }
@@ -195,8 +184,16 @@ void Level_Mine::SubToStoneLife(float4 _pos)
 {
     int X = static_cast<int>(_pos.x / 64);
     int Y = static_cast<int>(_pos.y / 64);
-   
-    --StoneLife[Y][X];
+    
+    --StoneLife[Y][X];   
+
+    int Floor = CheckUpdateTile(_pos);
+    
+    if (Floor != -1)
+    {
+        MineTileMap->GetTile(Floor, _pos)->ChangeAnimation("Vib");
+        GameEngineResources::GetInst().SoundPlay("PickHit.wav");
+    }
 }
 
 void Level_Mine::BreakStone(int _floor, float4 _pos)
@@ -208,6 +205,7 @@ void Level_Mine::BreakStone(int _floor, float4 _pos)
     if (StoneLife[Y][X] == 0)
     {
         MineTileMap->GetTile(_floor, _pos)->ChangeAnimation("Break");
+        GameEngineResources::GetInst().SoundPlay("StoneCrack.wav");
         GetMineral(_floor);
     } 
 }
@@ -235,7 +233,7 @@ void Level_Mine::TileUpdate()
                 StoneLife[i][j] = -1;               
             }
 
-            if (Floor != -1 && MineTileMap->GetTileFrame(Floor, Pos) != 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
+            if (StoneLife[i][j] <= 0 && Floor != -1 && MineTileMap->GetTileFrame(Floor, Pos) != 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
             {
                 MineTileMap->GetTile(Floor, Pos)->Off();
                 MineTileMap->GetTileCollision(0, Pos)->Off();
@@ -248,6 +246,11 @@ void Level_Mine::TileUpdate()
                         break;
                     }
                 }
+            }
+
+            if (StoneLife[i][j] > 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
+            {
+                MineTileMap->GetTile(Floor, Pos)->ChangeAnimation("Idle");
             }
         }
     }
@@ -331,7 +334,7 @@ void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _
             GameEngineRender* Tile = MineTileMap->GetTile(_MinaralName, Pos);
             
             Tile->CreateAnimation({ .AnimationName = "Break",.ImageName = _ImageName,.FrameIndex = {1,2,3,4,5,6} ,.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f} });
-            Tile->CreateAnimation({ .AnimationName = "Vib",.ImageName = PlusName,.FrameIndex = {0,1,2} ,.FrameTime = {0.1f, 0.1f, 0.1f}});
+            Tile->CreateAnimation({ .AnimationName = "Vib",.ImageName = PlusName,.FrameIndex = {0,1,2,3,4} ,.FrameTime = {0.15f, 0.04f, 0.04f, 0.17f, 0.075f } });
             Tile->CreateAnimation({ .AnimationName = "Idle",.ImageName = _ImageName,.FrameIndex = {0} ,.FrameTime = {0.1f} });
             Tile->ChangeAnimation("Idle");
         }

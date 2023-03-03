@@ -15,6 +15,7 @@ public:
     void isInteract();
 
     bool static GetisCollided();
+    bool isMarlonTextOn();
 
 	Marlon();
 	~Marlon();
@@ -37,6 +38,7 @@ protected:
 private:
     GameEngineRender* MarlonRender = nullptr;
     GameEngineRender* MarlonText = nullptr;
+    GameEngineRender* MarlonSecondText = nullptr;
     GameEngineRender* MarlonTextShadow = nullptr;
 
     GameEngineCollision* MarlonCollision = nullptr;

@@ -16,7 +16,7 @@ void Player::CreateToolAnimation()
 {
     //도구 애니메이션
     std::vector<int> _RHeavyTool(6);
-    _RHeavyTool = { 0, 1, 2, 3, 4, 5 };
+    _RHeavyTool = { 0, 1, 2, 3, 4, 4 };
     std::vector<float> _RHeavyToolFrame(6);
     _RHeavyToolFrame = { 0.15f, 0.04f, 0.04f, 0.17f, 0.075f, 0.075f };
 

@@ -20,6 +20,7 @@
 #include "Level_Mine.h"
 #include "globalValue.h"
 #include "globalInterFace.h"
+#include "globalSound.h"
 #include "Pierre.h"
 #include "SelectedLine.h"
 #include "UI.h"
@@ -48,6 +49,7 @@ void Player::InitPlayer()
     ColInteract = CreateCollision(ActorType::PlayerInteract);
     ColInteract->SetScale({ 64, 64 });
     ColInteract->SetPosition({ 0,32 });
+
 }
 
 
@@ -77,11 +79,13 @@ void Player::ActingUpdate(float _DeltaTime)
 
     if (isInteract() == true)
     {
+        globalSound::GetSoundPlayer()->WalkSoundOff();
         return;
     }
 
     if (isAbleAct == false)
     {
+        globalSound::GetSoundPlayer()->WalkSoundOff();
         return;
     }
 
@@ -91,9 +95,11 @@ void Player::ActingUpdate(float _DeltaTime)
     {
     case Act::Idle:
         Idle();
+        globalSound::GetSoundPlayer()->WalkSoundOff();
         break;
     case Act::Move:
         Move(_DeltaTime);
+        globalSound::GetSoundPlayer()->WalkSoundOn();
         break;
     case Act::MouseInteract:
         Interact();
@@ -105,7 +111,8 @@ void Player::ActingUpdate(float _DeltaTime)
         OpenMenu();
         break;
     case Act::ChangeQuickSlotItem:
-        globalInterface::ChangeAllQuickSlotItem(inputNumberKey);
+        globalInterface::ChangeAllQuickSlotItem(inputNumberKey);    
+        GameEngineResources::GetInst().SoundPlay("Itemswap.wav");
         break;
     case Act::ChangeQuickSlot:
         globalInterface::ChangeAllQuickSlot();
@@ -116,6 +123,15 @@ void Player::ActingUpdate(float _DeltaTime)
 void Player::Idle()
 {
     ChangePlayerAnimation(Dir + "Idle");
+
+    if (CurTool == Tool["Watering"] ||
+        CurTool == Tool["Hoe"] ||
+        CurTool == Tool["Hammer"] ||
+        CurTool == Tool["Pick"] ||
+        CurTool == Tool["Axe"]) 
+    {
+        CurTool->ChangeAnimation(Dir + "Idle");
+    }
 }
 
 void Player::OpenMenu()
@@ -233,7 +249,7 @@ void Player::Move(float _DeltaTime)
 
 void Player::Interact()
 {
-    
+
     if (Dir[0] == 'R' || Dir[0] == 'L')
     {
         CurTool->SetScale({ 250, 250 });
@@ -257,26 +273,36 @@ void Player::Interact()
         return;
     }
 
+    CurTool->ChangeAnimation(Dir + "Idle");
+
     if (CurTool->IsUpdate() == true && CurTool == Tool["Watering"])
     {
-        CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "Watering");
-
         ChangePlayerAnimation(Dir + "Watering");
+
+        GameEngineResources::GetInst().SoundPlay("Watering.wav");
     }
     else if (CurTool->IsUpdate() == true && CurTool == Tool["Hammer"])
     {
-        CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "Hammer");
-
-
         ChangePlayerAnimation(Dir + "Attack");
+
+        GameEngineResources::GetInst().SoundPlay("Hammer.wav");
     }
     else if (CurTool->IsUpdate() == true)
     {
-        CurTool->ChangeAnimation("DIdle");
         CurTool->ChangeAnimation(Dir + "HeavyTool");
         ChangePlayerAnimation(Dir + "HeavyTool");
+
+        if (CurTool == Tool["Hoe"])
+        {
+            GameEngineResources::GetInst().SoundPlay("HoeHit.wav");
+        }
+
+        else if (CurTool == Tool["Pick"])
+        {
+            GameEngineResources::GetInst().SoundPlay("Pick.wav");
+        }
     }
 }
 
@@ -327,6 +353,15 @@ bool Player::isInteract()
 void Player::ChangePlayerIdle(const std::string& _Dir)
 {
     MyPlayer->ChangePlayerAnimation(_Dir + "Idle");
+    if (MyPlayer->CurTool == MyPlayer->Tool["Watering"] ||
+        MyPlayer->CurTool == MyPlayer->Tool["Hoe"] ||
+        MyPlayer->CurTool == MyPlayer->Tool["Hammer"] ||
+        MyPlayer->CurTool == MyPlayer->Tool["Pick"] ||
+        MyPlayer->CurTool == MyPlayer->Tool["Axe"]) 
+    {
+        MyPlayer->CurTool->ChangeAnimation(_Dir + "Idle");
+    }
+
     MyPlayer->Dir = _Dir;
 }
 
@@ -415,6 +450,8 @@ void Player::InteractToTile()
         globalInterface::CreateItemToAllInventory(SeedIndex);
         Level_Farm::DeleteTileToList(SeedIndex, MousePos);
         Harvesting();
+
+        GameEngineResources::GetInst().SoundPlay("Harvest.wav");
         return;
     }
 

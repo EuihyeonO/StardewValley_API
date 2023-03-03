@@ -113,7 +113,9 @@ void Pierre::OpenPierreShop()
             PierreInventory->SetItemPos();
             PierreInventory->On();
             PierreInventory->AllItemOn();  
-            MoneyRender.On();            
+            MoneyRender.On();     
+
+            //GameEngineResources::GetInst().SoundPlay("ShopOpen.wav");
         }
 
         else if (isOpenShop = true)

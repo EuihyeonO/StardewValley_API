@@ -1,8 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "NpcCommonData.h"
 
 class GameEngineRender;
-class Haley : public GameEngineActor
+class GameEngineCollision;
+class Haley : public NpcCommonData
 {
 
 public:
@@ -20,6 +21,6 @@ protected:
     void Update(float _DeltaTime) override;
     void Render(float _Time) override;
 private:
-    GameEngineRender* HaleyRender = nullptr;
+
 };
 

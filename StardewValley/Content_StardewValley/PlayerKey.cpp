@@ -118,52 +118,52 @@ int Player::GetKeyInput()
             return Act::Move;
         }
 
-        else if (true == GameEngineInput::IsPress("QuickSlot_1"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_1"))
         {
             inputNumberKey = 1;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_2"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_2"))
         {
             inputNumberKey = 2;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_3"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_3"))
         {
             inputNumberKey = 3;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_4"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_4"))
         {
             inputNumberKey = 4;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_5"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_5"))
         {
             inputNumberKey = 5;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_6"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_6"))
         {
             inputNumberKey = 6;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_7"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_7"))
         {
             inputNumberKey = 7;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_8"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_8"))
         {
             inputNumberKey = 8;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_9"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_9"))
         {
             inputNumberKey = 9;
             return Act::ChangeQuickSlotItem;
         }
-        else if (true == GameEngineInput::IsPress("QuickSlot_0"))
+        else if (true == GameEngineInput::IsDown("QuickSlot_0"))
         {
             inputNumberKey = 10;
             return Act::ChangeQuickSlotItem;

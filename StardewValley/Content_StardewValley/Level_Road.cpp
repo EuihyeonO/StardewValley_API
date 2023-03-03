@@ -51,8 +51,8 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 
     //플레이어 설정
-    RoadPlayer->SetPos({ 80, 1280 });
     Player::SetMyPlayer(RoadPlayer);
+    RoadPlayer->SetPos({ 80, 1280 });
 
     //카메라 기초설정
     globalValue::SetcameraLimitPos(float4{ 1920, 1646 } - GameEngineWindow::GetScreenSize());

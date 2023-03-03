@@ -80,7 +80,6 @@ public:
  
     int GetKeyInput();
     void GetItem(const std::string_view& _itemName);
-
     void Move(float _DeltaTime);
     void Idle();
     void Interact();
@@ -158,8 +157,6 @@ private:
     GameEngineImage* ColMap = nullptr;
 
     GameEngineCollision* ColTool = nullptr;
-
-    GameEngineSoundPlayer WalkSound;
 
     std::map<std::string, GameEngineRender*> Tool;
 

@@ -17,7 +17,7 @@ void SelectedLine::Start()
 {
     SetPos({ 0,0 });
 
-    SelectedLineRender = CreateRender("SelectedLine.bmp", 150);
+    SelectedLineRender = CreateRender("SelectedLine.bmp", 40);
     SelectedLineRender->SetScale({ 64,64 });
     SelectedLineRender->Off();
 }

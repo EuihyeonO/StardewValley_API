@@ -248,6 +248,11 @@ void Inventory::CameraPosUpdate()
 void Inventory::QuickSlotUpdate()
 {   
     SelectedLine->SetPosition(SelectedItem->GetItemRenderPos());
+    
+    if (SelectedItem != nullptr)
+    {
+        SelectedItem->GetRenderImage()->SetScale({ 52,52 });
+    }
 
     if (ItemList.size() >= 1)
     {
@@ -366,7 +371,6 @@ void Inventory::SetItemPos()
     }
 }
 
-
 Item* Inventory::GetSelectedItem()
 {
     if (SelectedItem != nullptr)
@@ -429,13 +433,15 @@ void Inventory::ItemUpdate()
 
     for (int i = 0; i < size; i++)
     {
+        ItemList[i]->GetRenderImage()->SetScale({ 45,45 });
+
         if (0 >= ItemList[i]->GetQuantity())
         {
             ItemList[i]->Death();
             ItemList.erase(ItemList.begin() + i);
             ChangeSelectedItem();
             SetItemPos();
-            break;
+            --size;
         }
     }
 }
@@ -482,10 +488,25 @@ void Inventory::SellItem()
     {
         if (ItemList[i]->isAbleToSell() == true && ItemList[i]->isCollisionToMouse() == true && GameEngineInput::IsDown("EngineMouseLeft") == true)
         {
-            globalInterface::AllInventoryDelete(i);
             globalValue::PlusToMoney(ItemList[i]->GetPrice());
             globalValue::PlusToTotalRevenue(ItemList[i]->GetPrice());
             globalInterface::AllInventoryUpdate();
+            GameEngineResources::GetInst().SoundPlay("Sell.wav");
+            globalInterface::AllInventoryDelete(i);
+            Size = ItemList.size();
         }
     }
+}
+
+bool Inventory::isInInventory(const std::string_view& _ItemName)
+{
+    for (int i = 0; i < ItemList.size(); i++)
+    {
+        if (ItemList[i]->GetItemName() == _ItemName)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

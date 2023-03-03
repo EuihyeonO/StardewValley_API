@@ -6,12 +6,16 @@ class globalSound
 {
 
 public:
+    static globalSound* GetSoundPlayer()
+    {
+        return globalSoundPlayer;
+    }
 
     void SoundInit();
-    void SoundOff();
+    void WalkSoundOff();
 
     void ToolSoundOn();
-    void WalkSoundOn(const std::string_view _LevelName);
+    void WalkSoundOn();
     
     void SoundUpdate(const std::string_view _LevelName);
 
@@ -28,15 +32,12 @@ public:
 protected:
 
 private:
+    static globalSound* globalSoundPlayer;
+
     GameEngineSoundPlayer WalkSound;
 
     GameEngineSoundPlayer Farm_BGM;
     GameEngineSoundPlayer Title_BGM;
-
-    GameEngineSoundPlayer AxeSound;
-    GameEngineSoundPlayer HoeSound;
-    GameEngineSoundPlayer PickSound;
-    GameEngineSoundPlayer WateringSound;
 
     float Volume = 1;
 };

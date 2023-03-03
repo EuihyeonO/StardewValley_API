@@ -51,8 +51,7 @@ void Level_Farm::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
     globalValue::SetCurLevelName(GetName());
 
-    //플레이어 설정
-
+    //플레이어 설정  
     Player::SetMyPlayer(FarmPlayer);
 
     if (_PrevLevel != nullptr && _PrevLevel->GetName() == "Road")
@@ -214,6 +213,7 @@ void Level_Farm::ImageRoad()
     {
         Dir.Move("UI");
         GameEngineImage* MarlonText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox.BMP"));
+        GameEngineImage* MarlonText2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox2.BMP"));
         GameEngineImage* TextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TextBoxShodow.BMP"));
         Dir.MoveParent();
     }

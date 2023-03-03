@@ -197,6 +197,7 @@ void Level_Farm::DeleteTileToList(int _SeedName, float4 _pos)
         {
             OnTileList[i]->Off();
             OnTileList.erase(OnTileList.begin() + i);
+            Size--;
         }
     }
 }

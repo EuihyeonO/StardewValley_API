@@ -96,6 +96,7 @@ void Mine::FadeInAndOut(float _DeltaTime)
     else if (isFading == 1 && alpha >= 255)
     {
         isFading = 0;
+
         Player::GetPlayer()->PlayerStopOff();
         ContentsCore::SetNextMap("Farm");
     }
@@ -110,6 +111,7 @@ void Mine::FadeInAndOut(float _DeltaTime)
     {
         alpha = 0;
         isFading = 0;
+
         Player::GetPlayer()->PlayerStopOff();
     }
 }

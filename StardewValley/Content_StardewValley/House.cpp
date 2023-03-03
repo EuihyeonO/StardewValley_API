@@ -29,7 +29,7 @@ void House::Start()
 
     BedCollision = CreateCollision(ActorType::Bed);
     BedCollision->SetScale({ 10, 128 });
-    BedCollision->SetPosition({ 290,200 });
+    BedCollision->SetPosition({ 260,200 });
 
     houseLayer = CreateRender("HouseLayer.bmp", 100);
     houseLayer->SetScaleToImage();
@@ -100,6 +100,7 @@ std::string House::isCollision_PortalToPlayer()
                 Player::GetPlayer()->PlayerStop();
                 Player::ChangePlayerIdle("D");
                 PortalToFarm->Off();
+                GameEngineResources::GetInst().SoundPlay("DoorOpen.wav");
             }
         }
     }
@@ -162,7 +163,9 @@ void House::FadeInAndOut(float _DeltaTime)
     else if (isFading == 1 && alpha >= 255)
     {
         isFading = 0;
+
         Player::GetPlayer()->PlayerStopOff();
+
         ContentsCore::SetNextMap("Farm");
     }
     else if (isFading == 2 && alpha > 0)
@@ -175,6 +178,7 @@ void House::FadeInAndOut(float _DeltaTime)
     {
         alpha = 0;
         isFading = 0;
+
         Player::GetPlayer()->PlayerStopOff();
     }
 }

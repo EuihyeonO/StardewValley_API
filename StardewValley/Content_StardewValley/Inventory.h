@@ -56,6 +56,7 @@ public:
     void CreateItem(int Seedtype);
     void CreateItem_Minaral(int _MinenalName);
     void SellItem();
+    bool isInInventory(const std::string_view& _ItemName);
 
     void ChangeQuickSlot();
 

@@ -54,6 +54,7 @@ public:
 
     static void ChangeAllQuickSlot();
     static void ChangeAllQuickSlotItem(int _Num);
+    static bool IsInInventory(const std::string_view& _ItemName);
 
     static void UI_OnOff();
     static void OpenInventory();

@@ -5,6 +5,7 @@
 
 #include <GameEngineCore/Button.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 MenuButton* MenuButton::GlobalMenuButton = nullptr;
 
@@ -22,6 +23,8 @@ void MenuChangeToAffection(Button* _btn)
     MenuButton::GetGlobalMenuButton()->SetAffectionButtonToSelectedPos();
     Inventory::GetInventory()->InventoryOff();
     AffectionBox::GetGlobalAffectionBox()->AffectionBoxOn();
+
+    GameEngineResources::GetInst().SoundPlay("MenuChange.wav");
 }
 
 void MenuChangeToInventory(Button* _btn)
@@ -29,6 +32,8 @@ void MenuChangeToInventory(Button* _btn)
     MenuButton::GetGlobalMenuButton()->SetInventoryButtonToSelectedPos();
     AffectionBox::GetGlobalAffectionBox()->AffectionBoxOff();
     Inventory::GetInventory()->InventoryOn();
+
+    GameEngineResources::GetInst().SoundPlay("MenuChange.wav");
 }
 
 void MenuButton::Start()

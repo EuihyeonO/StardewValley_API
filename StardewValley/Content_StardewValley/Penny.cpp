@@ -11,13 +11,12 @@ Penny::~Penny()
 
 void Penny::Start()
 {
-    PennyRender = CreateRender("Penny.bmp", 100);
-    PennyRender->SetScaleToImage();
-    PennyRender->SetPosition({ 1025, 770 });
+    SetBodyRender("Penny.bmp", {1025, 770});
+    SetCollision();
 }
 void Penny::Update(float _DeltaTime)
 {
-
+    RenderOrderUpdate();
 }
 void Penny::Render(float _Time)
 {

@@ -11,13 +11,13 @@ Sam::~Sam()
 
 void Sam::Start()
 {
-    SamRender = CreateRender("Sam.bmp", 100);
-    SamRender->SetScaleToImage();
-    SamRender->SetPosition({ 300, 600 });
+    SetBodyRender("Sam.bmp", { 300, 600 });
+    SetCollision();
 }
 
 void Sam::Update(float _DeltaTime)
 {
+    RenderOrderUpdate();
 }
 
 void Sam::Render(float _Time)
