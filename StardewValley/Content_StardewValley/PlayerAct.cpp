@@ -25,6 +25,7 @@
 #include "SelectedLine.h"
 #include "UI.h"
 #include "Level_Mine.h"
+#include "Marlon.h"
 
 
 void Player::InitPlayer()
@@ -268,7 +269,7 @@ void Player::Interact()
     
     InteractToTile();
 
-    if (isHarvesting == true || CurTool == Tool["Default"])
+    if (isHarvesting == true || CurTool == Tool["Default"] || Marlon::GetGlobalMarlon()->isMarlonTextOn() ==true)
     {
         return;
     }
@@ -557,7 +558,10 @@ void Player::isCollidedToNPC()
 
 void Player::GetItem(const std::string_view& _itemName)
 {
+    PlayerRender->ChangeAnimation("Didle");
     CurTool->On();
+    CurTool->SetScale({ 0,0 });
+
     PlayerRender->ChangeAnimation("GetItem");
 
     GetItemRender = CreateRender(_itemName, 200);
