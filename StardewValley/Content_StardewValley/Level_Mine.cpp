@@ -9,6 +9,7 @@
 #include "globalInterface.h"
 #include "MenuButton.h"
 #include "AffectionBox.h"
+#include "Mummy.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
@@ -24,6 +25,7 @@
 #include <vector>
 #include <string_view>
 
+ Level_Mine* Level_Mine::LevelMineController = nullptr;
 
  Inventory* Level_Mine::MineInventory;
  GameEngineTileMap* Level_Mine::MineTileMap;
@@ -31,9 +33,12 @@
  std::vector<std::vector<int>> Level_Mine::StoneLife(12, std::vector<int>(20, -1));
  UI* Level_Mine::MineUI;
  int Level_Mine::isFirst = 0;
+ int Level_Mine::NumOfMineral = 0;
 
 Level_Mine::Level_Mine()
 {
+    LevelMineController = this;
+
     MineInventory = CreateActor<Inventory>();
     MineUI = CreateActor<UI>();
 }
@@ -80,7 +85,7 @@ void Level_Mine::Loading()
     MineMenuButton = CreateActor<MenuButton>();
     MineAffectionBox = CreateActor<AffectionBox>();
     CreateActor<Mouse>();
-
+    MineMummy = CreateActor<Mummy>();
     GameEngineRandom::MainRandom.SetSeed(time(NULL));
 
     MineTileMap = CreateActor<GameEngineTileMap>();
@@ -90,11 +95,14 @@ void Level_Mine::Loading()
 
     MineTileMap->SetFloorSetting(static_cast<int>(MineralName::Stone), "Stone.bmp");
     MineTileMap->SetFloorSetting(static_cast<int>(MineralName::Topaz), "Topaz.bmp");
+    MineTileMap->SetFloorSetting(static_cast<int>(MineralName::Iron), "Iron.bmp");
 
     CreateTileAnimation(static_cast<int>(MineralName::Stone), "Stone.bmp");
     CreateTileAnimation(static_cast<int>(MineralName::Topaz), "Topaz.bmp");
+    CreateTileAnimation(static_cast<int>(MineralName::Iron), "Iron.bmp");
 
     SetTileObject();
+    SetMonster(1);
 }
 void Level_Mine::Update(float _DeltaTime)
 {
@@ -120,6 +128,9 @@ void Level_Mine::ImageRoad()
     }
 
     {
+        GameEngineImage* Mummy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Mummy.BMP"));
+        Mummy->Cut(4,5);
+
         GameEngineImage* stone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Stone.BMP"));
         GameEngineImage* stoneIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Iconstone.BMP"));
         GameEngineImage* VibStone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibStone.BMP"));
@@ -127,17 +138,24 @@ void Level_Mine::ImageRoad()
         GameEngineImage* Topaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Topaz.BMP"));
         GameEngineImage* TopazIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconTopaz.BMP"));
         GameEngineImage* VibTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibTopaz.BMP"));
+
+        GameEngineImage* Iron = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Iron.BMP"));
+        GameEngineImage* IronIcon = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconIron.BMP"));
+        GameEngineImage* VibIron = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("VibIron.BMP"));
         VibStone->Cut(5, 1);
         VibTopaz->Cut(5, 1);
+        VibIron->Cut(5, 1);
         stone->Cut(7, 1);
         Topaz->Cut(7, 1);
+        Iron->Cut(8, 1);
     }
 }
 
 void Level_Mine::SetTileObject()
 {
-    SetMineralToTile(static_cast<int>(MineralName::Stone), "Stone.bmp");
-    SetMineralToTile(static_cast<int>(MineralName::Topaz), "Topaz.bmp");
+    SetMineralToTile(static_cast<int>(MineralName::Stone));
+    SetMineralToTile(static_cast<int>(MineralName::Topaz));
+    SetMineralToTile(static_cast<int>(MineralName::Iron));
 }
 
 bool Level_Mine::isCollisionToTile(float4 _pos)
@@ -170,7 +188,7 @@ bool Level_Mine::isToolCollisionToTile()
 
 int Level_Mine::CheckUpdateTile(float4 _pos)
 {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < NumOfMineral; i++)
     {
         if (MineTileMap->GetTile(i, _pos)->IsUpdate() == true)
         {
@@ -248,7 +266,7 @@ void Level_Mine::TileUpdate()
                 }
             }
 
-            if (StoneLife[i][j] > 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
+            if (Floor != -1 && StoneLife[i][j] > 0 && MineTileMap->GetTile(Floor, Pos)->IsAnimationEnd() == true)
             {
                 MineTileMap->GetTile(Floor, Pos)->ChangeAnimation("Idle");
             }
@@ -256,7 +274,7 @@ void Level_Mine::TileUpdate()
     }
 }
 
-void Level_Mine::SetMineralToTile(int _Num, const std::string_view& _ImageName)
+void Level_Mine::SetMineralToTile(int _Num)
 {
     int X = GameEngineRandom::MainRandom.RandomInt(0, 19);
     int Y = GameEngineRandom::MainRandom.RandomInt(3, 11);
@@ -321,6 +339,8 @@ void Level_Mine::DeleteTile()
 
 void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _ImageName)
 {
+    ++NumOfMineral;
+
     int X, Y;
     std::string Name = _ImageName.data();
     std::string PlusName = "Vib" + Name;
@@ -344,4 +364,31 @@ void Level_Mine::CreateTileAnimation(int _MinaralName, const std::string_view& _
 void Level_Mine::GetMineral(int _MineralName)
 {
     globalInterface::CreateItemToAllInventory_Mineral(_MineralName);
+}
+
+void Level_Mine::SetMonster(int _Num)
+{
+    int X = GameEngineRandom::MainRandom.RandomInt(0, 19);
+    int Y = GameEngineRandom::MainRandom.RandomInt(3, 11);
+
+    X *= 64;
+    Y *= 64;
+
+    GameEngineImage* ColMine = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+
+
+    //이미 그 인덱스의 타일이 세팅되어 있거나 마젠타컬러로 제한해둔 위치를 벗어났다면, 다시 추출한다.
+    while (
+        StoneLife[Y / 64][X / 64] != -1 ||
+        CheckUpdateTile(float4(static_cast<float>(X), static_cast<float>(Y))) != -1 ||
+        RGB(255, 0, 255) != ColMine->GetPixelColor(float4(static_cast<float>(X), static_cast<float>(Y)), RGB(255, 0, 255)))
+    {
+        X = GameEngineRandom::MainRandom.RandomInt(0, 19);
+        Y = GameEngineRandom::MainRandom.RandomInt(3, 11);
+
+        X *= 64;
+        Y *= 64;
+    }
+
+    MineMummy->SetPos({static_cast<float>(X+32),static_cast<float>(Y) });
 }

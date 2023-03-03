@@ -105,6 +105,10 @@ void Level_Title::ImageRoad()
         GameEngineImage* Mountain2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleMountain2.BMP"));
 
         GameEngineImage* Cloud1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud1.BMP"));
+        GameEngineImage* Cloud2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud2.BMP"));
+        GameEngineImage* Cloud3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud3.BMP"));
+        GameEngineImage* Cloud4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud4.BMP"));
+        GameEngineImage* Cloud5 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cloud5.BMP"));
 
         GameEngineImage* Tree = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleTree.BMP"));
 

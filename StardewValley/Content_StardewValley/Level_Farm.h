@@ -43,7 +43,6 @@ public:
 
 
     void ValidCollisionTileOn();
-    void SetTileAlphaMax();
     void isCollisionToPlayer();
     void CreateCrops(std::string _CropName);    
     void InitTile();
@@ -90,9 +89,7 @@ private:
     Player* FarmPlayer = nullptr;
     Farm* FarmController = nullptr;
 
-    std::vector<GameEngineCollision*> ColllidedTile;
-    std::vector<GameEngineRender*> ColllidedTileRender;
-
-    
+    std::vector<GameEngineCollision*> CollidedTile;
+   
 };
 

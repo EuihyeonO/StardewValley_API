@@ -85,6 +85,8 @@ public:
     void Interact();
     void OpenMenu();
 
+    void HammerCollisionUpdate();
+
     void SetIsHarvesting()
     {
         isHarvesting = true;
@@ -147,6 +149,7 @@ private:
     GameEngineCollision* ColFullBody = nullptr;
     GameEngineCollision* ColInteract = nullptr;
 
+
     GameEngineRender* Pick = nullptr;
     GameEngineRender* Axe = nullptr;
     GameEngineRender* Hoe = nullptr;
@@ -157,6 +160,7 @@ private:
     GameEngineImage* ColMap = nullptr;
 
     GameEngineCollision* ColTool = nullptr;
+    GameEngineCollision* HammerCollision = nullptr;
 
     std::map<std::string, GameEngineRender*> Tool;
 

@@ -109,7 +109,14 @@ void Inventory::AllItemOff()
 {
     for (size_t i = 0; i < ItemList.size(); i++)
     {
-        ItemList[i]->Off();
+        if(false == isPierreInventory && ItemList[i]->GetIsHarvested() != true)
+        {
+            ItemList[i]->Off();
+        }
+        else if (true == isPierreInventory)
+        {
+            ItemList[i]->Off();
+        }
     }
 }
 
@@ -237,6 +244,11 @@ void Inventory::CreateItem_Minaral(int _MinenalName)
         CreateItem("IconTopaz.BMP", static_cast<int>(ItemType::Mineral));
         return;
     }
+    else if (_MinenalName == static_cast<int>(MineralName::Iron))
+    {
+        CreateItem("IconIron.BMP", static_cast<int>(ItemType::Mineral));
+        return;
+    }
 
 }
 
@@ -262,6 +274,11 @@ void Inventory::QuickSlotUpdate()
     {
         SelectedItem = nullptr;
         SelectedLine->Off();
+    }
+
+    if (QuickSlotOrder > (ItemList.size()-1) / 10)
+    {
+        ChangeQuickSlot();
     }
 }
 
@@ -460,14 +477,9 @@ std::string Inventory::GetSelectedItemName()
 
 void Inventory::ChangeQuickSlot()
 {
-    if (ItemList.size() <= 10)
-    {
-        return;
-    }
-
     ++QuickSlotOrder;
 
-    if (QuickSlotOrder >= 3)
+    if (QuickSlotOrder > (ItemList.size()-1) / 10)
     {
         QuickSlotOrder = 0;
     }

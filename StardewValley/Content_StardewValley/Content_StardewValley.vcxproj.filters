@@ -89,6 +89,9 @@
     <ClInclude Include="NpcCommonData.h">
       <Filter>Actor\NPC\CommonDate</Filter>
     </ClInclude>
+    <ClInclude Include="Mummy.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -194,6 +197,9 @@
     <ClCompile Include="NpcCommonData.cpp">
       <Filter>Actor\NPC\CommonDate</Filter>
     </ClCompile>
+    <ClCompile Include="Mummy.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -225,6 +231,9 @@
     </Filter>
     <Filter Include="Actor\NPC\CommonDate">
       <UniqueIdentifier>{8090356b-f529-40d2-88c9-b638b3223124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster">
+      <UniqueIdentifier>{52d58963-5866-48dc-a5d4-0fa096b0a8b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

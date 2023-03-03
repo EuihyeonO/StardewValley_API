@@ -51,6 +51,9 @@ void Player::InitPlayer()
     ColInteract->SetScale({ 64, 64 });
     ColInteract->SetPosition({ 0,32 });
 
+    HammerCollision = CreateCollision(ActorType::Hammer);
+    HammerCollision->SetScale({ 64, 64 });
+    HammerCollision->Off();
 }
 
 
@@ -219,7 +222,7 @@ void Player::Move(float _DeltaTime)
     // 실제로 위치를 이동 (x, y중 한 쪽만 막혀있을 경우에도 움직일 수 있게 로직변경이 필요
     if (nullptr != ColMap && 
         RGB(0, 0, 0) != ColMap->GetPixelColor({ NextPos.x, NextPos.y }, RGB(0, 0, 0)) && 
-        false == Level_Mine::isCollisionToTile(NextPos) &&
+        false == Level_Mine::GetLevelMineController()->isCollisionToTile(NextPos) &&
         false == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::NPC), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
 
@@ -269,10 +272,11 @@ void Player::Interact()
     
     InteractToTile();
 
-    if (isHarvesting == true || CurTool == Tool["Default"] || Marlon::GetGlobalMarlon()->isMarlonTextOn() ==true)
+    if (isHarvesting == true || CurTool == Tool["Default"] || Marlon::GetGlobalMarlon()->isMarlonTextOn() == true)
     {
         return;
     }
+
 
     CurTool->ChangeAnimation(Dir + "Idle");
 
@@ -419,9 +423,9 @@ void Player::InteractToTile()
 
     if (CurTool == Tool["Pick"] && CurTool->IsUpdate() == true)
     {
-        if (Level_Mine::isToolCollisionToTile() == true)
+        if (Level_Mine::GetLevelMineController()->isToolCollisionToTile() == true)
         {
-            Level_Mine::SubToStoneLife(ColTool->GetActorPlusPos());
+            Level_Mine::GetLevelMineController()->SubToStoneLife(ColTool->GetActorPlusPos());
         }
     }
 
@@ -570,4 +574,34 @@ void Player::GetItem(const std::string_view& _itemName)
     GetItemRender->On();
 
     Dir = "D";
+}
+
+
+void Player::HammerCollisionUpdate()
+{
+    if (Dir == "U")
+    {
+        HammerCollision->SetPosition({ 0, -32 });
+    }
+    else if (Dir == "D")
+    {
+        HammerCollision->SetPosition({ 0, 32 });
+    }
+    else if (Dir == "R")
+    {
+        HammerCollision->SetPosition({ 32,0 });
+    }
+    else if (Dir == "L")
+    {
+        HammerCollision->SetPosition({ -32, 0 });
+    }
+
+    if (CurTool == Tool["Hammer"] && true == CurTool->IsUpdate())
+    {
+        HammerCollision->On();
+    }
+    else
+    {
+        HammerCollision->Off();
+    }
 }

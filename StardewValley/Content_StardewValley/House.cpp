@@ -144,8 +144,8 @@ void House::DoSleep(float _DeltaTime)
         {     
             isSleep = true;
             Level_Farm::Grow_Up();
-            Level_Mine::DeleteTile();
-            Level_Mine::SetTileObject();
+            Level_Mine::GetLevelMineController()->DeleteTile();
+            Level_Mine::GetLevelMineController()->SetTileObject();
             Player::GetPlayer()->PlayerStop();
         }
     }

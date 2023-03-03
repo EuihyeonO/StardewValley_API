@@ -66,7 +66,6 @@ public:
     static void AllInventoryDelete();
     static void AllInventoryDelete(int Index);
     static void AllInventoryUpdate();
-
     static void MenuOnOff();
 
 	globalInterface();

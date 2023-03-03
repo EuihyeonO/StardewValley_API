@@ -29,8 +29,6 @@ void Level_Farm::InitTile()
     
     ValidCollisionTileOn();
 
-    ColllidedTile;
-
     TileMap->SetFloorSetting(0, "HoeDirt.bmp");
     
     TileMap->SetFloorSetting(SeedName::Parsnip, "Parsnip.bmp");
@@ -117,30 +115,28 @@ void Level_Farm::SetSeedPos(float4 _pos, int _SeedType)
 
 void Level_Farm::isCollisionToPlayer()
 {
-    for (int i = 0; i < ColllidedTile.size(); i++)
+    for (int i = 0; i < CollidedTile.size(); i++)
     { 
-        if (true == ColllidedTile[i]->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
-        {
-            float4 Pos = ColllidedTile[i]->GetPosition();
-            int Zindex = CheckUpdateTile(Pos);
+        float4 Pos = CollidedTile[i]->GetPosition();
+        int Zindex = CheckUpdateTile(Pos);
 
-            if (Zindex != -1) 
+        if (Zindex != -1 && true == CollidedTile[i]->Collision({ .TargetGroup = static_cast<int>(ActorType::Player) , .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+        {
+            if (Pos.y >= Player::GetPlayer()->GetPos().y + 64)
             {
-                ColllidedTileRender.push_back(TileMap->GetTile(Zindex, Pos));
-                ColllidedTileRender[ColllidedTileRender.size()-1]->SetAlpha(100);
+                TileMap->GetTile(Zindex, Pos)->SetOrder(60);
             }
+            else if(Pos.y < Player::GetPlayer()->GetPos().y + 64)
+            {
+                TileMap->GetTile(Zindex, Pos)->SetOrder(40);
+            }
+
         }
     }
     
 }
 
-void Level_Farm::SetTileAlphaMax()
-{
-    for (int i = 0; i < ColllidedTileRender.size(); i++)
-    {
-        ColllidedTileRender[i]->SetAlpha(255);
-    }
-}
+
 
 void Level_Farm::ValidCollisionTileOn()
 {
@@ -155,7 +151,7 @@ void Level_Farm::ValidCollisionTileOn()
             if (ColMap->GetPixelColor(float4(X, Y), RGB(255, 0, 255)) == RGB(255, 0, 255))
             {
                 TileMap->GetTileCollision(0, float4(X, Y))->On();
-                ColllidedTile.push_back(TileMap->GetTileCollision(0, float4(X, Y)));
+                CollidedTile.push_back(TileMap->GetTileCollision(0, float4(X, Y)));
             }
             Y += 64;
         }    

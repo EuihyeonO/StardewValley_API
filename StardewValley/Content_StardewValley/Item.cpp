@@ -275,12 +275,12 @@ void Item::RenderHarvesting()
             CopyImage->ChangeAnimation("None");
             CopyImage->Off();
             isHarvested = false;
+            globalInterface::AllInventoryUpdate();
         }
 
     }
     else
     {
-        isHarvested = false;
         CopyImage->ChangeAnimation("None");
         CopyImage->Off();
     }

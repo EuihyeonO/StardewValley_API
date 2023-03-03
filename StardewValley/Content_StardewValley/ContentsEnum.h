@@ -28,6 +28,9 @@ enum class ActorType
     Bed,
     Stone,
     OrderChange,
+    Monster,
+    FullMonster,
+    Hammer,
 };
 
 enum class ItemType
@@ -65,4 +68,5 @@ enum class MineralName
 {
     Stone,
     Topaz,
+    Iron,
 };

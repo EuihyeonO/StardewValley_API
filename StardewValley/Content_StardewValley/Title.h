@@ -7,8 +7,25 @@ class Title : public GameEngineActor
 
 public:
 
+    static Title* GetGlobalTitle()
+    {
+        return globalTitle;
+    }
+
+    void CloudReSet();
+    void SetObjectAlpha(float _DeltaTime);
+    void ObjectMove(float _DeltaTime);
+    
+    void TimeCount();
+
+    void MoveMountain(float _DeltaTime);
+
     void ObjectInit();
     void ButtonInit();
+
+    void FadeOut(float _DeltaTime);
+    void SetIsClicked();
+    void ChangeLevelToHouse();
 
     Title();
     ~Title();
@@ -23,7 +40,12 @@ protected:
     void Render(float _Time) override;
 
 private:
+    static Title* globalTitle;
+
     float mytime = 0;
+    float PrevTime = 0;
+    float CurTime = 0;
+    
     int isSet = 0;
     float isCameraSet = 0;
 
@@ -39,19 +61,29 @@ private:
     GameEngineRender* TitleMountain2 = nullptr;
 
     GameEngineRender* Cloud1 = nullptr;
+    GameEngineRender* Cloud2 = nullptr;
+    GameEngineRender* Cloud3 = nullptr;
+    GameEngineRender* Cloud4 = nullptr;
+    GameEngineRender* Cloud5 = nullptr;
 
     GameEngineRender* Tree = nullptr;
 
     GameEngineRender* Bird1 = nullptr;
     GameEngineRender* Bird2 = nullptr;
 
+
+    GameEngineRender* BlackImage = nullptr;
+
     Button* NewGame = nullptr;
     Button* ExitGame = nullptr;
 
-    int Alpha = 0;
+    float Alpha = 0;
     float Accel1 = 0;
     float Accel2 = 0;
     float Accel3 = 0;
+
+    bool isClicked = false;
+    float BlackAlpha = 0;
 
 };
 

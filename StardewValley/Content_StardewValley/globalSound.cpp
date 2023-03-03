@@ -62,7 +62,7 @@ void globalSound::BGM_On(const std::string_view _LevelName)
         {
             if (Volume > 0)
             {
-                Volume -= 0.002f;
+                Volume -= 0.005f;
                 Title_BGM.Volume(Volume);
             }
             if (Volume <= 0)

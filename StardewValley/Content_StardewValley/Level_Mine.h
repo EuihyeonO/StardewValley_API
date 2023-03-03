@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
+class Mummy;
 class AffectionBox;
 class MenuButton;
 class UI;
@@ -12,15 +13,21 @@ class Level_Mine : public GameEngineLevel
 {
 
 public:
+    static Level_Mine* GetLevelMineController()
+    {
+        return LevelMineController;
+    }
+
     static Inventory* MineInventory;
 
-    static void SubToStoneLife(float4 _pos);
-    static void SetTileObject();
-    static void SetMineralToTile(int _Num, const std::string_view& _ImageName);
-    static int CheckUpdateTile(float4 _pos);
-    static bool isCollisionToTile(float4 _pos);
-    static bool isToolCollisionToTile();
-    static void DeleteTile();
+    void SubToStoneLife(float4 _pos);
+    void SetTileObject();
+    void SetMineralToTile(int _Num);
+    void SetMonster(int _Num);
+    int CheckUpdateTile(float4 _pos);
+    bool isCollisionToTile(float4 _pos);
+    bool isToolCollisionToTile();
+    void DeleteTile();
 
     void GetMineral(int _MineralName);
     void CreateTileAnimation(int _MinaralName, const std::string_view& _ImageName);
@@ -43,6 +50,7 @@ protected:
     void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 
 private:
+    static Level_Mine* LevelMineController;
 
     static UI* MineUI;
     static GameEngineTileMap* MineTileMap;
@@ -55,6 +63,8 @@ private:
     Mine* MineController = nullptr;
     MenuButton* MineMenuButton = nullptr;
 
+    Mummy* MineMummy = nullptr;
+    static int NumOfMineral;
 };
 
 

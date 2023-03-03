@@ -139,7 +139,6 @@ void Level_Farm::Loading()
 
 void Level_Farm::Update(float _DeltaTime)
 {  
-    SetTileAlphaMax();
     isCollisionToPlayer();
 
     myDeltaTime = _DeltaTime;
@@ -374,6 +373,7 @@ void Level_Farm::UIImageRoad()
        
         GameEngineImage* InfoIconStone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconStone.BMP"));
         GameEngineImage* InfoIconTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconTopaz.BMP"));
+        GameEngineImage* InfoIconIron = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconIron.BMP"));
 
         Dir.MoveParent();
     }

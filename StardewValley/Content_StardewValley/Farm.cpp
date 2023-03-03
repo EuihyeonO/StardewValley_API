@@ -166,7 +166,7 @@ void Farm::FadeInAndOut(float _DeltaTime)
         BlackMap->SetAlpha(static_cast<int>(alpha));
         alpha -= _DeltaTime * 250;
     }
-    else if (alpha <= 0)
+    else if (isFading ==2 && alpha <= 0)
     {
         Player::GetPlayer()->PlayerStopOff();
 

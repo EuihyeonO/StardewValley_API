@@ -91,16 +91,18 @@ void Marlon::Start()
 void Marlon::Update(float _DeltaTime)
 {
     isCollision();
-    isInteract();
+    isDownKeyInteract();
     
     if (true == isCollided && true == isKeyInteract)
     {
         TextBoxOn(_DeltaTime);
     }
-    if (false == isKeyInteract && true == GameEngineInput::IsDown("KeyInteract"))
+
+    if (true == isSetText && true == GameEngineInput::IsDown("KeyInteract"))
     {
         TextBoxOff();
     }
+
 }
 
 void Marlon::Render(float _Time)
@@ -119,9 +121,9 @@ void Marlon::isCollision()
     }
 }
 
-void Marlon::isInteract()
+void Marlon::isDownKeyInteract()
 {
-    if (GameEngineInput::IsDown("KeyInteract") == true)
+    if (true == isCollided && GameEngineInput::IsDown("KeyInteract") == true)
     {
         if (isKeyInteract == false) 
         {
@@ -144,6 +146,7 @@ void Marlon::TextBoxOn(float _DeltaTime)
         Scale.x = 1280;
         isButtonOn = true;
         isKeyInteract = false;
+        isSetText = true;
     }
 
     if (Scale.y >= 400)
@@ -158,6 +161,8 @@ void Marlon::TextBoxOn(float _DeltaTime)
         MarlonText->On();
         MarlonTextShadow->On();
 
+        MarlonText->SetScale(Scale);
+        MarlonTextShadow->SetScale(Scale);
         if (isButtonOn == true)
         {
             OkayButton->GetButtonRender()->On();
@@ -168,13 +173,11 @@ void Marlon::TextBoxOn(float _DeltaTime)
             NoButton->GetButtonCollision()->On();
             NoButton->SetPos(GetLevel()->GetCameraPos() + float4{ 440, 684 });
         }
-
-        MarlonText->SetScale(Scale);
-        MarlonTextShadow->SetScale(Scale);
     }
 
     else
     {
+
         MarlonSecondText->On();
         MarlonTextShadow->On();
 
@@ -185,6 +188,8 @@ void Marlon::TextBoxOn(float _DeltaTime)
 
 void Marlon::TextBoxOff()
 {
+    isSetText = false;
+
     Player::GetPlayer()->PlayerStopOff();
 
     if (MarlonSecondText->IsUpdate() == false) 
@@ -203,10 +208,7 @@ void Marlon::TextBoxOff()
             NoButton->GetButtonCollision()->Off();
         }
 
-        isKeyInteract = false;
-        
-        MarlonText->SetScale(Scale);
-        MarlonTextShadow->SetScale(Scale);
+        isKeyInteract = false;       
     }
 
     else
@@ -220,5 +222,14 @@ void Marlon::TextBoxOff()
 
 bool Marlon::isMarlonTextOn()
 {
-    return MarlonText->IsUpdate();
+    if (true == MarlonText->IsUpdate())
+    {
+        return true;
+    }
+    else if (true == MarlonSecondText->IsUpdate())
+    {
+        return true;
+    }
+
+    else return false;
 }

@@ -12,7 +12,7 @@ public:
     void isCollision();
     void TextBoxOn(float _DeltaTime);
     void TextBoxOff();
-    void isInteract();
+    void isDownKeyInteract();
 
     bool static GetisCollided();
     bool isMarlonTextOn();
@@ -54,6 +54,7 @@ private:
     Button* NoButton = nullptr;
 
     bool isButtonOn = false;
+    bool isSetText = false;
 
 };
 
