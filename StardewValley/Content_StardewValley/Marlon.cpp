@@ -127,10 +127,6 @@ void Marlon::isInteract()
         {
             isKeyInteract = true;
         }
-        else
-        {
-            isKeyInteract = false;
-        }
     }
 }
 
@@ -147,6 +143,7 @@ void Marlon::TextBoxOn(float _DeltaTime)
     {
         Scale.x = 1280;
         isButtonOn = true;
+        isKeyInteract = false;
     }
 
     if (Scale.y >= 400)
