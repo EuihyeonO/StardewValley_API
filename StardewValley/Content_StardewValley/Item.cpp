@@ -241,6 +241,7 @@ void Item::RenderHarvesting()
 
     if (GetLevel()->GetName() != "Farm")
     {
+        isHarvested = false;
         return;
     }
 

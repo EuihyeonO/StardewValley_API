@@ -51,6 +51,16 @@ public:
         return Day;
     }
 
+    static int GetHP()
+    {
+        return HP;
+    }
+
+    static int GetEnergy()
+    {
+        return Energy;
+    }
+
     static void SetCurLevelName(std::string_view _name)
     {
         CurLevelName = _name;
@@ -86,4 +96,7 @@ private:
     static int money;
     static int TotalRevenue;
     static int Day;
+
+    static int HP;
+    static int Energy;
 };

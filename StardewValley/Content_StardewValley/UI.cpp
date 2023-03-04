@@ -35,10 +35,18 @@ void UI::Start()
     StatusBar = CreateRender("StatusBar.BMP", 200);
     StatusBar->SetScaleToImage();
 
+    HPbar = CreateRender("HP.bmp", 201);
+    HPbar->SetScaleToImage();
+
+    Energybar = CreateRender("Energy.bmp", 201);
+    Energybar ->SetScaleToImage();
+
     Screensize = GameEngineWindow::GetScreenSize();
 
     StatusBar->EffectCameraOff();
+    HPbar->EffectCameraOff();
     TimeBar->EffectCameraOff();
+    Energybar->EffectCameraOff();
 
     MoneyRender.SetOwner(this);
     MoneyRender.SetImage("NumberBig.bmp", { 18,24 }, 250, RGB(134, 134, 134), "NumberBig.bmp");
@@ -59,7 +67,8 @@ void UI::Update(float _DeltaTime)
 {
     RenderMoney();  
     RenderDay();
-    //UIPosUpdate();
+    RenderHp();
+    RenderEnergy();
 }
 
 void UI::Render(float _Time)
@@ -102,6 +111,14 @@ void UI::UIPosUpdate()
     //화면 우측하단 체력바
     StatusBar->SetPosition({ Screensize.hx() - 36.5f, Screensize.hy() - 87.5f});
 
+    //체력, 기력바
+    HPbarPos = StatusBar->GetPosition() + float4{ 19, 18 } + float4{ 0, 64 };
+    EnergybarPos = StatusBar->GetPosition() + float4{ -19, 18 } + float4{ 0, 64 };
+
+    HPbar->SetPosition(HPbarPos + float4{ 0, -Energybar->GetScale().hy() });
+    Energybar->SetPosition(EnergybarPos + float4{ 0, -Energybar->GetScale().hy() });
+
+    //돈, 날짜 표시
     GlobalUI->DayRender.SetRenderPos({Screensize.hx() - 77.0f,  + 30.0f - Screensize.hy()});
     GlobalUI->MoneyRender.SetRenderPos({ Screensize.hx() - 32.0f, -Screensize.hy() + 150.0f });
 }
@@ -115,7 +132,22 @@ void UI::SetUIpos(float4 _pos)
     //화면 우측하단 체력바
     GlobalUI->StatusBar->SetPosition({ _pos.x + Screensize.x - 36.5f, _pos.y + Screensize.y - 87.5f });
 
+    //돈, 날짜 표시
     GlobalUI->DayRender.SetRenderPos({ _pos.x + Screensize.x - 77.0f, _pos.y + 30.0f });
 
     GlobalUI->MoneyRender.SetRenderPos({ _pos.x + Screensize.x - 32.0f, _pos.y + 150.0f });
+}
+
+void UI::RenderHp()
+{
+    int HP = globalValue::GetHP();
+    HPbar->SetScale({ HPbar->GetScale().x, static_cast<float>(HP)});
+    HPbar->SetPosition(HPbarPos + float4{ 0, -HPbar->GetScale().hy() });
+}
+
+void UI::RenderEnergy()
+{
+    int Energy = globalValue::GetEnergy();
+    Energybar->SetScale({Energybar->GetScale().x, static_cast<float>(Energy)});
+    Energybar->SetPosition(EnergybarPos + float4{ 0, -Energybar->GetScale().hy() });
 }

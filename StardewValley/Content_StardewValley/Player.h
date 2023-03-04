@@ -131,6 +131,7 @@ public:
 
     void ActingUpdate(float _DeltaTime);
     void CurToolTypeUpdate();
+
 protected:
 
     void Start() override;

@@ -10,7 +10,9 @@ public:
 
     void RenderOrderUpdate();
     void hitByPlayer(float _DeltaTime);
+    void MoveToPlayer(float _DeltaTime);
     void Dead();
+    void SetDir();
 
 	Mummy();
 	~Mummy();
@@ -27,12 +29,18 @@ protected:
 private:
     GameEngineRender* BodyRender = nullptr;
     GameEngineCollision* HalfBodyCollision = nullptr;
+    GameEngineCollision* FullBodyCollision = nullptr;
 
     int HP = 10;
     int Accel = 15;
 
     bool isHit = false;
     bool DeadAnimationStart = false;
+    bool isBirth = true;
+
     std::string Dir = "D";
+
+    float4 DestiPos = { 0,0 };
+    float4 DirVector = { 0,0 };
 };
 

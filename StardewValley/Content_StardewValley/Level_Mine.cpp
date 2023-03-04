@@ -34,6 +34,7 @@
  UI* Level_Mine::MineUI;
  int Level_Mine::isFirst = 0;
  int Level_Mine::NumOfMineral = 0;
+ int Level_Mine::NumOfMummy = 2;
 
 Level_Mine::Level_Mine()
 {
@@ -85,7 +86,7 @@ void Level_Mine::Loading()
     MineMenuButton = CreateActor<MenuButton>();
     MineAffectionBox = CreateActor<AffectionBox>();
     CreateActor<Mouse>();
-    MineMummy = CreateActor<Mummy>();
+    MummyList.push_back(CreateActor<Mummy>());
     GameEngineRandom::MainRandom.SetSeed(time(NULL));
 
     MineTileMap = CreateActor<GameEngineTileMap>();
@@ -102,12 +103,13 @@ void Level_Mine::Loading()
     CreateTileAnimation(static_cast<int>(MineralName::Iron), "Iron.bmp");
 
     SetTileObject();
-    SetMonster(1);
+    SetMonster(MummyList[MummyList.size()-1]);
 }
 void Level_Mine::Update(float _DeltaTime)
 {
     TileUpdate();
     isToolCollisionToTile();
+    CreateMummy();
 }
 void Level_Mine::ImageRoad()
 {
@@ -366,7 +368,7 @@ void Level_Mine::GetMineral(int _MineralName)
     globalInterface::CreateItemToAllInventory_Mineral(_MineralName);
 }
 
-void Level_Mine::SetMonster(int _Num)
+void Level_Mine::SetMonster(Mummy* _Mummy)
 {
     int X = GameEngineRandom::MainRandom.RandomInt(0, 19);
     int Y = GameEngineRandom::MainRandom.RandomInt(3, 11);
@@ -390,5 +392,28 @@ void Level_Mine::SetMonster(int _Num)
         Y *= 64;
     }
 
-    MineMummy->SetPos({static_cast<float>(X+32),static_cast<float>(Y) });
+    _Mummy->SetPos({static_cast<float>(X+32),static_cast<float>(Y) });
+}
+
+
+void Level_Mine::CreateMummy()
+{
+    while(NumOfMummy<5)
+    {
+        ++NumOfMummy;
+        MummyList.push_back(CreateActor<Mummy>());
+        SetMonster(MummyList[MummyList.size()-1]);
+    }
+}
+
+void Level_Mine::DeleteMummyToLst(Mummy* _Mummy)
+{
+    for (int i = 0; i < MummyList.size(); i++)
+    {
+        if (_Mummy == MummyList[i])
+        {
+            MummyList.erase(MummyList.begin() + i);
+            break;
+        }
+    }
 }

@@ -15,6 +15,10 @@ int globalValue::money = 200;
 int globalValue::TotalRevenue = 0;
 int globalValue::Day = 1;
 
+int globalValue::HP = 128;
+int globalValue::Energy = 128;
+
+
 globalValue::globalValue()
 {
 }

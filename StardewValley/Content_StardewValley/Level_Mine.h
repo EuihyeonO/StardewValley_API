@@ -23,7 +23,8 @@ public:
     void SubToStoneLife(float4 _pos);
     void SetTileObject();
     void SetMineralToTile(int _Num);
-    void SetMonster(int _Num);
+    void SetMonster(Mummy* _Mummy);
+    void DeleteMummyToLst(Mummy* _Mummy);
     int CheckUpdateTile(float4 _pos);
     bool isCollisionToTile(float4 _pos);
     bool isToolCollisionToTile();
@@ -35,6 +36,12 @@ public:
     void ImageRoad();
     void TileUpdate();
 
+    void CreateMummy();
+
+    static void SubNumOfMummy()
+    {
+       --NumOfMummy;
+    }
     Level_Mine();
 	~Level_Mine();
 
@@ -63,8 +70,10 @@ private:
     Mine* MineController = nullptr;
     MenuButton* MineMenuButton = nullptr;
 
-    Mummy* MineMummy = nullptr;
+    std::vector<Mummy*> MummyList;
+
     static int NumOfMineral;
+    static int NumOfMummy;
 };
 
 

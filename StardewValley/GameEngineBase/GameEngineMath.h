@@ -241,6 +241,17 @@ public:
         return *this;
     }
 
+    bool operator ==(const float4& _Other)
+    {
+        return x == _Other.x && y == _Other.y && z == _Other.z;
+    }
+
+    bool operator !=(const float4& _Other)
+    {
+        return x != _Other.x || y != _Other.y || z != _Other.z;
+    }
+
+
     std::string ToString()
     {
         char ArrReturn[256];

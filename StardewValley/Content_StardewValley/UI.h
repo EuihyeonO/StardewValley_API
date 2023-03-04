@@ -27,6 +27,8 @@ public:
 
     void RenderMoney();
     void RenderDay();
+    void RenderHp();
+    void RenderEnergy();
     
     static void SetUIpos(float4 _Pos);
 
@@ -47,6 +49,8 @@ private:
     float4 CameraPos = { 0,0 };
     float4 Screensize = { 0 ,0 };
     GameEngineRender* TimeBar = nullptr;
+    GameEngineRender* HPbar = nullptr;
+    GameEngineRender* Energybar = nullptr;
     GameEngineRender* StatusBar = nullptr;
 
     NumberRenderObject MoneyRender;
@@ -58,5 +62,8 @@ private:
     int EndTime = 0;
 
     int GlobalTime = 0;
+
+    float4 HPbarPos = { 0,0 };
+    float4 EnergybarPos = { 0,0 };
 };
 

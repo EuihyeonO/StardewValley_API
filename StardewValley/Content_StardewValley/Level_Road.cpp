@@ -87,7 +87,6 @@ void Level_Road::LevelChangeStart(GameEngineLevel* _PrevLevel)
     MenuButton::SetGlobalMenuButton(RoadMenuButton);
     AffectionBox::SetGlobalAffectionBox(RoadAffectionBox);
     RoadInventory->SetItemPos();
-
     //¿£ÇÇ¾¾ ¼³Á¤
     NPCPierre->ShopOff();
 }

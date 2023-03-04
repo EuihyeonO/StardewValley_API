@@ -485,6 +485,7 @@ void Inventory::ChangeQuickSlot()
     }
 
     SetItemPos();
+    ChangeSelectedItem(1);
 }
 
 void Inventory::SellItem()
