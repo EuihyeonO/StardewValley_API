@@ -56,6 +56,16 @@ public:
         return HP;
     }
 
+    static void SubHP()
+    {
+        --HP;
+    }
+
+    static void SubHP(int _num)
+    {
+        HP -= _num;
+    }
+
     static int GetEnergy()
     {
         return Energy;

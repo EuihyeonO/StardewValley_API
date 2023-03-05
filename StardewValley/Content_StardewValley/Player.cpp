@@ -36,7 +36,7 @@ void Player::Update(float _DeltaTime)
     CurToolTypeUpdate();
     ToolChange();
     ToolPosUpdate();
-
+    HitByMonster(_DeltaTime);
     HammerCollisionUpdate();
 
     ActingUpdate(_DeltaTime);   
@@ -58,7 +58,6 @@ void Player::Render(float _Time)
             isDebug = false;
         }       
     }
-
 
     if (isDebug == true) 
     {

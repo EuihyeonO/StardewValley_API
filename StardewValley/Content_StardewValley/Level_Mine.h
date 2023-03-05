@@ -18,7 +18,13 @@ public:
         return LevelMineController;
     }
 
+    std::vector<GameEngineCollision*> GetOnCollisionList()
+    {
+        return OnCollisionList;
+    }
+
     static Inventory* MineInventory;
+
 
     void SubToStoneLife(float4 _pos);
     void SetTileObject();
@@ -42,6 +48,12 @@ public:
     {
        --NumOfMummy;
     }
+
+    std::vector<Mummy*> GetMummyList()
+    {
+        return MummyList;
+    }
+
     Level_Mine();
 	~Level_Mine();
 

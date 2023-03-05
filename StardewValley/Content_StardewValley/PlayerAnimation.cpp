@@ -20,6 +20,11 @@ void Player::CreateAllAnimation()
     std::vector<float> GetItemFrame(2);
     GetItemFrame = { 1.5f, 0.1f };
 
+    std::vector<int> Hit(2);
+    Hit = { 102, 102 };
+    std::vector<float>HitFrame(2);
+    HitFrame = { 1.5f, 0.1f };
+
     //아래쪽 기반 움직임
     std::vector<int> DIdle(1);
     DIdle = { 0 };
@@ -136,6 +141,7 @@ void Player::CreateAllAnimation()
     LAttackFrame = { 0.055f, 0.045f, 0.025f, 0.025f, 0.025f, 0.1f , 0.1f};
 
     CreatePlayerAnimation("GetItem", GetItem, GetItemFrame);
+    CreatePlayerAnimation("Hit", Hit, HitFrame);
 
     CreatePlayerAnimation("DIdle", DIdle, { 1.0f });
     CreatePlayerAnimation("DMove", DMove, DMoveFrame);

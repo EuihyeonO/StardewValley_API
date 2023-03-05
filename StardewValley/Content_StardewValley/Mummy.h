@@ -3,10 +3,20 @@
 #include <string>
 
 class GameEngineRender;
+class GameEngineCollision;
 class Mummy : public GameEngineActor
 {
 
 public:
+    static int GetMummyAttackPower()
+    {
+        return AttackPower;
+    }
+
+    GameEngineCollision* GetHalfCollision()
+    {
+        return HalfBodyCollision;
+    }
 
     void RenderOrderUpdate();
     void hitByPlayer(float _DeltaTime);
@@ -27,6 +37,8 @@ protected:
     void Update(float _DeltaTime) override;
     void Render(float _Time) override;
 private:
+    static int AttackPower;
+
     GameEngineRender* BodyRender = nullptr;
     GameEngineCollision* HalfBodyCollision = nullptr;
     GameEngineCollision* FullBodyCollision = nullptr;
@@ -34,6 +46,8 @@ private:
     int HP = 10;
     int Accel = 15;
 
+    bool isCol = false;
+    bool isCol2 = false;
     bool isHit = false;
     bool DeadAnimationStart = false;
     bool isBirth = true;

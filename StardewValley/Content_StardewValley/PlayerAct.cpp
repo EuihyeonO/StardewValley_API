@@ -1,4 +1,5 @@
 #include <vector>
+#include <time.h>
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
@@ -26,6 +27,7 @@
 #include "UI.h"
 #include "Level_Mine.h"
 #include "Marlon.h"
+#include "Mummy.h"
 
 
 void Player::InitPlayer()
@@ -52,7 +54,7 @@ void Player::InitPlayer()
     ColInteract->SetPosition({ 0,32 });
 
     HammerCollision = CreateCollision(ActorType::Hammer);
-    HammerCollision->SetScale({ 64, 64 });
+    HammerCollision->SetScale({ 96, 96 });
     HammerCollision->Off();
 }
 
@@ -603,5 +605,72 @@ void Player::HammerCollisionUpdate()
     else
     {
         HammerCollision->Off();
+    }
+}
+
+void Player::HitByMonster(float _DeltaTime)
+{
+    if (isHit == false && true == ColBody->Collision({ .TargetGroup = static_cast<int>(ActorType::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    {
+        globalValue::SubHP(Mummy::GetMummyAttackPower());
+        GameEngineResources::GetInst().SoundPlay("BumpMonster.wav");
+        isHit = true;
+    }
+
+    else if (true == isHit && false == timeCheckStart)
+    {
+        PrevTime = clock();
+        CurTime = clock();
+        timeCheckStart = true;
+
+        CopyList = Level_Mine::GetLevelMineController()->GetMummyList();
+        
+        for (int i = 0; i < CopyList.size(); i++)
+        {
+            if (true == CopyList[i]->GetHalfCollision()->Collision({ .TargetGroup = static_cast<int>(ActorType::Player), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+            {
+                BouncePos = GetPos() - CopyList[i]->GetPos();
+                BouncePos.Normalize();
+
+                break;
+            }
+        }
+    }
+
+    else if (mytime <=1 && true == isHit && true == timeCheckStart)
+    {
+        isAbleAct = false;
+        PlayerRender->ChangeAnimation("Hit");
+        CurTool->Off();
+
+        CurTime = clock();
+        mytime = (CurTime - PrevTime) / 1000;
+
+        GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+
+        float4 NextPos = GetPos() + BouncePos * Accel * _DeltaTime * 16;
+
+        ColBody->SetPosition(float4{ 0, 32 } + BouncePos * Accel * _DeltaTime * 16);
+
+        if(RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)) &&
+                false == ColBody->Collision({ .TargetGroup = (static_cast<int>(ActorType::Stone) + 1), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+        {
+            SetMove(BouncePos * Accel * _DeltaTime * 16);
+            Accel -= 0.1;
+        }
+        ColBody->SetPosition({ 0,32 });
+    }
+
+    else if (mytime > 1 && true == isHit && true == timeCheckStart)
+    {
+        PlayerRender->ChangeAnimation("DIdle");
+        isAbleAct = true;
+        mytime = 0;
+        CurTime = 0;
+        PrevTime = 0;
+        isHit = false;
+        timeCheckStart = false;
+        BouncePos = { 0,0 };
+        Accel = 10;
     }
 }

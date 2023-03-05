@@ -12,6 +12,8 @@
 
 #include <Vector>
 
+int Mummy::AttackPower = 10;
+
 Mummy::Mummy()
 {
 }
@@ -36,6 +38,7 @@ void Mummy::Start()
     HalfBodyCollision = CreateCollision(ActorType::Monster);
     HalfBodyCollision->SetScale({ 64, 64 });
     HalfBodyCollision->SetPosition({ 0, 32 });
+    HalfBodyCollision->SetDebugRenderType(CT_Rect);
 
     FullBodyCollision = CreateCollision(ActorType::FullMonster);
     FullBodyCollision->SetScale({ 64, 128 });
@@ -50,6 +53,7 @@ void Mummy::Update(float _DeltaTime)
 
         if (BodyRender->IsAnimationEnd() == true)
         {
+            SetDir();
             isBirth = false;
         }
     }
@@ -67,8 +71,24 @@ void Mummy::Update(float _DeltaTime)
 
 void Mummy::Render(float _Time)
 {
-    //HDC _HDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-    //Rectangle(_HDC, GetPos().x - 32, GetPos().y - 64, GetPos().x + 32, GetPos().y + 64);
+
+    //HalfBodyCollision->DebugRender();
+
+    //std::vector<GameEngineCollision*> CollisionList = Level_Mine::GetLevelMineController()->GetOnCollisionList();
+    //
+
+    //for (int i = 0; i < CollisionList.size(); i++)
+    //{
+    //    if (CollisionList[i]->IsUpdate() == true)
+    //    {
+    //        CollisionList[i]->DebugRender();
+    //    }
+    //}
+
+    //if (true == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+    //{
+    //    int a = 0;
+    //}
 }
 
 void Mummy::RenderOrderUpdate()
@@ -104,9 +124,9 @@ void Mummy::hitByPlayer(float _DeltaTime)
         float4 NextPos = GetPos() + Pos * Accel * _DeltaTime * 100.0f;
         GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
 
-        if (false == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone), .TargetColType = CT_Rect, .ThisColType = CT_Rect }) &&
-            Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos +float4{0, 32}) == -1 &&
-            ColMap->GetPixelColor(NextPos, RGB(0, 0, 0) != RGB(0, 0, 0)))
+        if (false == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone) + 1, .TargetColType = CT_Rect, .ThisColType = CT_Rect }) &&
+            Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos + float4{0, 32}) == -1 &&
+            RGB(0,0,0) != ColMap->GetPixelColor(NextPos,RGB(0, 0, 0)))
         {
             SetPos(NextPos);
         }
@@ -118,6 +138,7 @@ void Mummy::hitByPlayer(float _DeltaTime)
     else if (Accel <= 0 && true == Player::GetPlayer()->isPlayerAnimationEnd())
     {
         SetDir();
+
         isHit = false;
         Accel = 15;
     }
@@ -147,30 +168,46 @@ void Mummy::MoveToPlayer(float _DeltaTime)
         DestiPos = { 0,0 };
     }
 
-    if (true == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone), .TargetColType = CT_Rect, .ThisColType = CT_Rect }) ||
-        DestiPos == float4{ 0, 0 })
+    if (DestiPos == float4{ 0,0 })
     {
         SetDir();
     }
 
-    if (DestiPos != float4{0, 0})
+    if (DestiPos != float4{ 0, 0 })
     {
-        if (HP >= 1)
+        if (true == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone) + 1, .TargetColType = CT_Rect, .ThisColType = CT_Rect }) && isCol == false)
         {
-            BodyRender->ChangeAnimation(Dir + "Move");
-            float4 NextPos = GetPos() + DirVector * _DeltaTime * 32;
+            SetDir();
+            isCol = true;
+        }
+        else if (false == HalfBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::Stone) + 1, .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+        {
+            isCol = false;
+        }
 
-            FullBodyCollision->SetPosition(NextPos);
+        if (DestiPos != float4{ 0, 0 })
+        {
+            if (HP >= 1)
+            {
+                BodyRender->ChangeAnimation(Dir + "Move");
+                float4 NextPos = GetPos() + DirVector * _DeltaTime * 32;
 
-            if (true == FullBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::FullMonster), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
-            {
-                DestiPos = float4{ 0,0 };
+                FullBodyCollision->SetPosition(NextPos);
+
+                {
+                    GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+
+                    if (Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos + float4{ 0, 32 }) == -1 &&
+                        RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)) &&
+                        isHit == false)
+                    {
+                        SetPos(NextPos);
+                    }
+
+                }
+
+                FullBodyCollision->SetPosition({ 0,0 });
             }
-            else 
-            {
-                SetMove(DirVector * _DeltaTime * 32);
-            }
-            FullBodyCollision->SetPosition({ 0,0 });
         }
     }
 }
@@ -178,39 +215,12 @@ void Mummy::MoveToPlayer(float _DeltaTime)
 void Mummy::SetDir()
 {
     {
-        int X = GameEngineRandom::MainRandom.RandomInt(0, 3);
         float4 NextPos = GetPos();
-
-        if (X == 0)
-        {
-            NextPos += {64, 0};
-            Dir = "R";
-        }
-        else if (X == 1)
-        {
-            NextPos += {-64, 0};
-            Dir = "L";
-        }
-        else if (X == 2)
-        {
-            NextPos += {0, 64};
-            Dir = "D";
-        }
-        else if (X == 3)
-        {
-            NextPos += {0, -64};
-            Dir = "U";
-        }
-
         GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
 
-        while (NextPos.x < 0 ||
-            NextPos.y < 0 ||
-            Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos) != -1 ||
-            RGB(0, 0, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+        while (1)
         {
-            X = GameEngineRandom::MainRandom.RandomInt(0, 3);
-            NextPos = GetPos();
+            int X = GameEngineRandom::MainRandom.RandomInt(0, 3);
 
             if (X == 0)
             {
@@ -232,6 +242,14 @@ void Mummy::SetDir()
                 NextPos += {0, -64};
                 Dir = "U";
             }
+
+            if (NextPos.x <=1280 && NextPos.x >= 0 && NextPos.y >= 0 && NextPos.y <=768 &&
+                Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos) == -1 &&
+                RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+            {
+                break;
+            }
+            NextPos = GetPos();
         }
 
         DestiPos = NextPos;

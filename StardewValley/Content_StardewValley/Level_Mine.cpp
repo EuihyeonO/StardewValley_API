@@ -110,6 +110,8 @@ void Level_Mine::Update(float _DeltaTime)
     TileUpdate();
     isToolCollisionToTile();
     CreateMummy();
+
+
 }
 void Level_Mine::ImageRoad()
 {

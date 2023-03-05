@@ -26,11 +26,11 @@ enum class ActorType
     Tile,
     Item,
     Bed,
-    Stone,
+    Stone = 100,
     OrderChange,
     Monster,
-    FullMonster,
-    Hammer,
+    Hammer = 110,
+    FullMonster=150,
 };
 
 enum class ItemType

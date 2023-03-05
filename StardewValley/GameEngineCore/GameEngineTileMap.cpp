@@ -75,7 +75,7 @@ void GameEngineTileMap::CreateTileMapCollision(int _X, int _Y, int _Z, int _Orde
 
             for (size_t x = 0; x < _X; x++)
             {
-                GameEngineCollision* Collision = CreateCollision();
+                GameEngineCollision* Collision = CreateCollision(_Order);
 
                 float4 TilePos = _TileSize;
                 TilePos.x *= x;
@@ -212,8 +212,9 @@ float4 GameEngineTileMap::GetIndex(float4 _Pos)
     float4 Index = _Pos - GetPos();
     Index.x /= TileScale.x;
     Index.y /= TileScale.y;
-
-    return Index;
+    
+    float4 IntIndex = { static_cast<int>(Index.x), static_cast<int>(Index.y)};
+    return IntIndex;
 }
 
 GameEngineRender* GameEngineTileMap::GetTile(int _ZIndex, float4 _Pos)

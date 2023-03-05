@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 
 
+class Mummy;
 class Inventory;
 class Player : public GameEngineActor
 {
@@ -114,15 +115,12 @@ public:
 
     static int GetToolFrame();
 
-
-    void InteractToCrops();
     void InteractToTile();
     const float4 GetInteractPos();
     void InteractToNPC();
     void isCollidedToNPC();
-
-    void test();
-
+    
+    void HitByMonster(float _DeltaTime);
     void ToolChange();
     void ToolPosUpdate();
     float4 SetToolPos();
@@ -139,7 +137,7 @@ protected:
     void Render(float _Time) override;
 
 private:
-    float MoveSpeed = 360.0f;
+    float MoveSpeed = 250.0f;
     int CurToolType = -1;
  
     GameEngineRender* PlayerRender = nullptr;
@@ -164,13 +162,20 @@ private:
     GameEngineCollision* HammerCollision = nullptr;
 
     std::map<std::string, GameEngineRender*> Tool;
+    std::vector<Mummy*> CopyList;
 
+    float4 BouncePos = { 0,0 };
+    float Accel = 10;
+    float PrevTime = 0;
+    float CurTime = 0;
+    float mytime = 0;
 
     bool isDebug = false;
     bool isCollision = false;
     bool isHarvesting = false;
-
+    bool isHit = false;
     bool isAbleAct = true;
+    bool timeCheckStart = false;
 
     static Player* MyPlayer;
 
