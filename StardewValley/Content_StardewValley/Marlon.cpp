@@ -1,14 +1,18 @@
 #include "Marlon.h"
 #include "ContentsEnum.h"
 #include "Player.h"
+#include "globalSound.h"
 #include "globalInterface.h"
 
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineBase/GameEngineString.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/Button.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+
+#include <time.h>
 
 Marlon* Marlon::GlobalMarlon = nullptr;
 
@@ -36,6 +40,10 @@ void refusing(Button* _btn)
 
 void Marlon::Start()
 {
+
+    MarlonT = CreateRender(10000);
+    MarlonT->SetText(" ");
+
     MarlonRender = CreateRender("Marlon.bmp", 30);
     MarlonRender->SetScaleToImage();
     MarlonRender->SetPosition({ 835, 440 });
@@ -92,7 +100,7 @@ void Marlon::Update(float _DeltaTime)
 {
     isCollision();
     isDownKeyInteract();
-    
+
     if (true == isCollided && true == isKeyInteract)
     {
         TextBoxOn(_DeltaTime);
@@ -134,6 +142,8 @@ void Marlon::isDownKeyInteract()
 
 void Marlon::TextBoxOn(float _DeltaTime)
 {
+
+
     Player::GetPlayer()->PlayerStop();
     std::string Dir = Player::GetPlayer()->GetDir();
     Player::ChangePlayerIdle(Dir);
@@ -144,9 +154,12 @@ void Marlon::TextBoxOn(float _DeltaTime)
     if (Scale.x >= 1280)
     {
         Scale.x = 1280;
+
+
         isButtonOn = true;
-        isKeyInteract = false;
         isSetText = true;
+
+        TextOn();
     }
 
     if (Scale.y >= 400)
@@ -163,6 +176,7 @@ void Marlon::TextBoxOn(float _DeltaTime)
 
         MarlonText->SetScale(Scale);
         MarlonTextShadow->SetScale(Scale);
+
         if (isButtonOn == true)
         {
             OkayButton->GetButtonRender()->On();
@@ -188,6 +202,13 @@ void Marlon::TextBoxOn(float _DeltaTime)
 
 void Marlon::TextBoxOff()
 {
+    TextOff();
+
+    if (isSetText == true)
+    {
+        GameEngineResources::GetInst().SoundPlay("TalkBoxOff.wav");
+    }
+
     isSetText = false;
 
     Player::GetPlayer()->PlayerStopOff();
@@ -211,10 +232,12 @@ void Marlon::TextBoxOff()
         isKeyInteract = false;       
     }
 
-    else
+    else if(MarlonSecondText->IsUpdate() == true)
     {
         MarlonSecondText->Off();
         MarlonTextShadow->Off();
+
+        isKeyInteract = false;
     }
 
     Scale = { 0,0 };
@@ -232,4 +255,66 @@ bool Marlon::isMarlonTextOn()
     }
 
     else return false;
+}
+
+void Marlon::TextOn()
+{
+    if (Talk == "" && globalInterface::IsInInventory("HammerIcon.bmp") == false)
+    {
+        Talk = "이 광산 안쪽에는 몬스터들이 득실거리는 걸 알고 있나? \n 준비도 없이 들어갔다간 죽기 십상이지. \n 마침 남는 무기가 하나 있는데 필요하다면 줄 수도 있다만... ";
+        prevtime = clock();
+    }
+    else if (Talk == "" && globalInterface::IsInInventory("HammerIcon.bmp") == true)
+    {
+        Talk = "더 이상 자네에게 줄 건 없다만..";
+        prevtime = clock();
+    }
+    
+    
+    Curtime = clock();
+    Counttime += (Curtime - prevtime) / 1000;
+    CountSoundtime += Counttime;
+    prevtime = Curtime;
+
+    MarlonT->SetText(CopyTalk, 50, "Sandoll 미생", TextAlign::Left);
+    MarlonT->SetPosition({ 35,420 });
+    MarlonT->EffectCameraOff();
+    MarlonT->SetTextBoxScale({ 1280, 500 });
+    MarlonT->On();
+
+    if (Counttime >= 0.01f)
+    {
+        if (strindex != Talk.size())
+        {
+            CopyTalk.push_back(Talk[strindex]);
+            strindex++;
+        }
+        Counttime = 0;    
+    }
+
+    if (CountSoundtime >= 0.065f)
+    {
+        if (strindex != Talk.size()) 
+        {
+            GameEngineResources::GetInst().SoundPlay("TalkBoxOn.wav");
+            CountSoundtime = 0;
+        }
+    }
+
+    if (strindex >= Talk.size())
+    {
+        isKeyInteract = false;
+    }
+}
+
+void Marlon::TextOff()
+{
+    Talk.clear();
+    Talk = "";
+
+    CopyTalk.clear();
+    CopyTalk = " ";
+    strindex = 0;
+
+    MarlonT->Off();
 }

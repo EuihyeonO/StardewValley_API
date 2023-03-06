@@ -29,6 +29,9 @@ void globalSound::SoundInit()
 
     Title_BGM = GameEngineResources::GetInst().SoundPlayToControl("Title_BGM.Mp3");
     Title_BGM.PauseOn();
+
+    TypingSound = GameEngineResources::GetInst().SoundPlayToControl("Typing.wav");
+    TypingSound.PauseOn();
 }
 
 void globalSound::WalkSoundOn()
@@ -49,6 +52,16 @@ void globalSound::SoundUpdate(const std::string_view _LevelName)
 void globalSound::WalkSoundOff()
 {
     WalkSound.PauseOn();
+}
+
+void globalSound::TypingSoundOn()
+{
+    TypingSound.PauseOff();
+}
+
+void globalSound::TypingSoundOff()
+{
+    TypingSound.PauseOn();
 }
 
 

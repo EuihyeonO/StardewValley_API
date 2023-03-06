@@ -16,6 +16,8 @@ public:
 
     bool static GetisCollided();
     bool isMarlonTextOn();
+    void TextOn();
+    void TextOff();
 
 	Marlon();
 	~Marlon();
@@ -41,11 +43,21 @@ private:
     GameEngineRender* MarlonSecondText = nullptr;
     GameEngineRender* MarlonTextShadow = nullptr;
 
+    GameEngineRender* MarlonT = nullptr;
+
     GameEngineCollision* MarlonCollision = nullptr;
 
     float4 Scale = { 0,0 };
 
     int isInput = 0;
+
+    std::string Talk = "";
+    std::string CopyTalk = " ";
+    int strindex = 0;
+    float prevtime = 0;
+    float Curtime = 0;
+    float Counttime = 0;
+    float CountSoundtime = 0;
 
     bool isCollided = false;
     bool isKeyInteract = false;
@@ -54,7 +66,7 @@ private:
     Button* NoButton = nullptr;
 
     bool isButtonOn = false;
-    bool isSetText = false;
+    bool isSetText  = false;
 
 };
 

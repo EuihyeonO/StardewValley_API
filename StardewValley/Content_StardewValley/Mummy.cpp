@@ -190,7 +190,7 @@ void Mummy::MoveToPlayer(float _DeltaTime)
             if (HP >= 1)
             {
                 BodyRender->ChangeAnimation(Dir + "Move");
-                float4 NextPos = GetPos() + DirVector * _DeltaTime * 32;
+                float4 NextPos = GetPos() + DirVector * _DeltaTime * 64;
 
                 FullBodyCollision->SetPosition(NextPos);
 

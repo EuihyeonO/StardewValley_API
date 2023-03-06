@@ -17,6 +17,9 @@ public:
     void ToolSoundOn();
     void WalkSoundOn();
     
+    void TypingSoundOn();
+    void TypingSoundOff();
+
     void SoundUpdate(const std::string_view _LevelName);
 
     void BGM_On(const std::string_view _LevelName);
@@ -35,6 +38,8 @@ private:
     static globalSound* globalSoundPlayer;
 
     GameEngineSoundPlayer WalkSound;
+
+    GameEngineSoundPlayer TypingSound;
 
     GameEngineSoundPlayer Farm_BGM;
     GameEngineSoundPlayer Title_BGM;
