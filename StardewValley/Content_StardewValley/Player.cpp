@@ -38,6 +38,7 @@ void Player::Update(float _DeltaTime)
     ToolPosUpdate();
     HitByMonster(_DeltaTime);
     HammerCollisionUpdate();
+    AxeCollisionUpdate();
 
     ActingUpdate(_DeltaTime);   
 
@@ -64,15 +65,10 @@ void Player::Render(float _Time)
         HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
         Rectangle(DoubleDC,
-            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 25,
-            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 25,
-            ColTool->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 25,
-            ColTool->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 25  );
+            AxeCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - AxeCollision->GetScale().hx(),
+            AxeCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - AxeCollision->GetScale().hy(),
+            AxeCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + AxeCollision->GetScale().hx(),
+            AxeCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + AxeCollision->GetScale().hy());
 
-        Rectangle(DoubleDC,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - 24,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - 24,
-            ColBody->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + 24,
-            ColBody->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + 24  );
     }
 }

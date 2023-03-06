@@ -133,6 +133,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UI.h">
       <SubType>
       </SubType>
@@ -256,6 +260,10 @@
     <ClCompile Include="PlayerAct.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="ToolAnimation.cpp" />
+    <ClCompile Include="Tree.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI.cpp">
       <SubType>
       </SubType>

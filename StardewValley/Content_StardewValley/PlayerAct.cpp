@@ -53,9 +53,6 @@ void Player::InitPlayer()
     ColInteract->SetScale({ 64, 64 });
     ColInteract->SetPosition({ 0,32 });
 
-    HammerCollision = CreateCollision(ActorType::Hammer);
-    HammerCollision->SetScale({ 96, 96 });
-    HammerCollision->Off();
 }
 
 
@@ -605,6 +602,35 @@ void Player::HammerCollisionUpdate()
     else
     {
         HammerCollision->Off();
+    }
+}
+
+void Player::AxeCollisionUpdate()
+{
+    if (Dir == "U")
+    {
+        AxeCollision->SetPosition({ 0, -32 });
+    }
+    else if (Dir == "D")
+    {
+        AxeCollision->SetPosition({ 0, 32 });
+    }
+    else if (Dir == "R")
+    {
+        AxeCollision->SetPosition({ 32,0 });
+    }
+    else if (Dir == "L")
+    {
+        AxeCollision->SetPosition({ -32, 0 });
+    }
+
+    if (CurTool == Tool["Axe"] && true == CurTool->IsUpdate())
+    {
+        AxeCollision->On();
+    }
+    else
+    {
+        AxeCollision->Off();
     }
 }
 

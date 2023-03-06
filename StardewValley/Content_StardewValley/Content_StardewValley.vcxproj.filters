@@ -92,6 +92,9 @@
     <ClInclude Include="Mummy.h">
       <Filter>Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Actor\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -200,6 +203,9 @@
     <ClCompile Include="Mummy.cpp">
       <Filter>Actor\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Actor\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -234,6 +240,9 @@
     </Filter>
     <Filter Include="Actor\Monster">
       <UniqueIdentifier>{52d58963-5866-48dc-a5d4-0fa096b0a8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Object">
+      <UniqueIdentifier>{87000312-e07a-4f3c-b36b-f9f2108e0ded}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -74,6 +74,14 @@ void Player::InitTool()
 
     CurTool = Tool["Pick"];
 
+    HammerCollision = CreateCollision(ActorType::Hammer);
+    HammerCollision->SetScale({ 96, 96 });
+    HammerCollision->Off();
+
+    AxeCollision = CreateCollision(ActorType::Axe);
+    AxeCollision->SetScale({ 96, 96 });
+    AxeCollision->Off();
+
 }
 
 float4 Player::SetToolPos()

@@ -24,6 +24,7 @@
 #include "AffectionBox.h"
 #include "MenuButton.h"
 #include "Marlon.h"
+#include "Tree.h"
 
 
 GameEngineTileMap* Level_Farm::TileMap;
@@ -130,6 +131,7 @@ void Level_Farm::Loading()
     FarmMenuButton = CreateActor <MenuButton>();
 
     CreateActor<Marlon>();
+    CreateActor<Tree>();
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
@@ -214,6 +216,13 @@ void Level_Farm::ImageRoad()
         GameEngineImage* MarlonText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox.BMP"));
         GameEngineImage* MarlonText2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox2.BMP"));
         GameEngineImage* TextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TextBoxShodow.BMP"));
+        Dir.MoveParent();
+    }
+
+    {
+        Dir.Move("Object");
+        GameEngineImage* Tree = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Tree.BMP"));
+        GameEngineImage* TreeUnder = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeUnder.BMP"));
         Dir.MoveParent();
     }
 

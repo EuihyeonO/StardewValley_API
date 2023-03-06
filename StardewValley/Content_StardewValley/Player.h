@@ -87,6 +87,7 @@ public:
     void OpenMenu();
 
     void HammerCollisionUpdate();
+    void AxeCollisionUpdate();
 
     void SetIsHarvesting()
     {
@@ -160,6 +161,7 @@ private:
 
     GameEngineCollision* ColTool = nullptr;
     GameEngineCollision* HammerCollision = nullptr;
+    GameEngineCollision* AxeCollision = nullptr;
 
     std::map<std::string, GameEngineRender*> Tool;
     std::vector<Mummy*> CopyList;
