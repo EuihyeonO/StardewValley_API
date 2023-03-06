@@ -45,6 +45,7 @@ enum class ItemType
     Hammer,
     Seed,
     Mineral,
+    Etc,
 };
 
 enum class RenderOrder

@@ -131,7 +131,13 @@ void Level_Farm::Loading()
     FarmMenuButton = CreateActor <MenuButton>();
 
     CreateActor<Marlon>();
-    CreateActor<Tree>();
+
+    for (int i = 0; i < 2; i++)
+    {
+        TreeList.push_back(CreateActor<Tree>());
+    }
+    TreeList[0]->SetPos({ 832, 768 });
+    TreeList[1]->SetPos({ 1088, 832 });
 
     Player::GetPlayer()->SetPos({ 1350, 600 });
     SetCameraPos({ Player::GetPlayer()->GetPos().x - 640, Player::GetPlayer()->GetPos().y - 384 });
@@ -222,7 +228,12 @@ void Level_Farm::ImageRoad()
     {
         Dir.Move("Object");
         GameEngineImage* Tree = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Tree.BMP"));
+        Tree->Cut(5, 1);
         GameEngineImage* TreeUnder = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeUnder.BMP"));
+
+        GameEngineImage* TreeDebris1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeDebris1.BMP"));
+        GameEngineImage* TreeDebris2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeDebris2.BMP"));
+       
         Dir.MoveParent();
     }
 
@@ -234,6 +245,9 @@ void Level_Farm::ImageRoad()
         GameEngineImage* Playerleft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Playerleft.BMP"));
         Playerleft->Cut(6, 21);
         GameEngineImage* Shadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Shadow.BMP"));
+
+        GameEngineImage* Parsnip = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IconBranch.BMP"));
+
     }
 
     CropImageRoad();
@@ -383,6 +397,8 @@ void Level_Farm::UIImageRoad()
         GameEngineImage* InfoIconStone = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconStone.BMP"));
         GameEngineImage* InfoIconTopaz = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconTopaz.BMP"));
         GameEngineImage* InfoIconIron = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconIron.BMP"));
+
+        GameEngineImage* InfoIconBranch = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("InfoIconBranch.BMP"));
 
         Dir.MoveParent();
     }

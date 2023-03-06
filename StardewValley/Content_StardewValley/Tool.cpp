@@ -51,11 +51,11 @@ void Player::ToolChange()
 
 void Player::InitTool()
 {
-    Pick = CreateRender(60);
-    Axe = CreateRender(60);
-    Hoe = CreateRender(60);
-    Watering = CreateRender(60);
-    Hammer = CreateRender(60);
+    Pick = CreateRender(51);
+    Axe = CreateRender(51);
+    Hoe = CreateRender(51);
+    Watering = CreateRender(51);
+    Hammer = CreateRender(51);
 
     Default = CreateRender("Default.bmp", 2);
     Default->Off();

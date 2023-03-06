@@ -138,7 +138,7 @@ protected:
     void Render(float _Time) override;
 
 private:
-    float MoveSpeed = 250.0f;
+    float MoveSpeed = 500.0f;
     int CurToolType = -1;
  
     GameEngineRender* PlayerRender = nullptr;

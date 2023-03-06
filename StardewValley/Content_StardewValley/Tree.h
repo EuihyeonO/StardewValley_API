@@ -13,6 +13,9 @@ public:
 
     void RenderOrderUpdate();
     void TreeHpUpdate();
+    void MakeDebris();
+    void AbsorbToPlayer(float _Deltatime);
+    void isCompleteToAbsorb();
 
 	Tree(const Tree& _Other) = delete;
 	Tree(Tree&& _Other) noexcept = delete;
@@ -30,7 +33,12 @@ private:
     GameEngineCollision* TreeCollision = nullptr;
     GameEngineCollision* TreeUnderCollision = nullptr;
 
+    std::vector<GameEngineRender*> DebrisList;
+
+    bool isExistDebris = false;
+    bool CompleteToAbsorb = false;
     bool isHit = false;
     int Hp = 5;
+    float Accel = 0;
 };
 

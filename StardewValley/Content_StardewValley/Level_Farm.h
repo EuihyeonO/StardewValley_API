@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+class Tree;
 class AffectionBox;
 class MenuButton;
 class Farm;
@@ -83,6 +84,8 @@ private:
 
     MenuButton* FarmMenuButton = nullptr;
     AffectionBox* FarmAffectionBox = nullptr;
+    
+    std::vector<Tree*> TreeList;
 
     float myDeltaTime = 0;
 
