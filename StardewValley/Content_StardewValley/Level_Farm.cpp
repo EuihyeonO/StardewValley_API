@@ -12,6 +12,7 @@
 
 #include "Level_Farm.h"
 #include "Farm.h"
+#include "SellBox.h"
 #include "Player.h"
 #include "UI.h"
 #include "Inventory.h"
@@ -129,6 +130,8 @@ void Level_Farm::Loading()
     CreateActor<Mouse>();
     CreateActor<SelectedLine>();
     CreateActor<Obstacle>();
+    CreateActor<SellBox>();
+
     FarmAffectionBox = CreateActor <AffectionBox>();
     FarmMenuButton = CreateActor <MenuButton>();
 
@@ -243,6 +246,9 @@ void Level_Farm::ImageRoad()
         GameEngineImage* Obstacle2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Obstacle2.BMP"));
         GameEngineImage* Obstacle3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Obstacle3.BMP"));
 
+        GameEngineImage* SellBox = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SellBox.BMP"));
+        GameEngineImage* SellBoxCover = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SellBoxCover.BMP"));
+        SellBoxCover->Cut(13, 1);
 
        
         Dir.MoveParent();

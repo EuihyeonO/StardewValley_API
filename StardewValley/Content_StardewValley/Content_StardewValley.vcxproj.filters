@@ -98,6 +98,9 @@
     <ClInclude Include="Obstacle.h">
       <Filter>Actor\Object</Filter>
     </ClInclude>
+    <ClInclude Include="SellBox.h">
+      <Filter>Actor\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -210,6 +213,9 @@
       <Filter>Actor\Object</Filter>
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
+      <Filter>Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SellBox.cpp">
       <Filter>Actor\Object</Filter>
     </ClCompile>
   </ItemGroup>
