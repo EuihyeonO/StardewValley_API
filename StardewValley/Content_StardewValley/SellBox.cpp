@@ -1,13 +1,19 @@
 #include "SellBox.h"
 #include "ContentsEnum.h"
+#include "Player.h"
+#include "globalInterface.h"
+#include "Inventory.h"
 
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 
+Inventory* SellBox::BoxInventory = nullptr;
+
 SellBox::SellBox()
 {
-
 }
 
 SellBox::~SellBox()
@@ -17,6 +23,10 @@ SellBox::~SellBox()
 
 void SellBox::Start()
 {
+    BoxInventory = GetLevel()->CreateActor<Inventory>();
+    BoxInventory->Off();
+    BoxInventory->SetOwnerToBox();
+
     SellBoxRender = CreateRender("SellBox.bmp", 48);
     SellBoxRender->SetScaleToImage();
     SellBoxRender->SetPosition({ 2116, 395});
@@ -35,19 +45,43 @@ void SellBox::Start()
     SellBoxCollision->SetScale(SellBoxRender->GetScale());
     SellBoxCollision->SetPosition(SellBoxRender->GetPosition());
 
+    SellBoxInventoryRender = CreateRender("SellBoxInventory.bmp", 200);
+    SellBoxInventoryRender->SetScaleToImage();
+    SellBoxInventoryRender->SetPosition({640, 643});
+    SellBoxInventoryRender->EffectCameraOff();
+    SellBoxInventoryRender->Off();
+
+    SelectedItem = CreateRender("SellBoxSelectedItem.bmp", 201);
+    SelectedItem->SetScaleToImage();
+    SelectedItem->SetPosition({ 640, 493 });
+    SelectedItem->EffectCameraOff();
+    SelectedItem->Off();
 }
 
 void SellBox::Update(float _DeltaTime)
 {
+    if (true == BoxInventory->IsUpdate())
+    {
+        globalInterface::AllInventoryItemOff();
+    }
+
     if (true == SellBoxCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::PlayerInteract), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
         if (SellBoxCoverRender->GetFrame() != 12)
         {
             SellBoxCoverRender->ChangeAnimation("CoverOpen");
+
+            if (isOnSound == false)
+            {
+                //GameEngineResources::GetInst().SoundPlay("OpenBox.wav");
+                isOnSound = true;
+            }
         }
         else
         {
             SellBoxCoverRender->ChangeAnimation("OpenIdle");
+            isOnSound = false;
+            BoxOnOff();
         }
     }
     else
@@ -66,4 +100,54 @@ void SellBox::Update(float _DeltaTime)
 void SellBox::Render(float _Time)
 {
 
+}
+
+void SellBox::BoxOn()
+{
+    Player::GetPlayer()->PlayerStop();
+
+    BoxInventory->On();
+    BoxInventory->SetAllItemPOrder(202);
+    BoxInventory->AllItemOn();
+    BoxInventory->SetItemPos();
+
+    SellBoxInventoryRender->On();
+    SelectedItem->On();
+
+    globalInterface::AllInventoryItemOff();
+}
+
+void SellBox::BoxOff()
+{
+    Player::GetPlayer()->PlayerStopOff();
+
+    BoxInventory->Off();
+    BoxInventory->AllItemOff();
+
+    SellBoxInventoryRender->Off();
+    SelectedItem->Off();
+
+    if (nullptr != BoxInventory->GetLastSellItem())
+    {
+        BoxInventory->LastSellItemDeath();
+    }
+
+    globalInterface::AllInventoryItemOn();
+}
+
+void SellBox::BoxOnOff()
+{
+    if (false == SellBoxInventoryRender->IsUpdate() && GameEngineInput::IsDown("KeyInteract"))
+    {
+        BoxOn();
+    }
+    else if (true == SellBoxInventoryRender->IsUpdate() && GameEngineInput::IsDown("KeyInteract"))
+    {
+        BoxOff();
+    }
+}
+
+bool SellBox::IsBOxOn()
+{
+    return BoxInventory->IsUpdate();
 }

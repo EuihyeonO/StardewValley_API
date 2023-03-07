@@ -228,6 +228,10 @@ void Level_Farm::ImageRoad()
         GameEngineImage* MarlonText2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox2.BMP"));
         GameEngineImage* TextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TextBoxShodow.BMP"));
 
+        GameEngineImage* SellBoxInventory = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SellBoxInventory.BMP"));
+        GameEngineImage* SellBoxSelectedItem = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SellBoxSelectedItem.BMP"));
+
+
         GameEngineImage* SmallText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SmallText.BMP"));
         GameEngineImage* SmallTextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SmallTextShadow.BMP"));
         Dir.MoveParent();

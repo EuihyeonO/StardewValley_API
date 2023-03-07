@@ -12,6 +12,7 @@
 #include "globalInterface.h"
 #include "ContentsEnum.h"
 #include "Pierre.h"
+#include "SellBox.h"
 
 Inventory* Inventory::GlobalInventory = nullptr;
 
@@ -38,6 +39,7 @@ void Inventory::Update(float _DeltaTime)
     ItemUpdate();
     QuickSlotUpdate();
     SellItem();
+    RoadItem();
 }
 
 void Inventory::Render(float _Time)
@@ -185,7 +187,7 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 
         return;
     }
-
+         
     if (SelectedItemIndex< 0)
     {
         SelectedItemIndex = 0;
@@ -195,6 +197,11 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
 
     ItemList.push_back(GetLevel()->CreateActor<Item>());
     ItemList[ItemList.size() - 1]->ItemInit(_Name, _ItemType);
+
+    if (true == isBoxInventory && false == SellBox::IsBOxOn())
+    {
+        ItemList[ItemList.size() - 1]->Off();
+    }
 
     if (SelectedItem == nullptr)
     {
@@ -293,12 +300,45 @@ void Inventory::SetQuickSlotPos(float4 _Pos)
 
 void Inventory::SetItemPos()
 {
-
     HDC hdc = GameEngineWindow::GetWindowBackBufferHdc();
     CameraPos = GetLevel()->GetCameraPos();
 
     // 핸들  X좌표 Y좌표 문자열 문자열길이
     std::string Quantity;
+
+    if (isBoxInventory == true)
+    {
+        if (false == IsUpdate())
+        {
+            return;
+        }
+        else
+        {
+            for (int ItemOrder = 0; ItemOrder < GetNumOfItem(); ItemOrder++)
+            {
+
+                if (ItemOrder < 10)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder) * 64, 580.0f });
+                }
+                else if (ItemOrder < 20)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 10) * 64, 580.0f + 64 });
+                }
+                else if (ItemOrder < 30)
+                {
+                    ItemList[ItemOrder]->GetRenderImage()->SetPosition(float4{ 352.0f + (ItemOrder - 20) * 64, 580.0f + 128 });
+                }
+
+                //아이템 개수출력
+                if (ItemList[ItemOrder]->GetQuantity() > 1)
+                {
+                    float4 ItemPos = ItemList[ItemOrder]->GetRenderImage()->GetPosition() - GetLevel()->GetCameraPos();
+                }
+            }
+        }
+        return;
+    }
 
     if (isPierreInventory == true)
     {
@@ -490,7 +530,7 @@ void Inventory::ChangeQuickSlot()
 
 void Inventory::SellItem()
 {
-    if (isPierreInventory == false)
+    if (false == isPierreInventory && false == isBoxInventory)
     {
         return;
     }
@@ -499,8 +539,13 @@ void Inventory::SellItem()
 
     for (int i = 0; i < Size; i++)
     {
-        if (ItemList[i]->isAbleToSell() == true && ItemList[i]->isCollisionToMouse() == true && GameEngineInput::IsDown("EngineMouseLeft") == true)
+        if (true == ItemList[i]->isAbleToSell() && true == ItemList[i]->isCollisionToMouse() && true == GameEngineInput::IsDown("EngineMouseLeft"))
         {
+            if(true == isBoxInventory)
+            {
+                SaveItem(ItemList[i]);
+            }
+
             globalValue::PlusToMoney(ItemList[i]->GetPrice());
             globalValue::PlusToTotalRevenue(ItemList[i]->GetPrice());
             globalInterface::AllInventoryUpdate();
@@ -522,4 +567,99 @@ bool Inventory::isInInventory(const std::string_view& _ItemName)
     }
 
     return false;
+}
+
+
+void Inventory::SetAllItemPOrder(int num)
+{
+    for (int i = 0; i < ItemList.size(); i++)
+    {
+        ItemList[i]->GetRenderImage()->SetOrder(num);
+    }
+}
+
+void Inventory::SaveItem(Item* _item)
+{
+    std::string itemname = _item->GetItemName();
+    int itemtype = _item->GetItemType();
+
+    std::string_view CopyName = itemname;
+
+    if (LastSellItem != nullptr && LastSellItemName == itemname)
+    {
+        NumOfLastSellItem += 1;
+        LastSellItem->PlusQuntity();
+    }
+
+    else
+    {
+        if (LastSellItem != nullptr)
+        {
+            LastSellItem->Death();
+        }
+
+        LastSellItem = GetLevel()->CreateActor<Item>();
+
+        LastSellItem->ItemInit(CopyName, itemtype);
+        LastSellItem->SetPos({ 640, 490 });
+        LastSellItem->GetRenderImage()->SetScale({ 55,55 });
+        LastSellItem->GetRenderImage()->SetOrder(202);
+
+        LastSellItemName = itemname;
+        NumOfLastSellItem = 1;
+    }
+}
+
+void Inventory::RoadItem()
+{
+    if (false == isBoxInventory)
+    {
+        return;
+    }
+    
+    if (false == IsUpdate())
+    {
+        return;
+    }
+    
+
+    if (LastSellItem == nullptr)
+    {
+        return;
+    }
+
+    if (true == LastSellItem->isCollisionToMouse() && true == GameEngineInput::IsDown("EngineMouseLeft"))
+    {
+        std::string itemname = LastSellItem->GetItemName();
+        int itemtype = LastSellItem->GetItemType();
+
+        for(int i =0; i<LastSellItem->GetQuantity(); i++)
+        {
+            globalInterface::CreateItemToAllInventory(itemname, itemtype);
+        }
+
+        LastSellItem->Death();
+        LastSellItem = nullptr;
+    }
+}
+
+void Inventory::LastSellItemDeath()
+{
+    if (false == isBoxInventory)
+    {
+        return;
+    }
+
+    LastSellItem->Death();
+    LastSellItem = nullptr;
+}
+
+Item* Inventory::GetLastSellItem()
+{
+    if (false == isBoxInventory)
+    {
+        return nullptr;
+    }
+
+    else return LastSellItem;
 }

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "globalValue.h"
+#include "SellBox.h"
 #include "globalInterface.h"
 
 #include <string_view>
@@ -78,10 +79,11 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     ItemName = _ItemName;
     
     //QuantityText = CreateRender(202); 
-    if (Itemtype == static_cast<int>(ItemType::Crops))
+    if (false == SellBox::IsBOxOn() && Itemtype == static_cast<int>(ItemType::Crops))
     {
         isHarvested = true;
     }
+
 
     QuantityRender.SetOwner(this);
     QuantityRender.SetImage("Number.bmp", { 13,20 }, 202, RGB(255, 255, 255), "Number.bmp");

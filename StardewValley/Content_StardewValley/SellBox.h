@@ -3,12 +3,23 @@
 
 #include <string>
 
+class Inventory;
 class GameEngineRender;
 class GameEngineCollision;
 class SellBox : public GameEngineActor
 {
 
 public:
+    static Inventory* GetSellBoxInventory()
+    {
+        return BoxInventory;
+    }
+
+    static bool IsBOxOn();
+
+    void BoxOn();
+    void BoxOff();
+    void BoxOnOff();
 
 	SellBox();
 	~SellBox();
@@ -28,5 +39,12 @@ private:
     GameEngineRender* SellBoxCoverRender = nullptr;
     
     GameEngineCollision* SellBoxCollision = nullptr;
+
+    GameEngineRender* SellBoxInventoryRender = nullptr;
+    GameEngineRender* SelectedItem = nullptr;
+
+    static Inventory* BoxInventory;
+
+    bool isOnSound = false;
 };
 

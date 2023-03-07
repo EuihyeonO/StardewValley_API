@@ -48,15 +48,24 @@ public:
         isPierreInventory = true;
     }
 
+    void SetOwnerToBox()
+    {
+        isBoxInventory = true;
+    }
+
+
     int IsExistInInventory(std::string_view& _Name);
    
-
+    void SetAllItemPOrder(int num);
     void ItemUpdate();
     void CreateItem(std::string_view _Name, int ItemType);
     void CreateItem(int Seedtype);
     void CreateItem_Minaral(int _MinenalName);
     void SellItem();
     bool isInInventory(const std::string_view& _ItemName);
+
+    void LastSellItemDeath();
+    Item* GetLastSellItem();
 
     void ChangeQuickSlot();
 
@@ -86,11 +95,22 @@ public:
         return isPierreInventory;
     }
 
+    bool IsBoxInventory()
+    {
+        return isBoxInventory;
+    }
+
+
     void AllItemOn();
     void AllItemOff();
 
     void InventoryOn();
     void InventoryOff();
+
+    void SaveItem(Item* _item);
+    void RecoverToItem();
+
+    void RoadItem();
 
     void SetItemPos();
     void CameraPosUpdate();
@@ -126,7 +146,13 @@ private:
     float4 Screensize = { 0,0 };
 
     bool isPierreInventory = false;
+    bool isBoxInventory = false;
     int QuickSlotOrder = 0;
+
+    Item* LastSellItem = nullptr;
+    Item* RecoverItem = nullptr;
+    std::string LastSellItemName = "";
+    int NumOfLastSellItem = 0;
 };
 
 

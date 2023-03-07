@@ -63,6 +63,7 @@ public:
     static void CreateItemToAllInventory(int _SeedName);
     static void CreateItemToAllInventory_Mineral(int _MineralName);
     static void AllInventoryItemOn();
+    static void AllInventoryItemOff();
     static void AllInventoryDelete();
     static void AllInventoryDelete(int Index);
     static void AllInventoryUpdate();

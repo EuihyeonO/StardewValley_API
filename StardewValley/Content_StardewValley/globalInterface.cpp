@@ -8,6 +8,7 @@
 #include "UI.h"
 #include "ContentsEnum.h"
 #include "Pierre.h"
+#include "SellBox.h"
 #include "AffectionBox.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -44,6 +45,7 @@ void globalInterface::CreateItemToAllInventory(int _SeedName)
     {
         InventoryList[i]->CreateItem(_SeedName);
     }
+
 }
 
 void globalInterface::CreateItemToAllInventory_Mineral(int _MineralName)
@@ -63,7 +65,23 @@ void globalInterface::AllInventoryItemOn()
 
     for (int i = 0; i < size; i++)
     {
-        InventoryList[i]->AllItemOn();
+        if (false == InventoryList[i]->IsBoxInventory()) 
+        {
+            InventoryList[i]->AllItemOn();
+        }
+    }
+}
+
+void globalInterface::AllInventoryItemOff()
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        if (false == InventoryList[i]->IsBoxInventory())
+        {
+            InventoryList[i]->AllItemOff();
+        }
     }
 }
 
@@ -77,6 +95,7 @@ void globalInterface::AllInventoryDelete()
         InventoryList[i]->ItemUpdate();
         InventoryList[i]->SetItemPos();
     }
+    
 }
 
 void globalInterface::AllInventoryDelete(int Index)
