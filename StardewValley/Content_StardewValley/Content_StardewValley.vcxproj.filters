@@ -95,6 +95,9 @@
     <ClInclude Include="Tree.h">
       <Filter>Actor\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Actor\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
@@ -204,6 +207,9 @@
       <Filter>Actor\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
+      <Filter>Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
       <Filter>Actor\Object</Filter>
     </ClCompile>
   </ItemGroup>

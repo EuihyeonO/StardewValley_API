@@ -106,7 +106,7 @@ void Player::CreateToolAnimation()
     Tool["Hoe"] ->CreateAnimation({ .AnimationName = "DHeavyTool", .ImageName = "DHoe.bmp",.FrameIndex = _DHeavyTool,.FrameTime = _DHeavyToolFrame });
     Tool["Hoe"] ->CreateAnimation({ .AnimationName = "DIdle", .ImageName = "DHoe.bmp",.FrameIndex = {4} });
     Tool["Watering"] ->CreateAnimation({ .AnimationName = "DWatering", .ImageName = "DWatering.bmp",.FrameIndex = _DWatering,.FrameTime = _DWateringFrame });
-    Tool["Watering"] ->CreateAnimation({ .AnimationName = "DIdle", .ImageName = "DWatering.bmp",.FrameIndex = {4} });
+    Tool["Watering"] ->CreateAnimation({ .AnimationName = "DIdle", .ImageName = "DWatering.bmp",.FrameIndex = {0} });
     Tool["Hammer"]->CreateAnimation({ .AnimationName = "DHammer", .ImageName = "DHammer.bmp",.FrameIndex = _DHammer,.FrameTime = _DHammerFrame });
     Tool["Hammer"]->CreateAnimation({ .AnimationName = "DIdle", .ImageName = "DHammer.bmp",.FrameIndex = {4} });
 
@@ -117,7 +117,7 @@ void Player::CreateToolAnimation()
     Tool["Hoe"] ->CreateAnimation({ .AnimationName = "UHeavyTool", .ImageName = "UHoe.bmp",.FrameIndex = _UHeavyTool,.FrameTime = _UHeavyToolFrame });
     Tool["Hoe"] ->CreateAnimation({ .AnimationName = "UIdle", .ImageName = "UHoe.bmp",.FrameIndex = {4} });
     Tool["Watering"] ->CreateAnimation({ .AnimationName = "UWatering", .ImageName = "UWatering.bmp",.FrameIndex = _UWatering,.FrameTime = _UWateringFrame });
-    Tool["Watering"] ->CreateAnimation({ .AnimationName = "UIdle", .ImageName = "UWatering.bmp",.FrameIndex = {4} });
+    Tool["Watering"] ->CreateAnimation({ .AnimationName = "UIdle", .ImageName = "UWatering.bmp",.FrameIndex = {0} });
     Tool["Hammer"]->CreateAnimation({ .AnimationName = "UHammer", .ImageName = "UHammer.bmp",.FrameIndex = _UHammer,.FrameTime = _UHammerFrame });
     Tool["Hammer"]->CreateAnimation({ .AnimationName = "UIdle", .ImageName = "UHammer.bmp",.FrameIndex = {4} });
 

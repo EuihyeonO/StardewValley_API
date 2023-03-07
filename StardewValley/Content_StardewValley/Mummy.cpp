@@ -119,7 +119,7 @@ void Mummy::hitByPlayer(float _DeltaTime)
     {
         float4 Pos = GetPos() - Player::GetPlayer()->GetPos();
         Pos.Normalize();
-        Accel -= 0.001f;
+        Accel -= 0.01f;
 
         float4 NextPos = GetPos() + Pos * Accel * _DeltaTime * 100.0f;
         GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");

@@ -130,7 +130,15 @@ public:
 
     void ActingUpdate(float _DeltaTime);
     void CurToolTypeUpdate();
-
+    
+    void SetTrueToIsColToObstacle()
+    {
+        isColToObstacle = true;
+    }
+    void SetFalseToIsColToObstacle()
+    {
+        isColToObstacle = false;
+    }
 protected:
 
     void Start() override;
@@ -138,7 +146,7 @@ protected:
     void Render(float _Time) override;
 
 private:
-    float MoveSpeed = 500.0f;
+    float MoveSpeed = 300.0f;
     int CurToolType = -1;
  
     GameEngineRender* PlayerRender = nullptr;
@@ -185,6 +193,7 @@ private:
     int inputNumberKey = -1;
 
     bool isColToNPC = false;
+    bool isColToObstacle = false;
 
     GameEngineRender* GetItemRender = nullptr;
 };

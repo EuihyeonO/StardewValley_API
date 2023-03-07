@@ -271,7 +271,7 @@ void Player::Interact()
     
     InteractToTile();
 
-    if (isHarvesting == true || CurTool == Tool["Default"] || Marlon::GetGlobalMarlon()->isMarlonTextOn() == true)
+    if (isHarvesting == true || CurTool == Tool["Default"] || Marlon::GetGlobalMarlon()->isMarlonTextOn() == true || isColToObstacle == true)
     {
         return;
     }
@@ -283,7 +283,7 @@ void Player::Interact()
     {
         CurTool->ChangeAnimation(Dir + "Watering");
         ChangePlayerAnimation(Dir + "Watering");
-
+       
         GameEngineResources::GetInst().SoundPlay("Watering.wav");
     }
     else if (CurTool->IsUpdate() == true && CurTool == Tool["Hammer"])
@@ -357,6 +357,7 @@ bool Player::isInteract()
 void Player::ChangePlayerIdle(const std::string& _Dir)
 {
     MyPlayer->ChangePlayerAnimation(_Dir + "Idle");
+    
     if (MyPlayer->CurTool == MyPlayer->Tool["Watering"] ||
         MyPlayer->CurTool == MyPlayer->Tool["Hoe"] ||
         MyPlayer->CurTool == MyPlayer->Tool["Hammer"] ||

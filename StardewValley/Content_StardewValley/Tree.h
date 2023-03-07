@@ -39,6 +39,6 @@ private:
     bool CompleteToAbsorb = false;
     bool isHit = false;
     int Hp = 5;
-    float Accel = 0;
+    float Accel =-5;
 };
 

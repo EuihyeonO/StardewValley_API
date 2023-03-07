@@ -25,6 +25,7 @@
 #include "MenuButton.h"
 #include "Marlon.h"
 #include "Tree.h"
+#include "Obstacle.h"
 
 
 GameEngineTileMap* Level_Farm::TileMap;
@@ -127,6 +128,7 @@ void Level_Farm::Loading()
     FarmController = CreateActor<Farm>();
     CreateActor<Mouse>();
     CreateActor<SelectedLine>();
+    CreateActor<Obstacle>();
     FarmAffectionBox = CreateActor <AffectionBox>();
     FarmMenuButton = CreateActor <MenuButton>();
 
@@ -222,6 +224,9 @@ void Level_Farm::ImageRoad()
         GameEngineImage* MarlonText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox.BMP"));
         GameEngineImage* MarlonText2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MarlonTextBox2.BMP"));
         GameEngineImage* TextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TextBoxShodow.BMP"));
+
+        GameEngineImage* SmallText = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SmallText.BMP"));
+        GameEngineImage* SmallTextShadow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SmallTextShadow.BMP"));
         Dir.MoveParent();
     }
 
@@ -233,6 +238,12 @@ void Level_Farm::ImageRoad()
 
         GameEngineImage* TreeDebris1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeDebris1.BMP"));
         GameEngineImage* TreeDebris2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TreeDebris2.BMP"));
+
+        GameEngineImage* Obstacle1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Obstacle1.BMP"));
+        GameEngineImage* Obstacle2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Obstacle2.BMP"));
+        GameEngineImage* Obstacle3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Obstacle3.BMP"));
+
+
        
         Dir.MoveParent();
     }
