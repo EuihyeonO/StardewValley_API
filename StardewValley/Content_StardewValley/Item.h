@@ -77,6 +77,10 @@ public:
         isHarvested = true;
     }
 
+    void SetIsHarvestedToFalse()
+    {
+        isHarvested = false;
+    }
 
     int GetPrice()
     {

@@ -73,6 +73,7 @@ void Player::Render(float _Time)
 
     }
 
+
     if (GameEngineInput::IsKey("MakeItem") == false)
     {
         GameEngineInput::CreateKey("MakeItem", 'K');
@@ -80,10 +81,14 @@ void Player::Render(float _Time)
 
     if (GameEngineInput::IsDown("MakeItem") == true)
     {
-        for (int i = 0; i < 10; i++) 
+        for (int i = 0; i < 10; i++)
         {
-            globalInterface::CreateItemToAllInventory("IconParsnip.bmp", static_cast<int>(ItemType::Crops));
-            globalInterface::CreateItemToAllInventory("IconBranch.bmp", static_cast<int>(ItemType::Etc));
+            globalInterface::CreateItemToAllInventory("IconParsnip.bmp", static_cast<int>(ItemType::Crops), true);
+            globalInterface::CreateItemToAllInventory("IconBranch.bmp", static_cast<int>(ItemType::Etc), true);
         }
+
+        globalInterface::AllInventoryUpdate();
     }
+
+
 }

@@ -111,7 +111,7 @@ void Inventory::AllItemOff()
 {
     for (size_t i = 0; i < ItemList.size(); i++)
     {
-        if(false == isPierreInventory && ItemList[i]->GetIsHarvested() != true)
+        if(false == isPierreInventory && false == ItemList[i]->GetIsHarvested())
         {
             ItemList[i]->Off();
         }
@@ -172,7 +172,7 @@ void Inventory::InitInventory()
 }
 
 
-void Inventory::CreateItem(std::string_view _Name, int _ItemType)
+void Inventory::CreateItem(std::string_view _Name, int _ItemType, bool isHarvest)
 {
     int ItemIndex = IsExistInInventory(_Name);
 
@@ -180,7 +180,7 @@ void Inventory::CreateItem(std::string_view _Name, int _ItemType)
     {
         ItemList[ItemIndex]->PlusQuntity();
 
-        if (ItemList[ItemIndex]->GetItemType() == static_cast<int>(ItemType::Crops))
+        if (ItemList[ItemIndex]->GetItemType() == static_cast<int>(ItemType::Crops) && isHarvest == false)
         {
             ItemList[ItemIndex]->SetIsHarvestied();
         }
@@ -635,7 +635,7 @@ void Inventory::RoadItem()
 
         for(int i =0; i<LastSellItem->GetQuantity(); i++)
         {
-            globalInterface::CreateItemToAllInventory(itemname, itemtype);
+            globalInterface::CreateItemToAllInventory(itemname, itemtype, true);
             globalValue::PlusToMoney(-LastSellItem->GetPrice());
             globalValue::PlusToTotalRevenue(-LastSellItem->GetPrice());
         }

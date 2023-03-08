@@ -58,7 +58,7 @@ public:
    
     void SetAllItemPOrder(int num);
     void ItemUpdate();
-    void CreateItem(std::string_view _Name, int ItemType);
+    void CreateItem(std::string_view _Name, int ItemType, bool isHarvest = false);
     void CreateItem(int Seedtype);
     void CreateItem_Minaral(int _MinenalName);
     void SellItem();

@@ -86,7 +86,11 @@ public:
         TotalRevenue += _money;
     }
 
-
+    static void Heal()
+    {
+        HP = 128;
+        Energy = 128;
+    }
 
     globalValue();
 	~globalValue();

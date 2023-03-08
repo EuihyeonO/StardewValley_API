@@ -107,6 +107,8 @@ void SellBox::BoxOn()
     Player::GetPlayer()->PlayerStop();
     Player::ChangePlayerIdle("U");
 
+    globalInterface::AllInventoryItemOff();
+
     BoxInventory->On();
     BoxInventory->SetAllItemPOrder(202);
     BoxInventory->AllItemOn();
@@ -114,19 +116,11 @@ void SellBox::BoxOn()
 
     SellBoxInventoryRender->On();
     SelectedItem->On();
-
-    globalInterface::AllInventoryItemOff();
 }
 
 void SellBox::BoxOff()
 {
     Player::GetPlayer()->PlayerStopOff();
-
-    BoxInventory->Off();
-    BoxInventory->AllItemOff();
-
-    SellBoxInventoryRender->Off();
-    SelectedItem->Off();
 
     if (nullptr != BoxInventory->GetLastSellItem())
     {
@@ -134,6 +128,11 @@ void SellBox::BoxOff()
     }
 
     globalInterface::AllInventoryItemOn();
+
+    BoxInventory->Off();
+    BoxInventory->AllItemOff();
+    SellBoxInventoryRender->Off();
+    SelectedItem->Off();
 }
 
 void SellBox::BoxOnOff()

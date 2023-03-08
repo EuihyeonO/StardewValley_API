@@ -67,7 +67,7 @@ public:
     static void UI_OnOff();
     static void OpenInventory();
 
-    static void CreateItemToAllInventory(std::string_view _Name, int _ItemType);
+    static void CreateItemToAllInventory(std::string_view _Name, int _ItemType, bool isHarvested = false );
     static void CreateItemToAllInventory(int _SeedName);
     static void CreateItemToAllInventory_Mineral(int _MineralName);
     static void AllInventoryItemOn();

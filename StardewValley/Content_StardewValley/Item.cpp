@@ -80,10 +80,17 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     ItemName = _ItemName;
     
     //QuantityText = CreateRender(202); 
+
     if (false == SellBox::IsBOxOn() && Itemtype == static_cast<int>(ItemType::Crops))
     {
         isHarvested = true;
     }
+
+    if (true == SellBox::IsBOxOn())
+    {
+        isHarvested = false;
+    }
+
     if (true == GameEngineInput::IsKey("MakeItem") && true == GameEngineInput::IsDown("MakeItem"))
     {
         isHarvested = false;
@@ -254,6 +261,13 @@ void Item::RenderHarvesting()
         return;
     }
 
+    if (true == SellBox::GetSellBoxInventory()->IsUpdate())
+    {
+        isHarvested = false;
+        CopyImage->ChangeAnimation("None");
+        CopyImage->Off();
+    }
+
     if (isHarvested == true)
     {
         std::string PlayerDir = Player::GetPlayer()->GetDir();
@@ -287,7 +301,6 @@ void Item::RenderHarvesting()
             isHarvested = false;
             globalInterface::AllInventoryUpdate();
         }
-
     }
     else
     {

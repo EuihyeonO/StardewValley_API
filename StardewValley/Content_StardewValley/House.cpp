@@ -135,6 +135,7 @@ void House::Sleep(float _DeltaTime)
         {
             alphacount = 1;
             globalValue::DayPlus();
+            globalValue::Heal();
         }
     }
 }

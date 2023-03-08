@@ -27,13 +27,13 @@ globalInterface::~globalInterface()
 {
 }
 
-void globalInterface::CreateItemToAllInventory(std::string_view _Name, int _ItemType)
+void globalInterface::CreateItemToAllInventory(std::string_view _Name, int _ItemType , bool isHarvested)
 {
     size_t size = InventoryList.size();
 
     for (int i = 0; i < size; i++)
     {
-        InventoryList[i]->CreateItem(_Name, _ItemType);
+        InventoryList[i]->CreateItem(_Name, _ItemType, isHarvested);
     }
 }
 
