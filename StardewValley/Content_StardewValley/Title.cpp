@@ -61,7 +61,26 @@ void Title::Update(float _DeltaTime)
     {
         if (mytime >= 25)
         {
+            NewGame->GetButtonCollision()->On();
             NewGame->GetButtonRender()->On();
+
+            if (false == isNewButtonSoundOn)
+            {
+                GameEngineResources::GetInst().SoundPlay("ButtonOn.wav");
+                isNewButtonSoundOn = true;
+            }
+        }
+
+        if (mytime >= 25.25)
+        {
+            ExitGame->GetButtonCollision()->On();
+            ExitGame->GetButtonRender()->On();
+
+            if (false == isExitButtonSoundOn)
+            {
+                GameEngineResources::GetInst().SoundPlay("ButtonOn.wav");
+                isExitButtonSoundOn = true;
+            }
         }
     }
 
@@ -289,7 +308,13 @@ void Title::MoveMountain(float _DeltaTime)
 
 void ChangeLevel(Button* _btn)
 {
+    GameEngineResources::GetInst().SoundPlay("ClickButton.wav");
     Title::GetGlobalTitle()->SetIsClicked();
+}
+
+void ExitThisGame(Button* _Btn)
+{
+    exit(0);
 }
 
 void Title::ButtonInit()
@@ -302,8 +327,21 @@ void Title::ButtonInit()
     NewGame->SetRenderOrder(10);
     NewGame->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
     NewGame->SetPos(IntroScale.half() - float4(200, 100));
+    NewGame->GetButtonCollision()->Off();
     NewGame->GetButtonRender()->Off();
     NewGame->SetClickCallBack(ChangeLevel);
+
+    ExitGame = GetLevel()->CreateActor<Button>();
+    ExitGame->SetReleaseImage("ExitButton.bmp");
+    ExitGame->SetHoverImage("ExitButtonHover.bmp");
+    ExitGame->SetPressImage("ExitButtonHover.bmp");
+    ExitGame->SetScale({ 222, 174 });
+    ExitGame->SetRenderOrder(10);
+    ExitGame->SetTargetCollisionGroup(static_cast<int>(ActorType::Mouse));
+    ExitGame->SetPos(IntroScale.half() + float4(200, -100));
+    ExitGame->GetButtonCollision()->Off();
+    ExitGame->GetButtonRender()->Off();
+    ExitGame->SetClickCallBack(ExitThisGame);
 }
 
 
@@ -315,9 +353,9 @@ void Title::FadeOut(float _DeltaTime)
         BlackAlpha = 255;
     }
 
-    if (isClicked == true)
+    if (BlackAlpha < 255 && isClicked == true)
     {
-        BlackAlpha += _DeltaTime * 150;
+        BlackAlpha += 1.0f;
         BlackImage->SetAlpha(BlackAlpha);
     }
 }
@@ -333,11 +371,13 @@ void Title::ChangeLevelToHouse()
     {
         if (mytime >= 10)
         {
+            BlackAlpha = 255;
             mytime = 0;
         }
 
         if (mytime >= 2)
         {
+            BlackAlpha = 255;
             ContentsCore::SetNextMap("House");
         }
     }

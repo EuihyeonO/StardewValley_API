@@ -66,6 +66,7 @@ void Level_Title::ImageRoad()
         GameEngineImage* Button2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("loadbutton.BMP"));
         GameEngineImage* Button3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("multibutton.BMP"));
         GameEngineImage* Button4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ExitButton.BMP"));
+        GameEngineImage* Button6 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ExitButtonHover.BMP"));
 
         GameEngineImage* Buttonnum = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Number.BMP"));
         Buttonnum->Cut(10, 1);

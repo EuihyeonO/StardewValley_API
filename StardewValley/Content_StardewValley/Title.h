@@ -85,5 +85,8 @@ private:
     bool isClicked = false;
     float BlackAlpha = 0;
 
+    bool isNewButtonSoundOn = false;
+    bool isExitButtonSoundOn = false;
+
 };
 
