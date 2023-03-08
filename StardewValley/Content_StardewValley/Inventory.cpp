@@ -636,6 +636,8 @@ void Inventory::RoadItem()
         for(int i =0; i<LastSellItem->GetQuantity(); i++)
         {
             globalInterface::CreateItemToAllInventory(itemname, itemtype);
+            globalValue::PlusToMoney(-LastSellItem->GetPrice());
+            globalValue::PlusToTotalRevenue(-LastSellItem->GetPrice());
         }
 
         LastSellItem->Death();

@@ -30,7 +30,7 @@ enum class ActorType
     OrderChange,
     Monster,
     Hammer = 110,
-    Axe = 110,
+    Axe,
     FullMonster=150,
     Tree,
 };

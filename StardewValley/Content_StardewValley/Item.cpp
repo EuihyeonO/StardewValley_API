@@ -1,4 +1,5 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineString.h>
 
@@ -82,6 +83,10 @@ void Item::ItemInit(std::string_view& _ItemName, int _ItemType)
     if (false == SellBox::IsBOxOn() && Itemtype == static_cast<int>(ItemType::Crops))
     {
         isHarvested = true;
+    }
+    if (true == GameEngineInput::IsKey("MakeItem") && true == GameEngineInput::IsDown("MakeItem"))
+    {
+        isHarvested = false;
     }
 
 
@@ -171,19 +176,21 @@ bool Item::isCollisionToMouse()
 
 void Item::InitPrice()
 {
-    if (ItemName == "IconBean.BMP")
+    std::string UpperName = GameEngineString::ToUpper(ItemName);
+
+    if (UpperName == "ICONBEAN.BMP")
     {
         Price = 120;
     }
-    else if (ItemName == "IconCauliflower.BMP")
+    else if (UpperName == "ICONCAULIFLOWER.BMP")
     {
         Price = 175;
     }
-    else if (ItemName == "IconParsnip.BMP")
+    else if (UpperName == "ICONPARSNIP.BMP")
     {
         Price = 35;
     }
-    else if (ItemName == "IconGarlic.BMP")
+    else if (UpperName == "ICONGARLIC.BMP")
     {
         Price = 60;
     }

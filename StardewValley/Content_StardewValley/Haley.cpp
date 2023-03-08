@@ -1,6 +1,7 @@
 #include "Haley.h"
 #include "ContentsEnum.h"
 #include "Player.h"
+#include "globalInterface.h"
 
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -21,10 +22,15 @@ void Haley::Start()
 }
 
 void Haley::Update(float _DeltaTime)
+       
 {
     RenderOrderUpdate();
-    InteractUpdate();
-    TextBoxOnOff(_DeltaTime, "이 촌구석은 참 맘에 안들지만, 사진을 찍기에는 좋아. ", "우와 이거 좋아하는거 어떻게 알았어? 너무 고마워! ", " 이딴걸 줘서 뭐 어쩌라는거야? ");
+
+    if (false == globalInterface::isMenuOpen()) 
+    {
+        InteractUpdate();
+        TextBoxOnOff(_DeltaTime, "이 촌구석은 참 맘에 안들지만, 사진을 찍기에는 좋아. ", "우와 이거 좋아하는거 어떻게 알았어? 너무 고마워! ", " 이딴걸 줘서 뭐 어쩌라는거야? ");
+    }
 }
 
 void Haley::Render(float _Time)

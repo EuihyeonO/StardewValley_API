@@ -29,23 +29,23 @@ void AffectionBox::Start()
     HaleyHeart->EffectCameraOff();
     HaleyHeart->Off();
 
-    SamHeart = CreateRender("Heart.bmp", 151);
-    SamHeart->SetScale({ 316, 28 });
-    SamHeart->SetPosition({ 680, 315 });
-    SamHeart->EffectCameraOff();
-    SamHeart->Off();
-
+    LewisHeart = CreateRender("Heart.bmp", 151);
+    LewisHeart->SetScale({ 316, 28 });
+    LewisHeart->SetPosition({ 680, 315 });
+    LewisHeart->EffectCameraOff();
+    LewisHeart->Off();
+    
     PennyHeart = CreateRender("Heart.bmp", 151);
     PennyHeart->SetScale({ 316, 28 });
     PennyHeart->SetPosition({ 680, 460 });
     PennyHeart->EffectCameraOff();
     PennyHeart->Off();
 
-    LewisHeart = CreateRender("Heart.bmp", 151);
-    LewisHeart->SetScale({ 316, 28 });
-    LewisHeart->SetPosition({ 680, 605 });
-    LewisHeart->EffectCameraOff();
-    LewisHeart->Off();
+    SamHeart = CreateRender("Heart.bmp", 151);
+    SamHeart->SetScale({ 316, 28 });
+    SamHeart->SetPosition({ 680, 605 });
+    SamHeart->EffectCameraOff();
+    SamHeart->Off();
 
     HaleyGiftCountRender = CreateRender("GiftCount.bmp", 151);
     HaleyGiftCountRender->SetScale({ 61, 30 });
@@ -53,13 +53,13 @@ void AffectionBox::Start()
     HaleyGiftCountRender->SetFrame(0);
     HaleyGiftCountRender->SetPosition({ 953, 186 });
     HaleyGiftCountRender->Off();
-    
-    SamGiftCountRender = CreateRender("GiftCount.bmp", 151);
-    SamGiftCountRender->SetScale({ 61, 30 });
-    SamGiftCountRender->EffectCameraOff();
-    SamGiftCountRender->SetFrame(0);
-    SamGiftCountRender->SetPosition({ 953, 330 });
-    SamGiftCountRender->Off();
+
+    LewisGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    LewisGiftCountRender->SetScale({ 61, 30 });
+    LewisGiftCountRender->EffectCameraOff();
+    LewisGiftCountRender->SetFrame(0);
+    LewisGiftCountRender->SetPosition({ 953, 330 });
+    LewisGiftCountRender->Off();
 
 
     PennyGiftCountRender = CreateRender("GiftCount.bmp", 151);
@@ -69,12 +69,12 @@ void AffectionBox::Start()
     PennyGiftCountRender->SetPosition({ 953, 475 });
     PennyGiftCountRender->Off();
 
-    LewisGiftCountRender = CreateRender("GiftCount.bmp", 151);
-    LewisGiftCountRender->SetScale({ 61, 30 });
-    LewisGiftCountRender->EffectCameraOff();
-    LewisGiftCountRender->SetFrame(0);
-    LewisGiftCountRender->SetPosition({ 953, 620 });
-    LewisGiftCountRender->Off();
+    SamGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    SamGiftCountRender->SetScale({ 61, 30 });
+    SamGiftCountRender->EffectCameraOff();
+    SamGiftCountRender->SetFrame(0);
+    SamGiftCountRender->SetPosition({ 953, 620 });
+    SamGiftCountRender->Off();
 }
 
 void AffectionBox::Update(float _DeltaTime)
@@ -211,7 +211,6 @@ void AffectionBox::GiftCountIndexUpdate()
 int AffectionBox::GetGiftCount(std::string _NpcName)
 {
     std::string Name = GameEngineString::ToUpper(_NpcName);
-
 
     if ("HALEY" == Name)
     {

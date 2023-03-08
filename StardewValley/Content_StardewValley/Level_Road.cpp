@@ -149,6 +149,17 @@ void Level_Road::ImageRoad()
         GameEngineImage* HaleyTextBox_Happy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HaleyTextBox_Happy.BMP"));
         GameEngineImage* HaleyTextBox_Angry = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HaleyTextBox_Angry.BMP"));
 
+        GameEngineImage* SamBox_Common = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SamTextBox_Common.BMP"));
+        GameEngineImage* SamBox_Happy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SamTextBox_Happy.BMP"));
+        GameEngineImage* SamBox_Angry = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SamTextBox_Angry.BMP"));
+       
+        GameEngineImage* PennyTextBox_Common = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PennyTextBox_Common.BMP"));
+        GameEngineImage* PennyTextBox_Happy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PennyTextBox_Happy.BMP"));
+        GameEngineImage* PennyTextBox_Angry = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PennyTextBox_Angry.BMP"));
+        
+        GameEngineImage* LewisTextBox_Common = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LewisTextBox_Common.BMP"));
+        GameEngineImage* LewisTextBox_Happy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LewisTextBox_Happy.BMP"));
+        GameEngineImage* LewisTextBox_Angry = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LewisTextBox_Angry.BMP"));
 
         Dir.MoveParent();
     }

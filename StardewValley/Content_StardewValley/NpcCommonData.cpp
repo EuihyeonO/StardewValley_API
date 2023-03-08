@@ -88,7 +88,7 @@ void NpcCommonData::SetTextRender(float4 _pos)
     TextBoxShadow->SetScaleToImage();
     TextBoxShadow->SetAlpha(100);
 
-    NoticeTextBox = CreateRender("SmallText.bmp", 500);
+    NoticeTextBox = CreateRender("SmallText.bmp", 250);
     NoticeTextBox->SetScaleToImage();
     NoticeTextBox->EffectCameraOff();
     NoticeTextBox->SetPosition({ 640, 690 });
@@ -130,7 +130,7 @@ void NpcCommonData::TextBoxOnOff(float _DeltaTime, const std::string& CommonText
 bool NpcCommonData::IsTextUpdate()
 {
     //텍스트 창이 셋중 하나라도 켜있다면 업데이트 중이다.
-    return (TextBox_Angry->IsUpdate() || TextBox_Common->IsUpdate() || TextBox_Happy->IsUpdate());
+    return (TextBox_Angry->IsUpdate() || TextBox_Common->IsUpdate() || TextBox_Happy->IsUpdate() || NoticeTextBox->IsUpdate());
 }
 
 void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, const std::string& HappyText, const std::string& AngryText)
@@ -149,6 +149,7 @@ void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, c
     {
         if ("ICONPARSNIP.BMP" == UpperItemName) //조건에 따라 텍스트창 다르게 출력
         {   
+            GameEngineResources::GetInst().SoundPlay("GiveGift.wav");
             CopyOutPutTextBox = TextBox_Happy;
             CopyOutPutText = HappyText;
             globalInterface::AllAffectionUp(NpcName);
@@ -158,6 +159,8 @@ void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, c
         }
         else if ("ICONBRANCH.BMP" == UpperItemName)
         {
+            GameEngineResources::GetInst().SoundPlay("GiveGift.wav");
+
             CopyOutPutTextBox = TextBox_Angry;
             CopyOutPutText = AngryText;
             globalInterface::AllAffectionDown(NpcName);
@@ -244,6 +247,7 @@ void NpcCommonData::TextBoxOff()
     TextBox_Common->Off();
     TextBox_Happy->Off();
     TextBoxShadow->Off();
+    NoticeTextBox->Off();
 
     isSetText = false;
     isKeyInteract = false;
@@ -266,9 +270,19 @@ void NpcCommonData::TextOn(const std::string& _Text)
     Prevtime = Curtime;
 
     Text->SetText(CopyText, 50, "Sandoll 미생", TextAlign::Left);
-    Text->SetPosition({ 35,420 });
+    
+    if (false == NoticeTextBox->IsUpdate()) 
+    {
+        Text->SetPosition({ 35,420 });
+        Text->SetTextBoxScale({ 1280, 500 });
+    }
+    else
+    {
+        Text->SetPosition({ 175,663 });
+        Text->SetTextBoxScale({ 1000, 150 });
+    }
+
     Text->EffectCameraOff();
-    Text->SetTextBoxScale({ 1280, 500 });
     Text->On();
 
     if (Counttime >= 0.01f)

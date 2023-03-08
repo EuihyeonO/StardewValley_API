@@ -43,7 +43,10 @@ private:
 
     GameEngineSoundPlayer Farm_BGM;
     GameEngineSoundPlayer Title_BGM;
+    GameEngineSoundPlayer Mine_BGM;
 
     float Volume = 1;
+    float MineVolume = 0;
+    float FarmVolume = 0;
 };
 

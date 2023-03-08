@@ -53,12 +53,15 @@ public:
     {
         return isOpenMenu;
     }
+
     static Item* GetSelectedItem();
     static std::string GetSelectedItemName();
+
     static bool isUpdate_CurLevelInventory();
 
     static void ChangeAllQuickSlot();
     static void ChangeAllQuickSlotItem(int _Num);
+
     static bool IsInInventory(const std::string_view& _ItemName);
 
     static void UI_OnOff();

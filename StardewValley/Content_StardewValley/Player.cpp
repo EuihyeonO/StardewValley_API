@@ -9,6 +9,7 @@
 #include "Inventory.h"
 #include "Level_Farm.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 
 
 Player* Player::MyPlayer = nullptr;
@@ -70,5 +71,19 @@ void Player::Render(float _Time)
             AxeCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + AxeCollision->GetScale().hx(),
             AxeCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + AxeCollision->GetScale().hy());
 
+    }
+
+    if (GameEngineInput::IsKey("MakeItem") == false)
+    {
+        GameEngineInput::CreateKey("MakeItem", 'K');
+    }
+
+    if (GameEngineInput::IsDown("MakeItem") == true)
+    {
+        for (int i = 0; i < 10; i++) 
+        {
+            globalInterface::CreateItemToAllInventory("IconParsnip.bmp", static_cast<int>(ItemType::Crops));
+            globalInterface::CreateItemToAllInventory("IconBranch.bmp", static_cast<int>(ItemType::Etc));
+        }
     }
 }

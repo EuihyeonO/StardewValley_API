@@ -38,6 +38,7 @@ void House::Start()
     BlackMap = CreateRender("BlackMap.bmp", 1000);
     BlackMap->SetScaleToImage();
     BlackMap->SetAlpha(0);
+    BlackMap->Off();
 
     PortalToFarm = CreateCollision(ActorType::Portal);
     PortalToFarm->SetScale({ 60, 20 });
@@ -101,6 +102,7 @@ std::string House::isCollision_PortalToPlayer()
                 Player::GetPlayer()->PlayerStop();
                 Player::ChangePlayerIdle("D");
                 PortalToFarm->Off();
+                BlackMap->On();
                 GameEngineResources::GetInst().SoundPlay("DoorOpen.wav");
             }
         }

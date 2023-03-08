@@ -105,6 +105,7 @@ void SellBox::Render(float _Time)
 void SellBox::BoxOn()
 {
     Player::GetPlayer()->PlayerStop();
+    Player::ChangePlayerIdle("U");
 
     BoxInventory->On();
     BoxInventory->SetAllItemPOrder(202);
