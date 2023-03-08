@@ -26,7 +26,13 @@ public:
     void AffectionUp(std::string& _Name);
     void AffectionDown(std::string& _Name);
 
+    void GiftCountUp(std::string& _Name);
+    void GiftCountClear();
+
     void HeartIndexUpdate();
+    void GiftCountIndexUpdate();
+
+    int GetGiftCount(std::string _NpcName);
 
 	AffectionBox();
 	~AffectionBox();
@@ -48,11 +54,21 @@ private:
     GameEngineRender* PennyHeart = nullptr;
     GameEngineRender* LewisHeart = nullptr;
 
+    GameEngineRender* HaleyGiftCountRender = nullptr;
+    GameEngineRender* SamGiftCountRender = nullptr;
+    GameEngineRender* PennyGiftCountRender = nullptr;
+    GameEngineRender* LewisGiftCountRender = nullptr;
+
     static AffectionBox* globalAffectionBox;
 
     int HaleyAffection = 0;
     int SamAffection = 0;
     int PennyAffection = 0;
     int LewisAffection = 0;
+
+    int HaleyGiftCount = 0;
+    int SamGiftCount = 0;
+    int PennyGiftCount = 0;
+    int LewisGiftCount = 0;
 };
 

@@ -46,11 +46,41 @@ void AffectionBox::Start()
     LewisHeart->SetPosition({ 680, 605 });
     LewisHeart->EffectCameraOff();
     LewisHeart->Off();
+
+    HaleyGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    HaleyGiftCountRender->SetScale({ 61, 30 });
+    HaleyGiftCountRender->EffectCameraOff();
+    HaleyGiftCountRender->SetFrame(0);
+    HaleyGiftCountRender->SetPosition({ 953, 186 });
+    HaleyGiftCountRender->Off();
+    
+    SamGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    SamGiftCountRender->SetScale({ 61, 30 });
+    SamGiftCountRender->EffectCameraOff();
+    SamGiftCountRender->SetFrame(0);
+    SamGiftCountRender->SetPosition({ 953, 330 });
+    SamGiftCountRender->Off();
+
+
+    PennyGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    PennyGiftCountRender->SetScale({ 61, 30 });
+    PennyGiftCountRender->EffectCameraOff();
+    PennyGiftCountRender->SetFrame(0);
+    PennyGiftCountRender->SetPosition({ 953, 475 });
+    PennyGiftCountRender->Off();
+
+    LewisGiftCountRender = CreateRender("GiftCount.bmp", 151);
+    LewisGiftCountRender->SetScale({ 61, 30 });
+    LewisGiftCountRender->EffectCameraOff();
+    LewisGiftCountRender->SetFrame(0);
+    LewisGiftCountRender->SetPosition({ 953, 620 });
+    LewisGiftCountRender->Off();
 }
 
 void AffectionBox::Update(float _DeltaTime)
 {
     HeartIndexUpdate();
+    GiftCountIndexUpdate();
 }
 
 void AffectionBox::Render(float _Time)
@@ -61,38 +91,51 @@ void AffectionBox::Render(float _Time)
 void AffectionBox::AffectionBoxOn()
 {
     AffectionBoxRender->On();
+
     HaleyHeart->On();
     SamHeart->On();
     PennyHeart->On();
     LewisHeart->On();
+
+
+    HaleyGiftCountRender->On();
+    SamGiftCountRender->On();
+    PennyGiftCountRender->On();
+    LewisGiftCountRender->On();
 }
 
 void AffectionBox::AffectionBoxOff()
 {
     AffectionBoxRender->Off();
+
     HaleyHeart->Off();
     SamHeart->Off();
     PennyHeart->Off();
     LewisHeart->Off();
+
+    HaleyGiftCountRender->Off();
+    SamGiftCountRender->Off();
+    PennyGiftCountRender->Off();
+    LewisGiftCountRender->Off();
 }
 
 void AffectionBox::AffectionUp(std::string& _Name)
 {
     std::string NpcName = GameEngineString::ToUpper(_Name);
 
-    if ("HALEY" == NpcName && HaleyAffection<9)
+    if ("HALEY" == NpcName && HaleyAffection< 10)
     {
         ++HaleyAffection;
     }
-    else if ("SAM" == NpcName && SamAffection<9)
+    else if ("SAM" == NpcName && SamAffection< 10)
     {
         ++SamAffection;
     }
-    else if ("PENNY" == NpcName && PennyAffection<9)
+    else if ("PENNY" == NpcName && PennyAffection< 10)
     {
         ++PennyAffection;
     }
-    else if ("LEWIS" == NpcName && LewisAffection<9)
+    else if ("LEWIS" == NpcName && LewisAffection< 10)
     {
         ++LewisAffection;
     }
@@ -126,4 +169,66 @@ void AffectionBox::HeartIndexUpdate()
     SamHeart->SetFrame(SamAffection);
     PennyHeart->SetFrame(PennyAffection);
     LewisHeart->SetFrame(LewisAffection);
+}
+
+void AffectionBox::GiftCountUp(std::string& _Name)
+{
+    std::string NpcName = GameEngineString::ToUpper(_Name);
+
+    if ("HALEY" == NpcName && HaleyGiftCount < 2)
+    {
+        ++HaleyGiftCount;
+    }
+    else if ("SAM" == NpcName && SamGiftCount < 2)
+    {
+        ++SamGiftCount;
+    }
+    else if ("PENNY" == NpcName && PennyGiftCount < 2)
+    {
+        ++PennyGiftCount;
+    }
+    else if ("LEWIS" == NpcName && LewisGiftCount < 2)
+    {
+        ++LewisGiftCount;
+    }
+}
+void AffectionBox::GiftCountClear()
+{
+    HaleyGiftCount = 0;
+    SamGiftCount = 0;
+    PennyGiftCount = 0;
+    LewisGiftCount = 0;
+}
+
+void AffectionBox::GiftCountIndexUpdate()
+{
+    HaleyGiftCountRender->SetFrame(HaleyGiftCount);
+    SamGiftCountRender->SetFrame(SamGiftCount);
+    PennyGiftCountRender->SetFrame(PennyGiftCount);
+    LewisGiftCountRender->SetFrame(LewisGiftCount);
+}
+
+int AffectionBox::GetGiftCount(std::string _NpcName)
+{
+    std::string Name = GameEngineString::ToUpper(_NpcName);
+
+
+    if ("HALEY" == Name)
+    {
+        return HaleyGiftCount;
+    }
+    else if ("SAM" == Name)
+    {
+        return SamGiftCount;
+    }
+    else if ("PENNY" == Name)
+    {
+        return PennyGiftCount;
+    }
+    else if ("LEWIS" == Name)
+    {
+        return LewisGiftCount;
+    }
+
+    return -1;
 }

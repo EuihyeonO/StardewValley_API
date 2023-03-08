@@ -44,6 +44,11 @@ public:
         return AffectionBoxList;
     }
 
+    static void AllAffectionUp(std::string& _NpcName);
+    static void AllAffectionDown(std::string& _NpcName);
+    static void AllGiftCountUp(std::string& _NpcName);
+    static void AllGiftCountClear();
+
     static bool isMenuOpen()
     {
         return isOpenMenu;

@@ -163,6 +163,38 @@ void globalInterface::MenuOnOff()
     }
 }
 
+void globalInterface::AllAffectionUp(std::string& _NpcName)
+{
+    for (size_t i = 0; i < AffectionBoxList.size(); i++)
+    {
+        AffectionBoxList[i]->AffectionUp(_NpcName);
+    }
+}
+
+void globalInterface::AllAffectionDown(std::string& _NpcName)
+{
+    for (size_t i = 0; i < AffectionBoxList.size(); i++)
+    {
+        AffectionBoxList[i]->AffectionDown(_NpcName);
+    }
+}
+
+void globalInterface::AllGiftCountUp(std::string& _NpcName)
+{
+    for (size_t i = 0; i < AffectionBoxList.size(); i++)
+    {
+        AffectionBoxList[i]->GiftCountUp(_NpcName);
+    }
+}
+
+void globalInterface::AllGiftCountClear()
+{
+    for (size_t i = 0; i < AffectionBoxList.size(); i++)
+    {
+        AffectionBoxList[i]->GiftCountClear();
+    }
+}
+
 void globalInterface::UI_OnOff()
 {
     UI::GetUI()->UI_ONOFF();
@@ -187,7 +219,6 @@ void globalInterface::ChangeAllQuickSlotItem(int _Num)
         InventoryList[i]->ChangeSelectedItem(_Num);
     }
 }
-
 
 void globalInterface::AllInventoryUpdate()
 {

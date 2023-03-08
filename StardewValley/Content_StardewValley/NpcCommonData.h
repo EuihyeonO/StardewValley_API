@@ -71,7 +71,9 @@ private:
     bool isSetText = false;
 
     std::string CopyOutPutText;
+
     GameEngineRender* CopyOutPutTextBox = nullptr;
+    GameEngineRender* NoticeTextBox = nullptr;
 
     bool isInputText = false;
 

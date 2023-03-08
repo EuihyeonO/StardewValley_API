@@ -88,6 +88,12 @@ void NpcCommonData::SetTextRender(float4 _pos)
     TextBoxShadow->SetScaleToImage();
     TextBoxShadow->SetAlpha(100);
 
+    NoticeTextBox = CreateRender("SmallText.bmp", 500);
+    NoticeTextBox->SetScaleToImage();
+    NoticeTextBox->EffectCameraOff();
+    NoticeTextBox->SetPosition({ 640, 690 });
+    NoticeTextBox->Off();
+
     Text = CreateRender(251);
     Text->SetText(" ");
     CopyText = " ";
@@ -139,13 +145,14 @@ void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, c
 
     std::string UpperItemName = GameEngineString::ToUpper(Inventory::GetInventory()->GetSelectedItem()->GetItemName());
 
-    if (isInputText == false) 
+    if (isInputText == false &&  2 > AffectionBox::GetGlobalAffectionBox()->GetGiftCount(NpcName))
     {
         if ("ICONPARSNIP.BMP" == UpperItemName) //조건에 따라 텍스트창 다르게 출력
-        {
+        {   
             CopyOutPutTextBox = TextBox_Happy;
             CopyOutPutText = HappyText;
-            AffectionBox::GetGlobalAffectionBox()->AffectionUp(NpcName);
+            globalInterface::AllAffectionUp(NpcName);
+            globalInterface::AllGiftCountUp(NpcName);
             globalInterface::AllInventoryDelete();
             
         }
@@ -153,7 +160,8 @@ void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, c
         {
             CopyOutPutTextBox = TextBox_Angry;
             CopyOutPutText = AngryText;
-            AffectionBox::GetGlobalAffectionBox()->AffectionDown(NpcName);
+            globalInterface::AllAffectionDown(NpcName);
+            globalInterface::AllGiftCountUp(NpcName);
             globalInterface::AllInventoryDelete();
         }
         else
@@ -161,20 +169,56 @@ void NpcCommonData::TextBoxOn(float _DeltaTime, const std::string& CommonText, c
             CopyOutPutTextBox = TextBox_Common;
             CopyOutPutText = CommonText;
         }
+
         isInputText = true;
     }
 
-    if (Scale.x >= 1280)
+    else if (isInputText == false && 2 == AffectionBox::GetGlobalAffectionBox()->GetGiftCount(NpcName))
     {
-        Scale.x = 1280;
+        if ("ICONPARSNIP.BMP" == UpperItemName || "ICONBRANCH.BMP" == UpperItemName)
+        {
+            CopyOutPutTextBox = NoticeTextBox;
+            CopyOutPutText = "오늘 선물을 줄 기회를 모두 소진하였습니다.";
 
-        TextOn(CopyOutPutText);
+        }
+        else
+        {
+            CopyOutPutTextBox = TextBox_Common;
+            CopyOutPutText = CommonText;
+        }
+
+        isInputText = true;
     }
 
-    if (Scale.y >= 400)
+    if (CopyOutPutTextBox != NoticeTextBox)
     {
-        Scale.y = 400;
+        if (Scale.x >= 1280)
+        {
+            Scale.x = 1280;
+
+            TextOn(CopyOutPutText);
+        }
+
+        if (Scale.y >= 400)
+        {
+            Scale.y = 400;
+        }
     }
+    else if (CopyOutPutTextBox == NoticeTextBox)
+    {
+        if (Scale.x >= 1000)
+        {
+            Scale.x = 1000;
+
+            TextOn(CopyOutPutText);
+        }
+
+        if (Scale.y >= 150)
+        {
+            Scale.y = 150;
+        }
+    }
+
 
     {
         CopyOutPutTextBox->On();

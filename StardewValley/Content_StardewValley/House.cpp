@@ -5,6 +5,7 @@
 #include "Level_Farm.h"
 #include "Level_Mine.h"
 #include "globalValue.h"
+#include "globalInterface.h"
 
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -146,6 +147,7 @@ void House::DoSleep(float _DeltaTime)
             Level_Farm::Grow_Up();
             Level_Mine::GetLevelMineController()->DeleteTile();
             Level_Mine::GetLevelMineController()->SetTileObject();
+            globalInterface::AllGiftCountClear();
             Player::GetPlayer()->PlayerStop();
         }
     }
