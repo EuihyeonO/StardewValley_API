@@ -144,6 +144,12 @@ void Level_Road::ImageRoad()
     {
         Dir.Move("UI");
         GameEngineImage* Shop = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Shop.BMP"));
+
+        GameEngineImage* HaleyTextBox_Common = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HaleyTextBox_Common.BMP"));
+        GameEngineImage* HaleyTextBox_Happy = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HaleyTextBox_Happy.BMP"));
+        GameEngineImage* HaleyTextBox_Angry = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HaleyTextBox_Angry.BMP"));
+
+
         Dir.MoveParent();
     }
 

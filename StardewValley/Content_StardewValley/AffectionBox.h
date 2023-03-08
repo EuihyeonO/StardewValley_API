@@ -23,6 +23,11 @@ public:
     void AffectionBoxOn();
     void AffectionBoxOff();
 
+    void AffectionUp(std::string& _Name);
+    void AffectionDown(std::string& _Name);
+
+    void HeartIndexUpdate();
+
 	AffectionBox();
 	~AffectionBox();
 
@@ -44,5 +49,10 @@ private:
     GameEngineRender* LewisHeart = nullptr;
 
     static AffectionBox* globalAffectionBox;
+
+    int HaleyAffection = 0;
+    int SamAffection = 0;
+    int PennyAffection = 0;
+    int LewisAffection = 0;
 };
 

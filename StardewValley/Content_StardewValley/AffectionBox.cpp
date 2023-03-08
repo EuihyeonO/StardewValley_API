@@ -1,6 +1,8 @@
 #include "AffectionBox.h"
 #include "globalInterface.h"
+
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineBase/GameEngineString.h>
 
 AffectionBox* AffectionBox::globalAffectionBox = nullptr;
 
@@ -48,7 +50,7 @@ void AffectionBox::Start()
 
 void AffectionBox::Update(float _DeltaTime)
 {
-
+    HeartIndexUpdate();
 }
 
 void AffectionBox::Render(float _Time)
@@ -72,4 +74,56 @@ void AffectionBox::AffectionBoxOff()
     SamHeart->Off();
     PennyHeart->Off();
     LewisHeart->Off();
+}
+
+void AffectionBox::AffectionUp(std::string& _Name)
+{
+    std::string NpcName = GameEngineString::ToUpper(_Name);
+
+    if ("HALEY" == NpcName && HaleyAffection<9)
+    {
+        ++HaleyAffection;
+    }
+    else if ("SAM" == NpcName && SamAffection<9)
+    {
+        ++SamAffection;
+    }
+    else if ("PENNY" == NpcName && PennyAffection<9)
+    {
+        ++PennyAffection;
+    }
+    else if ("LEWIS" == NpcName && LewisAffection<9)
+    {
+        ++LewisAffection;
+    }
+}
+
+void AffectionBox::AffectionDown(std::string& _Name)
+{
+    std::string NpcName = GameEngineString::ToUpper(_Name);
+
+    if ("HALEY" == NpcName && HaleyAffection > 0)
+    {
+        --HaleyAffection;
+    }
+    else if ("SAM" == NpcName && SamAffection > 0)
+    {
+        --SamAffection;
+    }
+    else if ("PENNY" == NpcName && PennyAffection > 0)
+    {
+        --PennyAffection;
+    }
+    else if ("LEWIS" == NpcName && LewisAffection > 0)
+    {
+        --LewisAffection;
+    }
+}
+
+void AffectionBox::HeartIndexUpdate()
+{
+    HaleyHeart->SetFrame(HaleyAffection);
+    SamHeart->SetFrame(SamAffection);
+    PennyHeart->SetFrame(PennyAffection);
+    LewisHeart->SetFrame(LewisAffection);
 }
