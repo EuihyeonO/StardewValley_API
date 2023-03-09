@@ -22,7 +22,7 @@ public:
     void hitByPlayer(float _DeltaTime);
     void MoveToPlayer(float _DeltaTime);
     void Dead();
-    void SetDir();
+    void SetDir(bool isCol = false);
 
 	Mummy();
 	~Mummy();

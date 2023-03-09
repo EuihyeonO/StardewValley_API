@@ -24,7 +24,7 @@ Mummy::~Mummy()
 
 void Mummy::Start()
 {
-    BodyRender = CreateRender(0);
+    BodyRender = CreateRender(50);
     BodyRender->SetScale({ 64, 128 });
 
     BodyRender->CreateAnimation({ .AnimationName = "DMove", .ImageName = "Mummy.bmp",.FrameIndex = {0, 1, 2, 3},.FrameTime = {0.2f, 0.2f, 0.2f, 0.2f} });
@@ -93,16 +93,43 @@ void Mummy::Render(float _Time)
 
 void Mummy::RenderOrderUpdate()
 {
-
-    int YDistance = BodyRender->GetActorPlusPos().y - Player::GetPlayer()->GetPos().y;
-
-    if (YDistance >= 0)
+    if (true == FullBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::FullPlayer), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
     {
-        BodyRender->SetOrder(60);
+        int YDistance = BodyRender->GetActorPlusPos().y - Player::GetPlayer()->GetPos().y;
+
+        if (YDistance >= 0)
+        {
+            BodyRender->SetOrder(60);
+        }
+        else
+        {
+            BodyRender->SetOrder(40);
+        }
     }
-    else
+    
+    std::vector<Mummy*> CopyList = Level_Mine::GetLevelMineController()->GetMummyList();
+    std::vector<Mummy*> CollisionMummy;
+
+    for (int i = 0; i < CopyList.size(); i++)
     {
-        BodyRender->SetOrder(40);
+        if (true == CopyList[i]->FullBodyCollision->Collision({ .TargetGroup = static_cast<int>(ActorType::FullMonster), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
+        {
+            CollisionMummy.push_back(CopyList[i]);
+        }
+    }
+
+    if (CollisionMummy.size() == 2)
+    {
+        if (CollisionMummy[0]->GetPos().y > CollisionMummy[1]->GetPos().y)
+        {
+            CollisionMummy[0]->SetOrder(60);
+            CollisionMummy[1]->SetOrder(40);
+        }
+        else
+        {
+            CollisionMummy[0]->SetOrder(40);
+            CollisionMummy[1]->SetOrder(60);
+        }
     }
 }
 
@@ -200,11 +227,11 @@ void Mummy::MoveToPlayer(float _DeltaTime)
                    
                     if (Dir == "R")
                     {
-                        DirPos = { 32.1,0 };
+                        DirPos = { 32.1, 0 };
                     }
                     else if (Dir == "L")
                     {
-                        DirPos = { -32.1,0 };
+                        DirPos = { -32.1, 0 };
                     }
                     else if (Dir == "D")
                     {
@@ -217,7 +244,7 @@ void Mummy::MoveToPlayer(float _DeltaTime)
 
                     if (Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos + DirPos) != -1)
                     {
-                        SetDir();
+                        SetDir(true);
                     }
 
                     else if (RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)) &&
@@ -234,11 +261,14 @@ void Mummy::MoveToPlayer(float _DeltaTime)
     }
 }
 
-void Mummy::SetDir()
+void Mummy::SetDir(bool isCol)
 {
     {
         float4 NextPos = GetPos();
         GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+
+        std::string CurDir = Dir;
+        std::string NextDir;
 
         while (1)
         {
@@ -265,12 +295,22 @@ void Mummy::SetDir()
                 Dir = "U";
             }
 
+            NextDir = Dir;
+
             if (NextPos.x <=1280 && NextPos.x >= 0 && NextPos.y >= 0 && NextPos.y <=768 &&
                 Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos) == -1 &&
                 RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
             {
-                break;
+                if(isCol == true && NextDir != CurDir)
+                {
+                    break;
+                }
+                else if (isCol == false)
+                {
+                    break;
+                }
             }
+
             NextPos = GetPos();
         }
 
