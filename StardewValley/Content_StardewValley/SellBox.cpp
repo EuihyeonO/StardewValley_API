@@ -73,7 +73,7 @@ void SellBox::Update(float _DeltaTime)
 
             if (isOnSound == false)
             {
-                //GameEngineResources::GetInst().SoundPlay("OpenBox.wav");
+                GameEngineResources::GetInst().SoundPlay("OpenBox.wav");
                 isOnSound = true;
             }
         }
