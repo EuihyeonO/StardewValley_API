@@ -122,13 +122,13 @@ void Mummy::RenderOrderUpdate()
     {
         if (CollisionMummy[0]->GetPos().y > CollisionMummy[1]->GetPos().y)
         {
-            CollisionMummy[0]->SetOrder(60);
-            CollisionMummy[1]->SetOrder(40);
+            CollisionMummy[0]->BodyRender->SetOrder(60);
+            CollisionMummy[1]->BodyRender->SetOrder(40);
         }
         else
         {
-            CollisionMummy[0]->SetOrder(40);
-            CollisionMummy[1]->SetOrder(60);
+            CollisionMummy[0]->BodyRender->SetOrder(40);
+            CollisionMummy[1]->BodyRender->SetOrder(60);
         }
     }
 }

@@ -129,20 +129,20 @@ void Inventory::InitInventory()
 
     CameraPos = GetLevel()->GetCameraPos();
 
-    InventoryRender = CreateRender("Inventory.bmp", 150);
+    InventoryRender = CreateRender("Inventory.bmp", 152);
 
     InventoryRender->SetPosition(CameraPos+(GameEngineWindow::GetScreenSize().half()));
     InventoryRender->SetScaleToImage();
     InventoryRender->Off();
     InventoryRender->EffectCameraOff();
 
-    QuickSlotRender = CreateRender("QuickSlot.bmp", 150);
+    QuickSlotRender = CreateRender("QuickSlot.bmp", 152);
     QuickSlotRender->SetScaleToImage();
     QuickSlotRender->SetPosition({ (Screensize.x / 2.0f) , Screensize.y - 45.0f });
     QuickSlotRender->EffectCameraOff();
 
 
-    SelectedLine = CreateRender("SelectedLine.BMP", 150);
+    SelectedLine = CreateRender("SelectedLine.BMP", 152);
     SelectedLine->SetScaleToImage();
     SelectedLine->EffectCameraOff();
 
