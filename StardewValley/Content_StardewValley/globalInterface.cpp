@@ -108,6 +108,26 @@ void globalInterface::AllInventoryDelete(int Index)
     }
 }
 
+void globalInterface::AllInventorySaveItem(Item* _item)
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->SaveItem(_item);
+    }
+}
+
+void globalInterface::AllInventoryLastSellItemDeath()
+{
+    size_t size = InventoryList.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        InventoryList[i]->LastSellItemDeath();
+    }
+}
+
 Item* globalInterface::GetSelectedItem()
 {
     return Inventory::GetInventory()->GetSelectedItem();

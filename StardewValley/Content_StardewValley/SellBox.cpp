@@ -124,7 +124,7 @@ void SellBox::BoxOff()
 
     if (nullptr != BoxInventory->GetLastSellItem())
     {
-        BoxInventory->LastSellItemDeath();
+        globalInterface::AllInventoryLastSellItemDeath();
     }
 
     globalInterface::AllInventoryItemOn();

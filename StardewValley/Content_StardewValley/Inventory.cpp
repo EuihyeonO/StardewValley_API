@@ -543,14 +543,17 @@ void Inventory::SellItem()
         {
             if(true == isBoxInventory)
             {
-                SaveItem(ItemList[i]);
+                globalInterface::AllInventorySaveItem(ItemList[i]);
             }
 
             globalValue::PlusToMoney(ItemList[i]->GetPrice());
             globalValue::PlusToTotalRevenue(ItemList[i]->GetPrice());
+
             globalInterface::AllInventoryUpdate();
             GameEngineResources::GetInst().SoundPlay("Sell.wav");
+
             globalInterface::AllInventoryDelete(i);
+
             Size = ItemList.size();
         }
     }
@@ -612,15 +615,15 @@ void Inventory::SaveItem(Item* _item)
 
 void Inventory::RoadItem()
 {
-    if (false == isBoxInventory)
-    {
-        return;
-    }
-    
-    if (false == IsUpdate())
-    {
-        return;
-    }
+    //if (false == isBoxInventory)
+    //{
+    //    return;
+    //}
+    //
+    //if (false == IsUpdate())
+    //{
+    //    return;
+    //}
     
 
     if (LastSellItem == nullptr)
@@ -634,12 +637,16 @@ void Inventory::RoadItem()
         int itemtype = LastSellItem->GetItemType();
 
         for(int i =0; i<LastSellItem->GetQuantity(); i++)
-        {
-            globalInterface::CreateItemToAllInventory(itemname, itemtype, true);
-            globalValue::PlusToMoney(-LastSellItem->GetPrice());
-            globalValue::PlusToTotalRevenue(-LastSellItem->GetPrice());
+        {           
+            if(true == isBoxInventory)
+            {
+                globalInterface::CreateItemToAllInventory(itemname, itemtype, true);
+                globalValue::PlusToMoney(-LastSellItem->GetPrice());
+                globalValue::PlusToTotalRevenue(-LastSellItem->GetPrice());
+            }
         }
 
+        LastSellItem->Off();
         LastSellItem->Death();
         LastSellItem = nullptr;
     }
@@ -647,11 +654,6 @@ void Inventory::RoadItem()
 
 void Inventory::LastSellItemDeath()
 {
-    if (false == isBoxInventory)
-    {
-        return;
-    }
-
     LastSellItem->Death();
     LastSellItem = nullptr;
 }
