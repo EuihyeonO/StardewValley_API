@@ -27,10 +27,10 @@ void Mummy::Start()
     BodyRender = CreateRender(0);
     BodyRender->SetScale({ 64, 128 });
 
-    BodyRender->CreateAnimation({ .AnimationName = "DMove", .ImageName = "Mummy.bmp",.FrameIndex = {0, 1, 2, 3},.FrameTime = {0.3f, 0.3f, 0.3f, 0.3f} });
-    BodyRender->CreateAnimation({ .AnimationName = "RMove", .ImageName = "Mummy.bmp",.FrameIndex = {4, 5, 6, 7},.FrameTime = {0.3f, 0.3f, 0.3f, 0.3f} });
-    BodyRender->CreateAnimation({ .AnimationName = "UMove", .ImageName = "Mummy.bmp",.FrameIndex = {8, 9, 10, 11},.FrameTime = {0.3f, 0.3f, 0.3f, 0.3f} });
-    BodyRender->CreateAnimation({ .AnimationName = "LMove", .ImageName = "Mummy.bmp",.FrameIndex = {12, 13, 14, 15},.FrameTime = {0.3f, 0.3f, 0.3f, 0.3f} });
+    BodyRender->CreateAnimation({ .AnimationName = "DMove", .ImageName = "Mummy.bmp",.FrameIndex = {0, 1, 2, 3},.FrameTime = {0.2f, 0.2f, 0.2f, 0.2f} });
+    BodyRender->CreateAnimation({ .AnimationName = "RMove", .ImageName = "Mummy.bmp",.FrameIndex = {4, 5, 6, 7},.FrameTime = {0.2f, 0.2f, 0.2f, 0.2f} });
+    BodyRender->CreateAnimation({ .AnimationName = "UMove", .ImageName = "Mummy.bmp",.FrameIndex = {8, 9, 10, 11},.FrameTime = {0.2f, 0.2f, 0.2f, 0.2f} });
+    BodyRender->CreateAnimation({ .AnimationName = "LMove", .ImageName = "Mummy.bmp",.FrameIndex = {12, 13, 14, 15},.FrameTime = {0.2f, 0.2f, 0.2f, 0.2f} });
     BodyRender->CreateAnimation({ .AnimationName = "Death", .ImageName = "Mummy.bmp",.FrameIndex = {16, 17, 18, 19, 19},.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f} });
     BodyRender->CreateAnimation({ .AnimationName = "Birth", .ImageName = "Mummy.bmp",.FrameIndex = {19, 18, 17, 16, 16},.FrameTime = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f} });
    
@@ -196,9 +196,31 @@ void Mummy::MoveToPlayer(float _DeltaTime)
 
                 {
                     GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind("MineC.bmp");
+                    float4 DirPos = { 0,0 };
+                   
+                    if (Dir == "R")
+                    {
+                        DirPos = { 32.1,0 };
+                    }
+                    else if (Dir == "L")
+                    {
+                        DirPos = { -32.1,0 };
+                    }
+                    else if (Dir == "D")
+                    {
+                        DirPos = { 0, 64.1 };
+                    }
+                    else if (Dir == "U")
+                    {
+                        DirPos = { 0, -64.1 };
+                    }
 
-                    if (Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos + float4{ 0, 32 }) == -1 &&
-                        RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)) &&
+                    if (Level_Mine::GetLevelMineController()->CheckUpdateTile(NextPos + DirPos) != -1)
+                    {
+                        SetDir();
+                    }
+
+                    else if (RGB(0, 0, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)) &&
                         isHit == false)
                     {
                         SetPos(NextPos);

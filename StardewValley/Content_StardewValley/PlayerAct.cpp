@@ -650,6 +650,7 @@ void Player::HitByMonster(float _DeltaTime)
         CurTime = clock();
         timeCheckStart = true;
 
+        //플레어와 충돌한 몬스터의 좌표정보를 알아야 벡터를 구할 수 있기 때문에 MummyList가 필요
         CopyList = Level_Mine::GetLevelMineController()->GetMummyList();
         
         for (int i = 0; i < CopyList.size(); i++)
@@ -691,6 +692,7 @@ void Player::HitByMonster(float _DeltaTime)
     else if (mytime > 1 && true == isHit && true == timeCheckStart)
     {
         PlayerRender->ChangeAnimation("DIdle");
+        Dir = "D";
         isAbleAct = true;
         mytime = 0;
         CurTime = 0;
