@@ -43,7 +43,7 @@ private:
     GameEngineCollision* HalfBodyCollision = nullptr;
     GameEngineCollision* FullBodyCollision = nullptr;
 
-    int HP = 10;
+    int HP = 4;
     int Accel = 15;
 
     bool isCol = false;
