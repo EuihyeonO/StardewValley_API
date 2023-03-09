@@ -684,7 +684,7 @@ void Player::HitByMonster(float _DeltaTime)
                 false == ColBody->Collision({ .TargetGroup = (static_cast<int>(ActorType::Stone) + 1), .TargetColType = CT_Rect, .ThisColType = CT_Rect }))
         {
             SetMove(BouncePos * Accel * _DeltaTime * 16);
-            Accel -= 0.1;
+            Accel -= 10 * _DeltaTime;
         }
         ColBody->SetPosition({ 0,32 });
     }
