@@ -654,16 +654,19 @@ void Inventory::RoadItem()
 
 void Inventory::LastSellItemDeath()
 {
-    LastSellItem->Death();
-    LastSellItem = nullptr;
+    if (nullptr != LastSellItem)
+    {
+        LastSellItem->Death();
+        LastSellItem = nullptr;
+    }
 }
 
 Item* Inventory::GetLastSellItem()
 {
-    if (false == isBoxInventory)
+    if (nullptr != LastSellItem)
     {
-        return nullptr;
+        return LastSellItem;
     }
 
-    else return LastSellItem;
+    else  nullptr;
 }

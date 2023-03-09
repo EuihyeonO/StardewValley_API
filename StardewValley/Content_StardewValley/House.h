@@ -35,7 +35,7 @@ private:
     GameEngineCollision* BedCollision = nullptr;
 
     bool isDebug = false;
-
+    bool SoundOn = false;
     bool isSleep = false;
 
     float alpha = 0;

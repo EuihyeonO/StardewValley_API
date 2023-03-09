@@ -122,10 +122,7 @@ void SellBox::BoxOff()
 {
     Player::GetPlayer()->PlayerStopOff();
 
-    if (nullptr != BoxInventory->GetLastSellItem())
-    {
-        globalInterface::AllInventoryLastSellItemDeath();
-    }
+     globalInterface::AllInventoryLastSellItemDeath();
 
     globalInterface::AllInventoryItemOn();
 

@@ -38,7 +38,6 @@ void House::Start()
     BlackMap = CreateRender("BlackMap.bmp", 1000);
     BlackMap->SetScaleToImage();
     BlackMap->SetAlpha(0);
-    BlackMap->Off();
 
     PortalToFarm = CreateCollision(ActorType::Portal);
     PortalToFarm->SetScale({ 60, 20 });
@@ -123,17 +122,23 @@ void House::Sleep(float _DeltaTime)
         else if (alphacount == 1 && alpha <= 0)
         {
             isSleep = false;
+            SoundOn = false;
             alphacount = 0;
             alpha = 0;
         }
         else if (alpha < 255) {
 
-            alpha += _DeltaTime * 50;
+            alpha += _DeltaTime * 100;
             BlackMap->SetAlpha(static_cast<int>(alpha));
         }
         else if (alpha >= 255)
         {
             alphacount = 1;
+            if (false == SoundOn)
+            {
+                GameEngineResources::GetInst().SoundPlay("MorningSound.wav");
+                SoundOn = true;
+            }
             globalValue::DayPlus();
             globalValue::Heal();
         }
@@ -147,6 +152,7 @@ void House::DoSleep(float _DeltaTime)
         if (GameEngineInput::IsDown("KeyInteract") == true)
         {     
             isSleep = true;
+            BlackMap->On();
             Level_Farm::Grow_Up();
             Level_Mine::GetLevelMineController()->DeleteTile();
             Level_Mine::GetLevelMineController()->SetTileObject();
