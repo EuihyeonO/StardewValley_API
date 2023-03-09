@@ -114,8 +114,8 @@ void Player::ActingUpdate(float _DeltaTime)
         OpenMenu();
         break;
     case Act::ChangeQuickSlotItem:
-        globalInterface::ChangeAllQuickSlotItem(inputNumberKey);    
         GameEngineResources::GetInst().SoundPlay("Itemswap.wav");
+        globalInterface::ChangeAllQuickSlotItem(inputNumberKey);    
         break;
     case Act::ChangeQuickSlot:
         globalInterface::ChangeAllQuickSlot();

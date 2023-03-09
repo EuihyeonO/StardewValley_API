@@ -227,11 +227,11 @@ void Mummy::MoveToPlayer(float _DeltaTime)
                    
                     if (Dir == "R")
                     {
-                        DirPos = { 32.1, 0 };
+                        DirPos = { 32.1, +16 };
                     }
                     else if (Dir == "L")
                     {
-                        DirPos = { -32.1, 0 };
+                        DirPos = { -32.1, +16 };
                     }
                     else if (Dir == "D")
                     {

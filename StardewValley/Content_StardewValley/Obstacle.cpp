@@ -74,9 +74,7 @@ void Obstacle::Update(float _DeltaTime)
         {
             NoticeTextBoxOn(_DeltaTime);
         }
-
-    }
-   
+    } 
 }
 
 void Obstacle::Render(float _Time)

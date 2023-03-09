@@ -61,19 +61,6 @@ void Player::Render(float _Time)
         }       
     }
 
-    if (isDebug == true) 
-    {
-        HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-
-        Rectangle(DoubleDC,
-            AxeCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() - AxeCollision->GetScale().hx(),
-            AxeCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() - AxeCollision->GetScale().hy(),
-            AxeCollision->GetActorPlusPos().ix() - GetLevel()->GetCameraPos().ix() + AxeCollision->GetScale().hx(),
-            AxeCollision->GetActorPlusPos().iy() - GetLevel()->GetCameraPos().iy() + AxeCollision->GetScale().hy());
-
-    }
-
-
     if (GameEngineInput::IsKey("MakeItem") == false)
     {
         GameEngineInput::CreateKey("MakeItem", 'K');
@@ -86,9 +73,6 @@ void Player::Render(float _Time)
             globalInterface::CreateItemToAllInventory("IconParsnip.bmp", static_cast<int>(ItemType::Crops), true);
             globalInterface::CreateItemToAllInventory("IconBranch.bmp", static_cast<int>(ItemType::Etc), true);
         }
-
         globalInterface::AllInventoryUpdate();
     }
-
-
 }

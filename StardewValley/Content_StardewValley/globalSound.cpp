@@ -26,17 +26,12 @@ void globalSound::SoundInit()
     
     Farm_BGM = GameEngineResources::GetInst().SoundPlayToControl("Farm_BGM.MP3");
     Farm_BGM.PauseOn();
-    Farm_BGM.Volume(0);
 
     Title_BGM = GameEngineResources::GetInst().SoundPlayToControl("Title_BGM.MP3");
     Title_BGM.PauseOn();
 
     Mine_BGM = GameEngineResources::GetInst().SoundPlayToControl("Mine_BGM.WAV");
     Mine_BGM.PauseOn();
-    Mine_BGM.Volume(0);
-
-    TypingSound = GameEngineResources::GetInst().SoundPlayToControl("Typing.wav");
-    TypingSound.PauseOn();
 }
 
 void globalSound::WalkSoundOn()
@@ -49,24 +44,9 @@ void globalSound::WalkSoundOn()
     WalkSound.PauseOff();
 }
 
-void globalSound::SoundUpdate(const std::string_view _LevelName)
-{
-
-
-}
 void globalSound::WalkSoundOff()
 {
     WalkSound.PauseOn();
-}
-
-void globalSound::TypingSoundOn()
-{
-    TypingSound.PauseOff();
-}
-
-void globalSound::TypingSoundOff()
-{
-    TypingSound.PauseOn();
 }
 
 
