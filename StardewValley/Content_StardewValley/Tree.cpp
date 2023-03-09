@@ -143,7 +143,7 @@ void Tree::AbsorbToPlayer(float _Deltatime)
     float4 PlayerPos = Player::GetPlayer()->GetPos();
 
 
-    Accel += 0.2f;
+    Accel += 20 * _Deltatime;
 
     for (int i = 0; i < DebrisList.size(); i++)
     {

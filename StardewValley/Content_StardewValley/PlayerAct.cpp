@@ -689,7 +689,7 @@ void Player::HitByMonster(float _DeltaTime)
         ColBody->SetPosition({ 0,32 });
     }
 
-    else if (mytime > 1 && true == isHit && true == timeCheckStart)
+    else if ( (mytime > 1 || Accel<=0 ) && true == isHit && true == timeCheckStart)
     {
         PlayerRender->ChangeAnimation("DIdle");
         Dir = "D";
