@@ -101,7 +101,7 @@ void MenuButton::SetInventoryButtonToSelectedPos()
 {
     InventoryButton->SetPos(GetLevel()->GetCameraPos() + float4{ 316, 62 });
     AffectionButton->SetPos(GetLevel()->GetCameraPos() + float4{ 380, 55 });
-    InventoryButton->SetRenderOrder(150);
+    InventoryButton->SetRenderOrder(153);
     AffectionButton->SetRenderOrder(100);
 }
 
@@ -110,5 +110,5 @@ void MenuButton::SetAffectionButtonToSelectedPos()
     InventoryButton->SetPos(GetLevel()->GetCameraPos() + float4{ 316, 55 });
     AffectionButton->SetPos(GetLevel()->GetCameraPos() + float4{ 380, 62 });
     InventoryButton->SetRenderOrder(100);
-    AffectionButton->SetRenderOrder(150);
+    AffectionButton->SetRenderOrder(153);
 }
